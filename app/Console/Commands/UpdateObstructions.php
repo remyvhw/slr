@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use GuzzleHttp\Client as Guzzle;
 use Illuminate\Console\Command;
 
 class UpdateObstructions extends Command
@@ -30,6 +31,13 @@ class UpdateObstructions extends Command
         parent::__construct();
     }
 
+    protected function retrieveObstructions()
+    {
+
+        $response = (new Guzzle)->get(config("slr.obstructions.url"));
+        return json_decode($response->getBody()->getContents());
+    }
+
     /**
      * Execute the console command.
      *
@@ -37,6 +45,6 @@ class UpdateObstructions extends Command
      */
     public function handle()
     {
-        //
+        $hotObstructions = $this->retrieveObstructions();
     }
 }
