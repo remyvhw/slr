@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateObstructionsTable extends Migration
 {
@@ -14,8 +14,18 @@ class CreateObstructionsTable extends Migration
     public function up()
     {
         Schema::create('obstructions', function (Blueprint $table) {
-            $table->increments('id');
+            $table->string('id')->primary();
             $table->timestamps();
+            $table->string("name");
+            $table->string("type")->nullable();
+            $table->string("category")->nullable();
+            $table->string("url")->nullable();
+            $table->string("date")->nullable();
+            $table->string("latitude")->nullable();
+            $table->string("longitude")->nullable();
+            $table->boolean("major")->default(false);
+            $table->boolean("active")->default(false);
+            $table->boolean("night")->default(false);
         });
     }
 
