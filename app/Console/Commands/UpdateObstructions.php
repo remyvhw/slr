@@ -18,7 +18,7 @@ class UpdateObstructions extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = "Refresh obstructions using rem's private api.";
 
     /**
      * Create a new command instance.
