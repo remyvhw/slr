@@ -16,6 +16,7 @@ class CreateObstructionsTable extends Migration
         Schema::create('obstructions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->timestamps();
+            $table->softDeletes();
             $table->string("name");
             $table->string("type")->nullable();
             $table->string("category")->nullable();
