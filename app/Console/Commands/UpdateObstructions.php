@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use function GuzzleHttp\json_decode;
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Console\Command;
+use RuntimeException;
 
 class UpdateObstructions extends Command
 {
@@ -31,11 +33,27 @@ class UpdateObstructions extends Command
         parent::__construct();
     }
 
-    protected function retrieveObstructions()
+    /**
+     * Decode json and throw an exception if the passed string is
+     * undecodable.
+     *
+     * @param string $input
+     * @throws RuntimeException
+     * @return object
+     */
+    protected function opinionatedlyDecodeJson(string $input): object
+    {
+        if (!($output = json_decode($input))) {
+            throw new RuntimeException('Invalid JSON fetched.');
+        }
+        return $output;
+    }
+
+    protected function retrieveObstructions(): object
     {
 
         $response = (new Guzzle)->get(config("slr.obstructions.url"));
-        return json_decode($response->getBody()->getContents());
+        return $this->opinionatedlyDecodeJson($response->getBody()->getContents());
     }
 
     /**
@@ -45,6 +63,8 @@ class UpdateObstructions extends Command
      */
     public function handle()
     {
+
         $hotObstructions = $this->retrieveObstructions();
+
     }
 }
