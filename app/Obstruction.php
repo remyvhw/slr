@@ -21,4 +21,11 @@ class Obstruction extends Model implements Auditable
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
 }

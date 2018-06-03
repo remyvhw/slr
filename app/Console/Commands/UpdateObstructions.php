@@ -2,9 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Obstruction;
 use function GuzzleHttp\json_decode;
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use RuntimeException;
 
 class UpdateObstructions extends Command
@@ -39,21 +41,31 @@ class UpdateObstructions extends Command
      *
      * @param string $input
      * @throws RuntimeException
-     * @return object
+     * @return array
      */
-    protected function opinionatedlyDecodeJson(string $input): object
+    protected function opinionatedlyDecodeJson(string $input): array
     {
-        if (!($output = json_decode($input))) {
-            throw new RuntimeException('Invalid JSON fetched.');
-        }
-        return $output;
+        return throw_unless(data_get(json_decode($input), "data"), RuntimeException::class);
     }
 
-    protected function retrieveObstructions(): object
+    protected function retrieveObstructions(): Collection
     {
 
         $response = (new Guzzle)->get(config("slr.obstructions.url"));
-        return $this->opinionatedlyDecodeJson($response->getBody()->getContents());
+        return collect($this->opinionatedlyDecodeJson($response->getBody()->getContents()));
+    }
+
+    public function saveHotObstruction($hotObstruction): Obstruction
+    {
+        $obstruction = Obstruction::withTrashed()->firstOrNew(["id" => data_get($hotObstruction, "id")]);
+
+        if ($obstruction->trashed()) {
+            $obstruction->restore();
+        }
+
+        $obstruction->fill(array_only((array) $hotObstruction, ["name", "type", "category", "major", "active", "night", "description", "lat", "lng", "url", "date"]));
+
+        $obstruction->save();
     }
 
     /**
@@ -64,7 +76,7 @@ class UpdateObstructions extends Command
     public function handle()
     {
 
-        $hotObstructions = $this->retrieveObstructions();
+        $this->retrieveObstructions()->map([$this, "saveHotObstruction"]);
 
     }
 }

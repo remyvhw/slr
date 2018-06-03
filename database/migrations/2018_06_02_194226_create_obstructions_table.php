@@ -18,12 +18,13 @@ class CreateObstructionsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->string("name");
+            $table->text("description");
             $table->string("type")->nullable();
             $table->string("category")->nullable();
             $table->string("url")->nullable();
             $table->string("date")->nullable();
-            $table->string("latitude")->nullable();
-            $table->string("longitude")->nullable();
+            $table->string("lat")->nullable();
+            $table->string("lng")->nullable();
             $table->boolean("major")->default(false);
             $table->boolean("active")->default(false);
             $table->boolean("night")->default(false);
