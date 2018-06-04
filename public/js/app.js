@@ -982,11 +982,11 @@ __webpack_require__(11);
 window.Vue = __webpack_require__(32);
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* default */]);
-
 Vue.prototype.$http = window.axios;
 
 var app = new Vue({
     el: '#app',
+    store: store,
     components: {
         obstructionBrowser: __webpack_require__(35)
     }
