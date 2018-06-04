@@ -984,6 +984,17 @@ window.Vue = __webpack_require__(32);
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* default */]);
 Vue.prototype.$http = window.axios;
 
+var store = new __WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* default */].Store({
+    state: {
+        items: {}
+    },
+    mutations: {
+        setItems: function setItems(items) {
+            state.items = items;
+        }
+    }
+});
+
 var app = new Vue({
     el: '#app',
     store: store,
