@@ -15,12 +15,11 @@
 
     </head>
 
-    <body class="bg-grey-light">
+    <body class="bg-white">
         <div id="app">
-
-
-            <obstruction-browser></obstruction-browser>
-
+            <main class="container mx-auto">
+                <obstruction-browser></obstruction-browser>
+            </main>
         </div>
         <script src="{{ mix('/js/app.js') }}"></script>
     </body>
