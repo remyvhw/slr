@@ -12,5 +12,5 @@
  */
 
 Route::apiResources([
-    'obstructions' => 'Api\ObstructionController',
+    'obstructions' => 'Api\v1\ObstructionController',
 ]);
