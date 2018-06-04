@@ -13364,6 +13364,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -13371,7 +13377,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   components: {
-    obstructionMap: __webpack_require__(44)
+    obstructionMap: __webpack_require__(44),
+    obstructionItem: __webpack_require__(47)
   }
 });
 
@@ -13388,7 +13395,35 @@ var render = function() {
       _c("div", { staticClass: "h-64 lg:h-screen" }, [_c("obstruction-map")], 1)
     ]),
     _vm._v(" "),
-    _vm._m(0)
+    _c(
+      "div",
+      {
+        staticClass:
+          "w-full h-screen lg:overflow-y-scroll bg-grey-lighter lg:w-1/3 py-4"
+      },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "div",
+          {},
+          [
+            _c("obstruction-item"),
+            _vm._v(" "),
+            _c("obstruction-item"),
+            _vm._v(" "),
+            _c("obstruction-item"),
+            _vm._v(" "),
+            _c("obstruction-item"),
+            _vm._v(" "),
+            _c("obstruction-item"),
+            _vm._v(" "),
+            _c("obstruction-item")
+          ],
+          1
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -13396,22 +13431,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "w-full h-screen overflow-y-scroll bg-grey-lighter lg:w-1/3 py-4"
-      },
-      [
-        _c("div", { staticClass: "w-full text-center" }, [
-          _c("div", { staticClass: "self-center" }, [
-            _c("img", { staticClass: "h-8 w-8", attrs: { src: "/logo.svg" } })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "px-2 lg:px-0 " })
-      ]
-    )
+    return _c("div", { staticClass: "w-full text-center" }, [
+      _c("div", { staticClass: "self-center" }, [
+        _c("img", { staticClass: "h-10 w-10", attrs: { src: "/logo.svg" } })
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -13521,6 +13545,192 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-76705193", module.exports)
+  }
+}
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(36)
+/* script */
+var __vue_script__ = __webpack_require__(48)
+/* template */
+var __vue_template__ = __webpack_require__(49)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ObstructionItem.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d4854f28", Component.options)
+  } else {
+    hotAPI.reload("data-v-d4854f28", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {};
+  },
+
+  components: {}
+});
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "max-w-md w-full lg:flex px-2 pt-2 " }, [
+    _c("div", {
+      staticClass:
+        "h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden",
+      staticStyle: {
+        "background-image": "url('https://tailwindcss.com/img/card-left.jpg')"
+      },
+      attrs: { title: "Woman holding a mug" }
+    }),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass:
+          "border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal"
+      },
+      [
+        _c("div", { staticClass: "mb-8" }, [
+          _c("p", { staticClass: "text-sm text-grey-dark flex items-center" }, [
+            _c(
+              "svg",
+              {
+                staticClass: "fill-current text-grey w-3 h-3 mr-2",
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  viewBox: "0 0 20 20"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    d:
+                      "M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z"
+                  }
+                })
+              ]
+            ),
+            _vm._v("\n                Members only\n            ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "text-black font-bold text-xl mb-2" }, [
+            _vm._v("Can coffee make you a better developer?")
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "text-grey-darker text-base" }, [
+            _vm._v(
+              "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil."
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "flex items-center" }, [
+      _c("img", {
+        staticClass: "w-10 h-10 rounded-full mr-4",
+        attrs: {
+          src:
+            "https://pbs.twimg.com/profile_images/885868801232961537/b1F6H4KC_400x400.jpg",
+          alt: "Avatar of Jonathan Reinink"
+        }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "text-sm" }, [
+        _c("p", { staticClass: "text-black leading-none" }, [
+          _vm._v("Jonathan Reinink")
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "text-grey-dark" }, [_vm._v("Aug 18")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-d4854f28", module.exports)
   }
 }
 

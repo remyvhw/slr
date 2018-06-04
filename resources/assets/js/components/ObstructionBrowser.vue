@@ -5,11 +5,17 @@
                 <obstruction-map></obstruction-map>
             </div>
         </div>
-        <div class="w-full h-screen overflow-y-scroll bg-grey-lighter lg:w-1/3 py-4">
+        <div class="w-full h-screen lg:overflow-y-scroll bg-grey-lighter lg:w-1/3 py-4">
             <div class="w-full text-center">
-                <div class="self-center"><img src="/logo.svg" class="h-8 w-8"></div>
+                <div class="self-center"><img src="/logo.svg" class="h-10 w-10"></div>
             </div>
-            <div class="px-2 lg:px-0 ">
+            <div class="">
+                <obstruction-item></obstruction-item>
+                <obstruction-item></obstruction-item>
+                <obstruction-item></obstruction-item>
+                <obstruction-item></obstruction-item>
+                <obstruction-item></obstruction-item>
+                <obstruction-item></obstruction-item>
 
             </div>
         </div>
@@ -22,7 +28,8 @@ export default {
     return {};
   },
   components: {
-    obstructionMap: require("./ObstructionMap.vue")
+    obstructionMap: require("./ObstructionMap.vue"),
+    obstructionItem: require("./ObstructionItem.vue")
   }
 };
 </script>
