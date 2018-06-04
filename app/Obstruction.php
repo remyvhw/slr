@@ -28,4 +28,10 @@ class Obstruction extends Model implements Auditable
      */
     protected $guarded = [];
 
+    protected $casts = [
+        'major' => 'boolean',
+        'active' => 'boolean',
+        'night' => 'boolean',
+    ];
+
 }

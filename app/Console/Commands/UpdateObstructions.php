@@ -63,9 +63,9 @@ class UpdateObstructions extends Command
             $obstruction->restore();
         }
 
-        $obstruction->fill(array_only((array) $hotObstruction, ["name", "type", "category", "major", "active", "night", "description", "lat", "lng", "url", "date"]));
+        $obstruction->fill(array_only((array) $hotObstruction, ["name", "type", "category", "major", "active", "night", "description", "lat", "lng", "url", "date"]))->save();
 
-        $obstruction->save();
+        return $obstruction;
     }
 
     /**
