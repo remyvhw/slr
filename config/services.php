@@ -12,7 +12,7 @@ return [
     | default location for this type of information, allowing packages
     | to have a conventional place to find your various credentials.
     |
-    */
+     */
 
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
@@ -33,6 +33,10 @@ return [
         'model' => App\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
+    ],
+
+    'mapbox' => [
+        'public_key' => "pk.eyJ1Ijoic3VybGVzcmFpbHMiLCJhIjoiY2plZGduMjZ4MHY3dDJ3bzI5eXlrcnR1YyJ9.aT18_p1b7og5bZoAMVDxoQ",
     ],
 
 ];

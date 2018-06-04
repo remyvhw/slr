@@ -7,6 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="last-visit" content="@lastvisit">
+        <meta name='mapbox-pk' content="{{ config('services.mapbox.public_key') }}">
+        <link href='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
 
         <title>{{ config('app.name') }}</title>
 

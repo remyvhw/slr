@@ -1,7 +1,9 @@
 <template>
     <div class="flex flex-wrap">
         <div class="w-full lg:w-2/3">
-            <div class="h-full">H</div>
+            <div class="h-full h-screen">
+                <obstruction-map></obstruction-map>
+            </div>
         </div>
         <div class="w-full h-screen overflow-y-scroll bg-grey-lighter lg:w-1/3 py-4">
             <div class="w-full text-center">
@@ -18,6 +20,9 @@
 export default {
   data() {
     return {};
+  },
+  components: {
+    obstructionMap: require("./ObstructionMap.vue")
   }
 };
 </script>

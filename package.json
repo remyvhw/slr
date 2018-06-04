@@ -19,5 +19,8 @@
         "popper.js": "^1.12",
         "tailwindcss": "^0.5.3",
         "vue": "^2.5.7"
+    },
+    "dependencies": {
+        "mapbox-gl": "^0.45.0"
     }
 }

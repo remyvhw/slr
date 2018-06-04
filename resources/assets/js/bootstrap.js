@@ -21,3 +21,9 @@ if (token) {
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
+
+/**
+ * Load and provision mapbox.
+ */
+window.mapbox = require('mapbox-gl/dist/mapbox-gl.js');
+window.mapbox.accessToken = document.head.querySelector('meta[name="mapbox-pk"]').content;
