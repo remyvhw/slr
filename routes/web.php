@@ -12,6 +12,5 @@
  */
 
 Route::get('/', function () {
-    session()->put('last_visit', now());
     return view('welcome');
 });
