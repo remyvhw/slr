@@ -13385,7 +13385,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "flex flex-wrap" }, [
     _c("div", { staticClass: "w-full lg:w-2/3" }, [
-      _c("div", { staticClass: "h-full h-screen" }, [_c("obstruction-map")], 1)
+      _c("div", { staticClass: "h-64 lg:h-screen" }, [_c("obstruction-map")], 1)
     ]),
     _vm._v(" "),
     _vm._m(0)

@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-wrap">
         <div class="w-full lg:w-2/3">
-            <div class="h-full h-screen">
+            <div class="h-64 lg:h-screen">
                 <obstruction-map></obstruction-map>
             </div>
         </div>
