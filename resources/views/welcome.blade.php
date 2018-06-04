@@ -15,9 +15,12 @@
 
     </head>
 
-    <body>
+    <body class="bg-grey-light">
         <div id="app">
-            Hello
+
+
+            <obstruction-browser></obstruction-browser>
+
         </div>
         <script src="{{ mix('/js/app.js') }}"></script>
     </body>
