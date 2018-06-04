@@ -11,6 +11,8 @@
 |
  */
 
-Route::apiResources([
-    'obstructions' => 'Api\v1\ObstructionController',
-]);
+Route::prefix('1')->group(function () {
+    Route::apiResources([
+        'obstructions' => 'Api\v1\ObstructionController',
+    ]);
+});
