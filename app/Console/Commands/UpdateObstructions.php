@@ -76,7 +76,10 @@ class UpdateObstructions extends Command
     public function handle()
     {
 
-        $this->retrieveObstructions()->map([$this, "saveHotObstruction"]);
+        $currentObstructions = $this->retrieveObstructions()->map([$this, "saveHotObstruction"])->pluck("id");
+        Obstruction::get()->pluck("id")->diff($currentObstructions)->pipe(function ($trashed) {
+            Obstruction::destroy($trashed);
+        });
 
     }
 }
