@@ -4,11 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Obstruction extends Model implements Auditable
+class Obstruction extends Model implements AuditableContract
 {
-    use \OwenIt\Auditing\Auditable;
+    use Auditable;
     use SoftDeletes;
 
     public $incrementing = false;
