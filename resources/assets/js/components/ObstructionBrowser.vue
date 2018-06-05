@@ -9,13 +9,8 @@
             <div class="w-full text-center">
                 <div class="self-center"><img src="/logo.svg" class="h-10 w-10"></div>
             </div>
-            <div class="">
-                <obstruction-item></obstruction-item>
-                <obstruction-item></obstruction-item>
-                <obstruction-item></obstruction-item>
-                <obstruction-item></obstruction-item>
-                <obstruction-item></obstruction-item>
-                <obstruction-item></obstruction-item>
+            <div>
+                <obstruction-item v-for="obstruction in obstructions" :key="obstruction.id" :obstruction="obstruction"></obstruction-item>
 
             </div>
         </div>
@@ -38,6 +33,13 @@ export default {
   },
   mounted() {
     this.$store.dispatch("setObstructionsUrl", this.apiEndpoint);
+  },
+  computed: {
+    obstructions() {
+      return this.$store.state.obstructions.content.data
+        ? this.$store.state.obstructions.content.data
+        : {};
+    }
   }
 };
 </script>

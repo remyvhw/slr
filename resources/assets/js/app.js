@@ -40,7 +40,7 @@ const store = new Vuex.Store({
                 url.searchParams.append(filter, value);
             });
             axios.get(url).then(response => {
-                context.commit('setObstructionData', response);
+                context.commit('setObstructionData', response.data);
             });
         }
     }
