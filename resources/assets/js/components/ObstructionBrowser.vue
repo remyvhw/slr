@@ -27,9 +27,17 @@ export default {
   data() {
     return {};
   },
+  props: {
+    apiEndpoint: {
+      Type: String
+    }
+  },
   components: {
     obstructionMap: require("./ObstructionMap.vue"),
     obstructionItem: require("./ObstructionItem.vue")
+  },
+  mounted() {
+    this.$store.dispatch("setObstructionsUrl", this.apiEndpoint);
   }
 };
 </script>

@@ -21,7 +21,7 @@
     <body class="bg-white">
         <div id="app">
             <main class="container mx-auto">
-                <obstruction-browser></obstruction-browser>
+                <obstruction-browser api-endpoint="{{ route('obstructions.index') }}"></obstruction-browser>
             </main>
         </div>
         <script src="{{ mix('/js/app.js') }}"></script>
