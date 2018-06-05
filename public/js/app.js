@@ -16944,15 +16944,65 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+var collect = __webpack_require__(37);
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      map: null
+    };
+  },
+
+  watch: {
+    "$store.state.obstructions.content": {
+      deep: true,
+      handler: function handler(val, oldVal) {
+        this.putMarkersOnMap(val, oldVal);
+      }
+    }
   },
   mounted: function mounted() {
+    var _this = this;
+
     var map = new window.mapbox.Map({
       container: this.$el,
-      style: "mapbox://styles/mapbox/streets-v10"
+      style: "mapbox://styles/mapbox/streets-v10",
+      center: [-73.665923, 45.50219],
+      zoom: 10
     });
+
+    map.on("load", function () {
+      _this.map = map;
+      _this.putMarkersOnMap(_this.markers);
+    });
+  },
+
+  computed: {
+    markers: function markers() {
+      if (!this.map) return;
+      if (!this.$store.state.obstructions.content || !this.$store.state.obstructions.content.data) return [];
+
+      return collect(this.$store.state.obstructions.content.data).map(function (obstruction) {
+        var marker = new window.mapbox.Marker().setLngLat([obstruction.lng, obstruction.lat]);
+        return marker;
+      }).toArray();
+    }
+  },
+  methods: {
+    putMarkersOnMap: function putMarkersOnMap(newMarkers, oldMarkers) {
+      var _this2 = this;
+
+      // Remove old markers
+      if (oldMarkers) {
+        collect(oldMarkers).each(function (marker) {
+          marker.remove();
+        });
+      }
+
+      collect(newMarkers).each(function (marker) {
+        marker.addTo(_this2.map);
+      });
+    }
   }
 });
 
