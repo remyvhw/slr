@@ -13,7 +13,7 @@ export default {
     };
   },
   watch: {
-    "$store.state.obstructions.content": {
+    markers: {
       deep: true,
       handler: function(val, oldVal) {
         this.putMarkersOnMap(val, oldVal);
@@ -21,21 +21,17 @@ export default {
     }
   },
   mounted() {
-    let map = new window.mapbox.Map({
+    this.map = new window.mapbox.Map({
       container: this.$el,
       style: "mapbox://styles/mapbox/streets-v10",
       center: [-73.665923, 45.50219],
       zoom: 10
     });
 
-    map.on("load", () => {
-      this.map = map;
-      this.putMarkersOnMap(this.markers);
-    });
+    this.putMarkersOnMap(this.markers);
   },
   computed: {
     markers() {
-      if (!this.map) return;
       if (
         !this.$store.state.obstructions.content ||
         !this.$store.state.obstructions.content.data

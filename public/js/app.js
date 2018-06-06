@@ -16954,7 +16954,7 @@ var collect = __webpack_require__(37);
   },
 
   watch: {
-    "$store.state.obstructions.content": {
+    markers: {
       deep: true,
       handler: function handler(val, oldVal) {
         this.putMarkersOnMap(val, oldVal);
@@ -16962,24 +16962,18 @@ var collect = __webpack_require__(37);
     }
   },
   mounted: function mounted() {
-    var _this = this;
-
-    var map = new window.mapbox.Map({
+    this.map = new window.mapbox.Map({
       container: this.$el,
       style: "mapbox://styles/mapbox/streets-v10",
       center: [-73.665923, 45.50219],
       zoom: 10
     });
 
-    map.on("load", function () {
-      _this.map = map;
-      _this.putMarkersOnMap(_this.markers);
-    });
+    this.putMarkersOnMap(this.markers);
   },
 
   computed: {
     markers: function markers() {
-      if (!this.map) return;
       if (!this.$store.state.obstructions.content || !this.$store.state.obstructions.content.data) return [];
 
       return collect(this.$store.state.obstructions.content.data).map(function (obstruction) {
@@ -16990,7 +16984,7 @@ var collect = __webpack_require__(37);
   },
   methods: {
     putMarkersOnMap: function putMarkersOnMap(newMarkers, oldMarkers) {
-      var _this2 = this;
+      var _this = this;
 
       // Remove old markers
       if (oldMarkers) {
@@ -17000,7 +16994,7 @@ var collect = __webpack_require__(37);
       }
 
       collect(newMarkers).each(function (marker) {
-        marker.addTo(_this2.map);
+        marker.addTo(_this.map);
       });
     }
   }
