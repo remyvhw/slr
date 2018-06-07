@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Obstruction as ObstructionResource;
+use App\Http\Resources\ObstructionCollection;
 use App\Obstruction;
 
 class ObstructionController extends Controller
@@ -14,7 +16,7 @@ class ObstructionController extends Controller
      */
     public function index()
     {
-        return Obstruction::orderBy('updated_at', 'desc')->paginate(50);
+        return new ObstructionCollection(Obstruction::orderBy('updated_at', 'desc')->paginate(50));
     }
 
     /**
@@ -25,7 +27,7 @@ class ObstructionController extends Controller
      */
     public function show(Obstruction $obstruction)
     {
-        return $obstruction;
+        return new ObstructionResource($obstruction);
     }
 
 }
