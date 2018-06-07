@@ -44,7 +44,14 @@ const store = new Vuex.Store({
                 url.searchParams.append(filter, value);
             });
             axios.get(url).then(response => {
-                context.commit('setObstructionData', response.data);
+                let data = response.data;
+                data.data = collect(data.data).map((obstruction) => {
+                    obstruction.created_at = new Date(obstruction.created_at);
+                    obstruction.updated_at = new Date(obstruction.updated_at);
+                    obstruction.deleted_at = obstruction.deleted_at ? new Date(obstruction.deleted_at) : null;
+                    return obstruction;
+                }).toArray();
+                context.commit('setObstructionData', data);
             });
         }
     }

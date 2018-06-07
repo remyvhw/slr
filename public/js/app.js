@@ -1344,7 +1344,14 @@ var store = new __WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* default */].Store({
                 url.searchParams.append(filter, value);
             });
             axios.get(url).then(function (response) {
-                context.commit('setObstructionData', response.data);
+                var data = response.data;
+                data.data = collect(data.data).map(function (obstruction) {
+                    obstruction.created_at = new Date(obstruction.created_at);
+                    obstruction.updated_at = new Date(obstruction.updated_at);
+                    obstruction.deleted_at = obstruction.deleted_at ? new Date(obstruction.deleted_at) : null;
+                    return obstruction;
+                }).toArray();
+                context.commit('setObstructionData', data);
             });
         }
     }
@@ -17109,7 +17116,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   components: {
     obstructionStaticMap: __webpack_require__(141),
-    obstructionMetas: __webpack_require__(144)
+    obstructionMetas: __webpack_require__(144),
+    obstructionUpdatedLabel: __webpack_require__(154)
   }
 });
 
@@ -17432,26 +17440,39 @@ var render = function() {
             "border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal"
         },
         [
-          _c("div", { staticClass: "mb-8" }, [
-            _c("div", { staticClass: "text-black font-bold text-l mb-2" }, [
-              _vm._v(_vm._s(_vm.obstruction.name))
-            ]),
-            _vm._v(" "),
-            _c("p", { staticClass: "text-grey-darker text-base" }, [
-              _vm._v(_vm._s(_vm.obstruction.description))
-            ]),
-            _vm._v(" "),
-            _c(
-              "p",
-              { staticClass: "mt-2 text-center" },
-              [
-                _c("obstruction-metas", {
-                  attrs: { obstruction: _vm.obstruction }
-                })
-              ],
-              1
-            )
-          ])
+          _c(
+            "div",
+            { staticClass: "mb-8" },
+            [
+              _c("obstruction-updated-label", {
+                attrs: {
+                  "create-date": _vm.obstruction.created_at,
+                  "update-date": _vm.obstruction.updated_at,
+                  "delete-date": _vm.obstruction.deleted_at
+                }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "text-black font-bold text-l mb-2" }, [
+                _vm._v(_vm._s(_vm.obstruction.name))
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "text-grey-darker text-base" }, [
+                _vm._v(_vm._s(_vm.obstruction.description))
+              ]),
+              _vm._v(" "),
+              _c(
+                "p",
+                { staticClass: "mt-2 text-center" },
+                [
+                  _c("obstruction-metas", {
+                    attrs: { obstruction: _vm.obstruction }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
         ]
       )
     ],
@@ -17534,6 +17555,162 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 150 */,
+/* 151 */,
+/* 152 */,
+/* 153 */,
+/* 154 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(155)
+/* template */
+var __vue_template__ = __webpack_require__(156)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ObstructionUpdatedLabel.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ec54d75c", Component.options)
+  } else {
+    hotAPI.reload("data-v-ec54d75c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 155 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    createDate: {
+      type: Date,
+      required: true
+    },
+    updateDate: {
+      type: Date,
+      required: true
+    },
+    deleteDate: {
+      type: Date,
+      required: false
+    }
+  },
+  computed: {
+    isNew: function isNew() {
+      return this.$store.state.lastVisitDate <= this.createDate;
+    },
+    wasUpdated: function wasUpdated() {
+      if (this.isNew) return false;
+      return this.$store.state.lastVisitDate <= this.updateDate;
+    },
+    wasDeleted: function wasDeleted() {
+      if (!this.deleteDate) return false;
+      return this.$store.state.lastVisitDate <= this.deleteDate;
+    }
+  }
+});
+
+/***/ }),
+/* 156 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("span", [
+    _vm.isNew || _vm.wasUpdated || _vm.wasDeleted
+      ? _c(
+          "span",
+          {
+            staticClass:
+              "bg-transparent border text-xs py-1 rounded-full float-right",
+            class: {
+              "border-orange": _vm.wasUpdated,
+              "text-orange": _vm.wasUpdated,
+              "border-green": _vm.isNew,
+              "text-green": _vm.isNew,
+              "border-red": _vm.wasDeleted,
+              "text-red": _vm.wasDeleted
+            }
+          },
+          [
+            _vm.isNew
+              ? _c("span", { staticClass: "px-2" }, [_vm._v("Nouveau")])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.wasUpdated
+              ? _c("span", { staticClass: "px-2" }, [_vm._v("Modifié")])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.wasDeleted
+              ? _c("span", { staticClass: "px-2" }, [_vm._v("Supprimé")])
+              : _vm._e()
+          ]
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ec54d75c", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
