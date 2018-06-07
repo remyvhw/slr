@@ -17088,6 +17088,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -17304,11 +17307,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("p", { staticClass: "text-sm text-grey-dark flex items-center" }, [
+  return _c("span", { staticClass: "text-sm text-grey-dark" }, [
     _c(
       "svg",
       {
-        staticClass: "fill-current text-grey w-3 h-3 mr-2",
+        staticClass: "fill-current text-grey w-3 h-3 mx-2",
         attrs: { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512" }
       },
       [
@@ -17421,24 +17424,26 @@ var render = function() {
             "border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal"
         },
         [
-          _c(
-            "div",
-            { staticClass: "mb-8" },
-            [
-              _c("obstruction-metas", {
-                attrs: { obstruction: _vm.obstruction }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "text-black font-bold text-l mb-2" }, [
-                _vm._v(_vm._s(_vm.obstruction.name))
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "text-grey-darker text-base" }, [
-                _vm._v(_vm._s(_vm.obstruction.description))
-              ])
-            ],
-            1
-          )
+          _c("div", { staticClass: "mb-8" }, [
+            _c("div", { staticClass: "text-black font-bold text-l mb-2" }, [
+              _vm._v(_vm._s(_vm.obstruction.name))
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "text-grey-darker text-base" }, [
+              _vm._v(_vm._s(_vm.obstruction.description))
+            ]),
+            _vm._v(" "),
+            _c(
+              "p",
+              { staticClass: "mt-2 text-center" },
+              [
+                _c("obstruction-metas", {
+                  attrs: { obstruction: _vm.obstruction }
+                })
+              ],
+              1
+            )
+          ])
         ]
       )
     ],
