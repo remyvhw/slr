@@ -1312,9 +1312,7 @@ var store = new __WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* default */].Store({
         obstructions: {
             url: null,
             content: {},
-            filters: {
-                "include-deleted": false
-            }
+            filters: {}
         },
         lastVisitDate: null
     },

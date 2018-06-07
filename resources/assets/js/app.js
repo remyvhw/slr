@@ -13,7 +13,6 @@ const store = new Vuex.Store({
             url: null,
             content: {},
             filters: {
-                "include-deleted": false,
             }
         },
         lastVisitDate: null,
