@@ -7146,6 +7146,10 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
+tailwindcss-spinner@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/tailwindcss-spinner/-/tailwindcss-spinner-0.1.2.tgz#b907ebf3f2de748e73aeed5a14b5a5ccd0b6f0d1"
+
 tailwindcss@^0.5.3:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-0.5.3.tgz#5444f85ab5e68a37c2bf13bc4ac097a7ee05321d"

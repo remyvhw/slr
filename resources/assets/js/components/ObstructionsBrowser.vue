@@ -9,10 +9,8 @@
       <div class="w-full text-center">
         <div class="self-center"><img src="/logo.svg" class="h-10 w-10"></div>
       </div>
-      <div>
-        <obstruction-item v-for="obstruction in obstructions" :key="obstruction.id" :obstruction="obstruction"></obstruction-item>
 
-      </div>
+      <obstructions-list :api-endpoint="apiEndpoint"></obstructions-list>
     </div>
   </div>
 </template>
@@ -28,18 +26,9 @@ export default {
     }
   },
   components: {
+    radioPills: require("./RadioPills.vue"),
     obstructionsMap: require("./ObstructionsMap.vue"),
-    obstructionItem: require("./ObstructionItem.vue")
-  },
-  mounted() {
-    this.$store.dispatch("setObstructionsUrl", this.apiEndpoint);
-  },
-  computed: {
-    obstructions() {
-      return this.$store.state.obstructions.content.data
-        ? this.$store.state.obstructions.content.data
-        : {};
-    }
+    obstructionsList: require("./ObstructionsList.vue")
   }
 };
 </script>

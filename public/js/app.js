@@ -1289,7 +1289,7 @@ module.exports = function average(key) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(16);
-module.exports = __webpack_require__(149);
+module.exports = __webpack_require__(152);
 
 
 /***/ }),
@@ -16809,7 +16809,7 @@ var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(135)
 /* template */
-var __vue_template__ = __webpack_require__(148)
+var __vue_template__ = __webpack_require__(151)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -16870,8 +16870,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -16884,17 +16882,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   components: {
+    radioPills: __webpack_require__(157),
     obstructionsMap: __webpack_require__(136),
-    obstructionItem: __webpack_require__(139)
-  },
-  mounted: function mounted() {
-    this.$store.dispatch("setObstructionsUrl", this.apiEndpoint);
-  },
-
-  computed: {
-    obstructions: function obstructions() {
-      return this.$store.state.obstructions.content.data ? this.$store.state.obstructions.content.data : {};
-    }
+    obstructionsList: __webpack_require__(160)
   }
 });
 
@@ -17042,7 +17032,7 @@ var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(140)
 /* template */
-var __vue_template__ = __webpack_require__(147)
+var __vue_template__ = __webpack_require__(150)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -17115,7 +17105,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   components: {
     obstructionStaticMap: __webpack_require__(141),
     obstructionMetas: __webpack_require__(144),
-    obstructionUpdatedLabel: __webpack_require__(154)
+    obstructionUpdatedLabel: __webpack_require__(147)
   }
 });
 
@@ -17421,6 +17411,158 @@ if (false) {
 /* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(148)
+/* template */
+var __vue_template__ = __webpack_require__(149)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ObstructionUpdatedLabel.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ec54d75c", Component.options)
+  } else {
+    hotAPI.reload("data-v-ec54d75c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 148 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    createDate: {
+      type: Date,
+      required: true
+    },
+    updateDate: {
+      type: Date,
+      required: true
+    },
+    deleteDate: {
+      type: Date,
+      required: false
+    }
+  },
+  computed: {
+    isNew: function isNew() {
+      return this.$store.state.lastVisitDate <= this.createDate;
+    },
+    wasUpdated: function wasUpdated() {
+      if (this.isNew) return false;
+      return this.$store.state.lastVisitDate <= this.updateDate;
+    },
+    wasDeleted: function wasDeleted() {
+      if (!this.deleteDate) return false;
+      return this.$store.state.lastVisitDate <= this.deleteDate;
+    }
+  }
+});
+
+/***/ }),
+/* 149 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("span", [
+    _vm.isNew || _vm.wasUpdated || _vm.wasDeleted
+      ? _c(
+          "span",
+          {
+            staticClass:
+              "bg-transparent border text-xs py-1 rounded-full float-right",
+            class: {
+              "border-orange": _vm.wasUpdated,
+              "text-orange": _vm.wasUpdated,
+              "border-green": _vm.isNew,
+              "text-green": _vm.isNew,
+              "border-red": _vm.wasDeleted,
+              "text-red": _vm.wasDeleted
+            }
+          },
+          [
+            _vm.isNew
+              ? _c("span", { staticClass: "px-2" }, [_vm._v("Nouveau")])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.wasUpdated
+              ? _c("span", { staticClass: "px-2" }, [_vm._v("Modifié")])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.wasDeleted
+              ? _c("span", { staticClass: "px-2" }, [_vm._v("Supprimé")])
+              : _vm._e()
+          ]
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ec54d75c", module.exports)
+  }
+}
+
+/***/ }),
+/* 150 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -17488,7 +17630,7 @@ if (false) {
 }
 
 /***/ }),
-/* 148 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -17514,16 +17656,9 @@ var render = function() {
       [
         _vm._m(0),
         _vm._v(" "),
-        _c(
-          "div",
-          _vm._l(_vm.obstructions, function(obstruction) {
-            return _c("obstruction-item", {
-              key: obstruction.id,
-              attrs: { obstruction: obstruction }
-            })
-          })
-        )
-      ]
+        _c("obstructions-list", { attrs: { "api-endpoint": _vm.apiEndpoint } })
+      ],
+      1
     )
   ])
 }
@@ -17549,25 +17684,25 @@ if (false) {
 }
 
 /***/ }),
-/* 149 */
+/* 152 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 150 */,
-/* 151 */,
-/* 152 */,
 /* 153 */,
-/* 154 */
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(155)
+var __vue_script__ = __webpack_require__(159)
 /* template */
-var __vue_template__ = __webpack_require__(156)
+var __vue_template__ = __webpack_require__(158)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -17584,7 +17719,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/ObstructionUpdatedLabel.vue"
+Component.options.__file = "resources/assets/js/components/RadioPills.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -17593,9 +17728,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-ec54d75c", Component.options)
+    hotAPI.createRecord("data-v-6170e5d4", Component.options)
   } else {
-    hotAPI.reload("data-v-ec54d75c", Component.options)
+    hotAPI.reload("data-v-6170e5d4", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -17606,7 +17741,52 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 155 */
+/* 158 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "inline-flex" },
+    _vm._l(_vm.buttons, function(button, index) {
+      return _c(
+        "button",
+        {
+          key: button.label,
+          staticClass:
+            "hover:bg-grey border border-color-grey text-grey-darkest text-sm font-bold py-2 px-4",
+          class: {
+            "rounded-l": index === 0,
+            "rounded-r": index === _vm.buttons.length - 1,
+            "bg-grey-lighter": !button.selected,
+            "bg-grey-light": button.selected
+          },
+          on: {
+            click: function($event) {
+              _vm.$emit("select", button)
+            }
+          }
+        },
+        [_vm._v("\n        " + _vm._s(button.label) + "\n    ")]
+      )
+    })
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6170e5d4", module.exports)
+  }
+}
+
+/***/ }),
+/* 159 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17624,6 +17804,82 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    /**
+     *
+     * [{label: "Hello", selected: true}]
+     *
+     */
+    buttons: {
+      type: Array,
+      required: true
+    }
+  },
+  methods: {}
+});
+
+/***/ }),
+/* 160 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(161)
+/* template */
+var __vue_template__ = __webpack_require__(162)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ObstructionsList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1b88a1c8", Component.options)
+  } else {
+    hotAPI.reload("data-v-1b88a1c8", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 161 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -17631,74 +17887,61 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    createDate: {
-      type: Date,
-      required: true
-    },
-    updateDate: {
-      type: Date,
-      required: true
-    },
-    deleteDate: {
-      type: Date,
-      required: false
+    apiEndpoint: {
+      Type: String
     }
   },
+  components: {
+    radioPills: __webpack_require__(157),
+    obstructionItem: __webpack_require__(139)
+  },
+  mounted: function mounted() {
+    this.$store.dispatch("setObstructionsUrl", this.apiEndpoint);
+  },
+
   computed: {
-    isNew: function isNew() {
-      return this.$store.state.lastVisitDate <= this.createDate;
-    },
-    wasUpdated: function wasUpdated() {
-      if (this.isNew) return false;
-      return this.$store.state.lastVisitDate <= this.updateDate;
-    },
-    wasDeleted: function wasDeleted() {
-      if (!this.deleteDate) return false;
-      return this.$store.state.lastVisitDate <= this.deleteDate;
+    obstructions: function obstructions() {
+      return this.$store.state.obstructions.content.data ? this.$store.state.obstructions.content.data : {};
     }
   }
 });
 
 /***/ }),
-/* 156 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("span", [
-    _vm.isNew || _vm.wasUpdated || _vm.wasDeleted
-      ? _c(
-          "span",
-          {
-            staticClass:
-              "bg-transparent border text-xs py-1 rounded-full float-right",
-            class: {
-              "border-orange": _vm.wasUpdated,
-              "text-orange": _vm.wasUpdated,
-              "border-green": _vm.isNew,
-              "text-green": _vm.isNew,
-              "border-red": _vm.wasDeleted,
-              "text-red": _vm.wasDeleted
+  return _c(
+    "div",
+    [
+      _c(
+        "div",
+        { staticClass: "w-full text-center py-2" },
+        [
+          _c("radio-pills", {
+            attrs: {
+              buttons: [
+                { label: "Changements", selected: true },
+                { label: "Chantiers", selected: false }
+              ]
             }
-          },
-          [
-            _vm.isNew
-              ? _c("span", { staticClass: "px-2" }, [_vm._v("Nouveau")])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.wasUpdated
-              ? _c("span", { staticClass: "px-2" }, [_vm._v("Modifié")])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.wasDeleted
-              ? _c("span", { staticClass: "px-2" }, [_vm._v("Supprimé")])
-              : _vm._e()
-          ]
-        )
-      : _vm._e()
-  ])
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.obstructions, function(obstruction) {
+        return _c("obstruction-item", {
+          key: obstruction.id,
+          attrs: { obstruction: obstruction }
+        })
+      })
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17706,7 +17949,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-ec54d75c", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-1b88a1c8", module.exports)
   }
 }
 
