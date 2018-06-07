@@ -20,6 +20,16 @@ class ObstructionController extends Controller
     }
 
     /**
+     * Display an obstruction list of created, updated or deleted since a given date.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getNew()
+    {
+        return new ObstructionCollection(Obstruction::orderBy('updated_at', 'asc')->paginate(50));
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id

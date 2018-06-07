@@ -12,6 +12,7 @@
  */
 
 Route::prefix('1')->group(function () {
+    Route::get('obstructions/new', 'Api\v1\ObstructionController@getNew');
     Route::apiResources([
         'obstructions' => 'Api\v1\ObstructionController',
     ]);
