@@ -17884,6 +17884,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -17914,34 +17919,39 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "div",
-        { staticClass: "w-full text-center py-2" },
-        [
-          _c("radio-pills", {
-            attrs: {
-              buttons: [
-                { label: "Changements", selected: true },
-                { label: "Chantiers", selected: false }
-              ]
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _vm._l(_vm.obstructions, function(obstruction) {
-        return _c("obstruction-item", {
-          key: obstruction.id,
-          attrs: { obstruction: obstruction }
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "w-full text-center py-2" },
+      [
+        _c("radio-pills", {
+          attrs: {
+            buttons: [
+              { label: "Changements", selected: true },
+              { label: "Chantiers", selected: false }
+            ]
+          }
         })
-      })
-    ],
-    2
-  )
+      ],
+      1
+    ),
+    _vm._v(" "),
+    !_vm.$store.state.obstructions.content.data
+      ? _c("div", { staticClass: "spinner h-10" })
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.obstructions
+      ? _c(
+          "div",
+          _vm._l(_vm.obstructions, function(obstruction) {
+            return _c("obstruction-item", {
+              key: obstruction.id,
+              attrs: { obstruction: obstruction }
+            })
+          })
+        )
+      : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -5,7 +5,12 @@
             <radio-pills :buttons="[{label: 'Changements', selected: true}, {label: 'Chantiers', selected: false}]"></radio-pills>
         </div>
 
-        <obstruction-item v-for="obstruction in obstructions" :key="obstruction.id" :obstruction="obstruction"></obstruction-item>
+        <div v-if="!$store.state.obstructions.content.data" class="spinner h-10"></div>
+
+        <div v-if="obstructions">
+            <obstruction-item v-for="obstruction in obstructions" :key="obstruction.id" :obstruction="obstruction"></obstruction-item>
+        </div>
+
     </div>
 </template>
 
