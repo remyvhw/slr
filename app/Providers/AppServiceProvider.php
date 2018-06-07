@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
                 session()->put("last_visit", now());
                 return $lastVisit;
             });
-            echo $lastVisit ? session()->get("last_visit")->toIso8601String() : "";
+            echo $lastVisit ? $lastVisit->toIso8601String() : "";
             ?>';
         });
 
