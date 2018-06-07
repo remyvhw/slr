@@ -17890,7 +17890,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+var collect = __webpack_require__(13);
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      buttons: [{
+        label: "Changements",
+        selected: false,
+        id: "whatsnew",
+        urlSuffix: "/new"
+      }, {
+        label: "Chantiers",
+        selected: false,
+        id: "present",
+        urlSuffix: ""
+      }]
+    };
+  },
+
   props: {
     apiEndpoint: {
       Type: String
@@ -17901,12 +17918,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     obstructionItem: __webpack_require__(139)
   },
   mounted: function mounted() {
-    this.$store.dispatch("setObstructionsUrl", this.apiEndpoint);
+    this.toggleButtons(collect(this.buttons).first());
   },
 
   computed: {
     obstructions: function obstructions() {
       return this.$store.state.obstructions.content.data ? this.$store.state.obstructions.content.data : {};
+    }
+  },
+  methods: {
+    toggleButtons: function toggleButtons(pressedButton) {
+      this.buttons = collect(this.buttons).map(function (button) {
+        button.selected = button.id === pressedButton.id;
+        return button;
+      }).toArray();
+      this.$store.dispatch("setObstructionsUrl", this.apiEndpoint + pressedButton.urlSuffix);
     }
   }
 });
@@ -17925,12 +17951,8 @@ var render = function() {
       { staticClass: "w-full text-center py-2" },
       [
         _c("radio-pills", {
-          attrs: {
-            buttons: [
-              { label: "Changements", selected: true },
-              { label: "Chantiers", selected: false }
-            ]
-          }
+          attrs: { buttons: _vm.buttons },
+          on: { select: _vm.toggleButtons }
         })
       ],
       1
