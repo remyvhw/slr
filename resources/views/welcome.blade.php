@@ -14,8 +14,6 @@
         <title>{{ config('app.name') }}</title>
 
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
-
-
     </head>
 
     <body class="bg-white">
