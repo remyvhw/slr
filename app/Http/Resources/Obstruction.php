@@ -14,6 +14,13 @@ class Obstruction extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $resource = $this;
+        $output = parent::toArray($request);
+        $output["created_at"] = $this->created_at->toIso8601String();
+        $output["updated_at"] = $this->updated_at->toIso8601String();
+        $output["deleted_at"] = $this->when($this->deleted_at, function () use ($resource) {
+            return $resource->deleted_at->toIso8601String();
+        });
+        return $output;
     }
 }
