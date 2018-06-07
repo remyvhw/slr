@@ -11,6 +11,6 @@
 |
  */
 
-Route::get('/', function () {
+Route::middleware("lastvisit")->get('/', function () {
     return view('welcome');
 });

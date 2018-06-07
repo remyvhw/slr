@@ -17,12 +17,7 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::directive('lastvisit', function () {
             return '<?php
-            $lastVisit = Cache::remember("app:last_visit", 5, function () {
-                $lastVisit = session()->get("last_visit");
-                session()->put("last_visit", now());
-                return $lastVisit;
-            });
-            echo $lastVisit ? $lastVisit->toIso8601String() : "";
+            echo request()->attributes->has("last_visit") ? request()->attributes->get("last_visit")->toIso8601String() : "";
             ?>';
         });
 
