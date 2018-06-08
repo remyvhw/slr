@@ -17886,6 +17886,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 var collect = __webpack_require__(13);
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -17965,12 +17968,31 @@ var render = function() {
     _vm.obstructions
       ? _c(
           "div",
-          _vm._l(_vm.obstructions, function(obstruction) {
-            return _c("obstruction-item", {
-              key: obstruction.id,
-              attrs: { obstruction: obstruction }
-            })
-          })
+          [
+            _vm._l(_vm.obstructions, function(obstruction) {
+              return _c("obstruction-item", {
+                key: obstruction.id,
+                attrs: { obstruction: obstruction }
+              })
+            }),
+            _vm._v(" "),
+            !_vm.$store.state.obstructions.content.data.length
+              ? _c(
+                  "div",
+                  {
+                    staticClass:
+                      "border-t order-t-1 px-4 py-3 m-4  text-center",
+                    attrs: { role: "alert" }
+                  },
+                  [
+                    _c("p", { staticClass: "font-sm italic text-grey-dark" }, [
+                      _vm._v("Rien de neuf")
+                    ])
+                  ]
+                )
+              : _vm._e()
+          ],
+          2
         )
       : _vm._e()
   ])
