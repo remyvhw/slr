@@ -7,6 +7,11 @@
 const collect = require("collect.js");
 
 export default {
+  props: {
+    apiEndpoint: {
+      type: String
+    }
+  },
   data() {
     return {
       map: null

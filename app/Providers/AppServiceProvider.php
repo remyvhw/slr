@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::directive('lastvisit', function () {
             return '<?php
-            echo request()->attributes->has("last_visit") ? request()->attributes->get("last_visit")->toIso8601String() : "";
+            echo request()->attributes->get("last_visit") ? request()->attributes->get("last_visit")->toIso8601String() : "";
             ?>';
         });
 

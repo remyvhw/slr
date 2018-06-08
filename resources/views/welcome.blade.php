@@ -21,7 +21,7 @@
     <body class="bg-white">
         <div id="app">
             <main class="container mx-auto">
-                <obstructions-browser api-endpoint="{{ route('obstructions.index') }}"></obstructions-browser>
+                <obstructions-browser features-api-endpoint="{{ route('geojson-features.index') }}" obstructions-api-endpoint="{{ route('obstructions.index') }}"></obstructions-browser>
             </main>
         </div>
         <script src="{{ mix('/js/app.js') }}"></script>
