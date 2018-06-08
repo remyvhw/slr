@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\GeojsonFeature;
 use Illuminate\Console\Command;
 
 class TransformInputToGeojsonFeatureCollection extends Command
@@ -9,16 +10,18 @@ class TransformInputToGeojsonFeatureCollection extends Command
     /**
      * The name and signature of the console command.
      *
+     *
+     *
      * @var string
      */
-    protected $signature = 'geojson:input';
+    protected $signature = 'geojson:input {input?}'; // `php artisan geojson:input < ~/myfile.json`
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Take a raw JSON string from REM\'s website, transform it to GeojsonFeature objects and save them.';
 
     /**
      * Create a new command instance.
@@ -30,6 +33,30 @@ class TransformInputToGeojsonFeatureCollection extends Command
         parent::__construct();
     }
 
+    protected function extractLines(array $lines)
+    {
+        collect($lines)->map(function ($line) {
+            return [
+                "type" => "Feature",
+                "properties" => [
+                    "stroke" => "#85bb23",
+                    "stroke-width" => "2",
+                    "stroke-opacity" => "1",
+                    "name" => array_get($line, "name"),
+                ],
+                "geometry" => [
+                    "type" => "LineString",
+                    "coordinates" => array_get($line, "coordinates"),
+                ],
+            ];
+        })->each(function ($feature) {
+            GeojsonFeature::create([
+                'name' => str_slug(str_limit(array_get($feature, "properties.name", ""))),
+                'payload' => json_encode($feature),
+            ]);
+        });
+    }
+
     /**
      * Execute the console command.
      *
@@ -37,6 +64,15 @@ class TransformInputToGeojsonFeatureCollection extends Command
      */
     public function handle()
     {
-        //
+        $data = json_decode(file_get_contents('php://stdin'), true);
+
+        if (!array_has($data, "rem_lines")) {
+            throw new \RuntimeException("Invalid input JSON. Copy raw data from REM source.");
+        }
+
+        GeojsonFeature::truncate();
+
+        $this->extractLines(array_get($data, "rem_lines"));
+
     }
 }
