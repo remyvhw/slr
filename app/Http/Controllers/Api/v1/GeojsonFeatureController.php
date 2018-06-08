@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\GeojsonFeature;
 use App\Http\Controllers\Controller;
+use Cache;
 use Illuminate\Http\Request;
 
 class GeojsonFeatureController extends Controller
@@ -15,7 +16,9 @@ class GeojsonFeatureController extends Controller
      */
     public function index(Request $request)
     {
-        return GeojsonFeature::get();
+        return Cache::rememberForever("app:http:controllers:api:v1:geojsonfeaturecontroller:index", function () {
+            return GeojsonFeature::get();
+        });
     }
 
 }
