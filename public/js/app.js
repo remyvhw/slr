@@ -1314,7 +1314,7 @@ var store = new __WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* default */].Store({
             content: {},
             filters: {}
         },
-        lastVisitDate: null
+        lastVisitDate: new Date(document.head.querySelector('meta[name="last-visit"]').content)
     },
     mutations: {
         setObstructionsUrl: function setObstructionsUrl(state, url) {
@@ -1361,10 +1361,7 @@ var app = new Vue({
     components: {
         obstructionsBrowser: __webpack_require__(134)
     },
-    mounted: function mounted() {
-        var lastVisit = document.head.querySelector('meta[name="last-visit"]').content;
-        this.$store.commit("setLastVisitDate", new Date(lastVisit));
-    }
+    mounted: function mounted() {}
 });
 
 /***/ }),
@@ -17932,7 +17929,10 @@ var collect = __webpack_require__(13);
         button.selected = button.id === pressedButton.id;
         return button;
       }).toArray();
-      this.$store.dispatch("setObstructionsUrl", this.apiEndpoint + pressedButton.urlSuffix);
+
+      var url = new URL(this.apiEndpoint + pressedButton.urlSuffix);
+      if (pressedButton.id === "whatsnew" && this.$store.state.lastVisitDate) url.searchParams.append("since", this.$store.state.lastVisitDate.toISOString());
+      this.$store.dispatch("setObstructionsUrl", url);
     }
   }
 });

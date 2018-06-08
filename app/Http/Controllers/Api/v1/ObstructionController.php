@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Obstruction as ObstructionResource;
 use App\Http\Resources\ObstructionCollection;
 use App\Obstruction;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class ObstructionController extends Controller
 {
@@ -24,9 +26,11 @@ class ObstructionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getNew()
+    public function getNew(Request $request)
     {
-        return new ObstructionCollection(Obstruction::orderBy('updated_at', 'asc')->paginate(50));
+        return new ObstructionCollection(Obstruction::withTrashed()->when($request->has("since"), function ($query) use ($request) {
+            return $query->where("updated_at", ">=", new Carbon($request->input("since")));
+        })->orderBy('updated_at', 'desc')->paginate(50));
     }
 
     /**

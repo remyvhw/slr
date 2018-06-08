@@ -62,10 +62,11 @@ export default {
           return button;
         })
         .toArray();
-      this.$store.dispatch(
-        "setObstructionsUrl",
-        this.apiEndpoint + pressedButton.urlSuffix
-      );
+
+      var url = new URL(this.apiEndpoint + pressedButton.urlSuffix);
+      if (pressedButton.id === "whatsnew" && this.$store.state.lastVisitDate)
+        url.searchParams.append("since", this.$store.state.lastVisitDate.toISOString());
+      this.$store.dispatch("setObstructionsUrl", url);
     }
   }
 };

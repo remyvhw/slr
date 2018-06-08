@@ -15,7 +15,7 @@ const store = new Vuex.Store({
             filters: {
             }
         },
-        lastVisitDate: null,
+        lastVisitDate: new Date(document.head.querySelector('meta[name="last-visit"]').content),
     },
     mutations: {
         setObstructionsUrl(state, url) {
@@ -63,7 +63,6 @@ const app = new Vue({
         obstructionsBrowser: require("./components/ObstructionsBrowser.vue")
     },
     mounted() {
-        const lastVisit = document.head.querySelector('meta[name="last-visit"]').content;
-        this.$store.commit("setLastVisitDate", new Date(lastVisit));
+        
     }
 });
