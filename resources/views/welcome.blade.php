@@ -10,6 +10,9 @@
         <meta name='mapbox-pk' content="{{ config('services.mapbox.public_key') }}">
         <link href='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#85bb23">
 
         <title>{{ config('app.name') }}</title>
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
