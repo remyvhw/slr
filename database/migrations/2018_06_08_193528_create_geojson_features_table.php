@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateGeojsonFeaturesTable extends Migration
 {
@@ -15,7 +15,8 @@ class CreateGeojsonFeaturesTable extends Migration
     {
         Schema::create('geojson_features', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
+            $table->string("name", 255)->nullable();
+            $table->text("payload");
         });
     }
 
