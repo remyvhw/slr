@@ -57,6 +57,33 @@ class TransformInputToGeojsonFeatureCollection extends Command
         });
     }
 
+    protected function extractPoints(array $points)
+    {
+        collect($points)->map(function ($point) {
+            return [
+                "type" => "Feature",
+                "properties" => [
+                    "marker-color" => "#85bb23",
+                    "marker-size" => "2",
+                    "marker-symbol" => "rail-metro",
+                    "name" => array_get($point, "name"),
+                ],
+                "geometry" => [
+                    "type" => "Point",
+                    "coordinates" => [
+                        array_get($point, "lat"),
+                        array_get($point, "lng"),
+                    ],
+                ],
+            ];
+        })->each(function ($feature) {
+            GeojsonFeature::create([
+                'name' => str_slug(str_limit(array_get($feature, "properties.name", ""))),
+                'payload' => json_encode($feature),
+            ]);
+        });
+    }
+
     /**
      * Execute the console command.
      *
@@ -73,6 +100,6 @@ class TransformInputToGeojsonFeatureCollection extends Command
         GeojsonFeature::truncate();
 
         $this->extractLines(array_get($data, "rem_lines"));
-
+        $this->extractPoints(array_get($data, "rem_stations"));
     }
 }
