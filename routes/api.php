@@ -14,6 +14,7 @@
 Route::prefix('1')->group(function () {
     Route::get('obstructions/new', 'Api\v1\ObstructionController@getNew');
     Route::apiResources([
+        'geojson-features' => 'Api\v1\GeojsonFeatureController',
         'obstructions' => 'Api\v1\ObstructionController',
     ]);
 });
