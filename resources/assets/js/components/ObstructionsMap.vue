@@ -34,6 +34,10 @@ export default {
     });
 
     this.putMarkersOnMap(this.markers);
+
+    this.map.on("load", () => {
+      this.loadGeojsonFeatures();
+    });
   },
   computed: {
     markers() {
@@ -65,6 +69,49 @@ export default {
 
       collect(newMarkers).each(marker => {
         marker.addTo(this.map);
+      });
+    },
+    loadGeojsonFeatures() {
+      axios.get(this.apiEndpoint).then(response => {
+        const features = collect(response.data)
+          .map(feature => {
+            return feature.payload;
+          })
+          .toArray();
+
+        this.map.addSource("rem", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: features
+          }
+        });
+
+        this.map.addLayer({
+          id: "lines",
+          type: "line",
+          source: "rem",
+          paint: {
+            "line-color": "#084638",
+            "line-width": 2
+          },
+          layout: {
+            "line-join": "round",
+            "line-cap": "round"
+          },
+          filter: ["==", "$type", "LineString"]
+        });
+
+        this.map.addLayer({
+          id: "stations",
+          type: "circle",
+          source: "rem",
+          paint: {
+            "circle-radius": 3,
+            "circle-color": "#85bb23"
+          },
+          filter: ["==", "$type", "Point"]
+        });
       });
     }
   }

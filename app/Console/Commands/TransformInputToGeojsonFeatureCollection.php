@@ -53,7 +53,7 @@ class TransformInputToGeojsonFeatureCollection extends Command
         })->each(function ($feature) {
             GeojsonFeature::create([
                 'name' => str_slug(str_limit(array_get($feature, "properties.name", ""))),
-                'payload' => json_encode($feature),
+                'payload' => $feature,
             ]);
         });
     }
@@ -72,15 +72,15 @@ class TransformInputToGeojsonFeatureCollection extends Command
                 "geometry" => [
                     "type" => "Point",
                     "coordinates" => [
-                        array_get($point, "lat"),
                         array_get($point, "lng"),
+                        array_get($point, "lat"),
                     ],
                 ],
             ];
         })->each(function ($feature) {
             GeojsonFeature::create([
                 'name' => str_slug(str_limit(array_get($feature, "properties.name", ""))),
-                'payload' => json_encode($feature),
+                'payload' => $feature,
             ]);
         });
     }

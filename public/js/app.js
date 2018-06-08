@@ -17097,6 +17097,8 @@ var collect = __webpack_require__(6);
     }
   },
   mounted: function mounted() {
+    var _this = this;
+
     this.map = new window.mapbox.Map({
       container: this.$el,
       style: "mapbox://styles/mapbox/streets-v10",
@@ -17105,6 +17107,10 @@ var collect = __webpack_require__(6);
     });
 
     this.putMarkersOnMap(this.markers);
+
+    this.map.on("load", function () {
+      _this.loadGeojsonFeatures();
+    });
   },
 
   computed: {
@@ -17119,7 +17125,7 @@ var collect = __webpack_require__(6);
   },
   methods: {
     putMarkersOnMap: function putMarkersOnMap(newMarkers, oldMarkers) {
-      var _this = this;
+      var _this2 = this;
 
       // Remove old markers
       if (oldMarkers) {
@@ -17129,7 +17135,50 @@ var collect = __webpack_require__(6);
       }
 
       collect(newMarkers).each(function (marker) {
-        marker.addTo(_this.map);
+        marker.addTo(_this2.map);
+      });
+    },
+    loadGeojsonFeatures: function loadGeojsonFeatures() {
+      var _this3 = this;
+
+      axios.get(this.apiEndpoint).then(function (response) {
+        var features = collect(response.data).map(function (feature) {
+          return feature.payload;
+        }).toArray();
+
+        _this3.map.addSource("rem", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: features
+          }
+        });
+
+        _this3.map.addLayer({
+          id: "lines",
+          type: "line",
+          source: "rem",
+          paint: {
+            "line-color": "#084638",
+            "line-width": 2
+          },
+          layout: {
+            "line-join": "round",
+            "line-cap": "round"
+          },
+          filter: ["==", "$type", "LineString"]
+        });
+
+        _this3.map.addLayer({
+          id: "stations",
+          type: "circle",
+          source: "rem",
+          paint: {
+            "circle-radius": 3,
+            "circle-color": "#85bb23"
+          },
+          filter: ["==", "$type", "Point"]
+        });
       });
     }
   }
