@@ -16,7 +16,7 @@ class GeojsonFeatureController extends Controller
      */
     public function index(Request $request)
     {
-        return Cache::rememberForever("app:http:controllers:api:v1:geojsonfeaturecontroller:index", function () {
+        return Cache::tags("geojsonfeature")->rememberForever("app:http:controllers:api:v1:geojsonfeaturecontroller:index", function () {
             return GeojsonFeature::get();
         });
     }

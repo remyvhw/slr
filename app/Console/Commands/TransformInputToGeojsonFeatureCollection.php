@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\GeojsonFeature;
+use Cache;
 use Illuminate\Console\Command;
 
 class TransformInputToGeojsonFeatureCollection extends Command
@@ -101,5 +102,7 @@ class TransformInputToGeojsonFeatureCollection extends Command
 
         $this->extractLines(array_get($data, "rem_lines"));
         $this->extractPoints(array_get($data, "rem_stations"));
+
+        Cache::tags("geojsonfeature")->flush();
     }
 }
