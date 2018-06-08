@@ -17958,7 +17958,7 @@ var render = function() {
       ? _c("div", { staticClass: "spinner h-10" })
       : _vm._e(),
     _vm._v(" "),
-    _vm.obstructions
+    _vm.obstructions && _vm.$store.state.obstructions.content.data
       ? _c(
           "div",
           [
