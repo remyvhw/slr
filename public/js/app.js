@@ -17167,6 +17167,7 @@ var defaultZoomLevel = 10;
         });
 
         var marker = new window.mapbox.Marker(enclosingDiv).setLngLat([obstruction.lng, obstruction.lat]);
+        marker.setOffset([0, obstruction.selected ? -10 : -8]);
 
         return marker;
       }).toArray();
