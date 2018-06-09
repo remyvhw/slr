@@ -9,6 +9,8 @@
 
 <script type="text/babel">
 const collect = require("collect.js");
+const defaultMapCenter = [-73.665923, 45.50219];
+const defaultZoomLevel = 10;
 
 export default {
   props: {
@@ -31,7 +33,15 @@ export default {
     selectedObstruction: {
       deep: false,
       handler: function(val, oldVal) {
-        this.map.flyTo({ center: [val.lng, val.lat] });
+        if (val) {
+          let flyToPoint = { center: [val.lng, val.lat] };
+          if (this.map.getZoom() == 10) {
+            flyToPoint["zoom"] = 12;
+          }
+          this.map.flyTo(flyToPoint);
+        } else {
+          this.map.flyTo({ center: defaultMapCenter, zoom: defaultZoomLevel });
+        }
       }
     }
   },
@@ -39,7 +49,7 @@ export default {
     this.map = new window.mapbox.Map({
       container: this.$el,
       style: "mapbox://styles/mapbox/streets-v10",
-      center: [-73.665923, 45.50219],
+      center: defaultMapCenter,
       zoom: 10
     });
 

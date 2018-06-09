@@ -1375,7 +1375,7 @@ var store = new __WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* default */].Store({
         },
         setObstructionSelection: function setObstructionSelection(state, selectedObstruction) {
             state.obstructions.content.data = collect(state.obstructions.content.data).map(function (obstruction) {
-                obstruction.selected = obstruction.id === selectedObstruction.id;
+                obstruction.selected = selectedObstruction && obstruction.id === selectedObstruction.id;
                 return obstruction;
             }).toArray();
         },
@@ -1397,6 +1397,7 @@ var store = new __WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* default */].Store({
             axios.get(url).then(function (response) {
                 var data = response.data;
                 data.data = collect(data.data).map(function (obstruction) {
+                    obstruction.selected = false;
                     obstruction.created_at = new Date(obstruction.created_at);
                     obstruction.updated_at = new Date(obstruction.updated_at);
                     obstruction.deleted_at = obstruction.deleted_at ? new Date(obstruction.deleted_at) : null;
@@ -17085,6 +17086,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 var collect = __webpack_require__(6);
+var defaultMapCenter = [-73.665923, 45.50219];
+var defaultZoomLevel = 10;
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -17108,7 +17111,15 @@ var collect = __webpack_require__(6);
     selectedObstruction: {
       deep: false,
       handler: function handler(val, oldVal) {
-        this.map.flyTo({ center: [val.lng, val.lat] });
+        if (val) {
+          var flyToPoint = { center: [val.lng, val.lat] };
+          if (this.map.getZoom() == 10) {
+            flyToPoint["zoom"] = 12;
+          }
+          this.map.flyTo(flyToPoint);
+        } else {
+          this.map.flyTo({ center: defaultMapCenter, zoom: defaultZoomLevel });
+        }
       }
     }
   },
@@ -17118,7 +17129,7 @@ var collect = __webpack_require__(6);
     this.map = new window.mapbox.Map({
       container: this.$el,
       style: "mapbox://styles/mapbox/streets-v10",
-      center: [-73.665923, 45.50219],
+      center: defaultMapCenter,
       zoom: 10
     });
 
@@ -17440,6 +17451,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -17452,6 +17466,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     obstructionStaticMap: __webpack_require__(146),
     obstructionMetas: __webpack_require__(149),
     obstructionUpdatedLabel: __webpack_require__(152)
+  },
+  methods: {
+    selectObstruction: function selectObstruction() {
+      this.$store.commit("setObstructionSelection", this.obstruction.selected ? null : this.obstruction);
+    }
   }
 });
 
@@ -17915,7 +17934,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "max-w-md w-full lg:flex px-2 pt-2 " },
+    {
+      staticClass: "max-w-md w-full lg:flex px-2 pt-2",
+      on: { click: _vm.selectObstruction }
+    },
     [
       _c("obstruction-static-map", { attrs: { obstruction: _vm.obstruction } }),
       _vm._v(" "),
@@ -17923,7 +17945,11 @@ var render = function() {
         "div",
         {
           staticClass:
-            "border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal"
+            "border border-grey-light rounded-b rounded-t lg:rounded-b-none lg:rounded-t-none lg:rounded-r p-4 flex flex-col justify-between leading-normal",
+          class: {
+            "bg-white": !_vm.obstruction.selected,
+            "bg-orange-lightest": _vm.obstruction.selected
+          }
         },
         [
           _c(

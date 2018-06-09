@@ -1,7 +1,10 @@
 <template>
-  <div class="max-w-md w-full lg:flex px-2 pt-2 ">
+  <div class="max-w-md w-full lg:flex px-2 pt-2" @click="selectObstruction">
     <obstruction-static-map :obstruction="obstruction"></obstruction-static-map>
-    <div class="border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+    <div class="border border-grey-light rounded-b rounded-t lg:rounded-b-none lg:rounded-t-none lg:rounded-r p-4 flex flex-col justify-between leading-normal" :class="{
+      'bg-white': !obstruction.selected,
+      'bg-orange-lightest': obstruction.selected
+    }">
       <div class="mb-8">
         <obstruction-updated-label :create-date="obstruction.created_at" :update-date="obstruction.updated_at" :delete-date="obstruction.deleted_at"></obstruction-updated-label>
         <div class="text-black font-bold text-l mb-2">{{ obstruction.name }}</div>
@@ -28,6 +31,14 @@ export default {
     obstructionStaticMap: require("./ObstructionStaticMap.vue"),
     obstructionMetas: require("./ObstructionMetas.vue"),
     obstructionUpdatedLabel: require("./ObstructionUpdatedLabel.vue")
+  },
+  methods: {
+    selectObstruction() {
+      this.$store.commit(
+        "setObstructionSelection",
+        this.obstruction.selected ? null : this.obstruction
+      );
+    }
   }
 };
 </script>

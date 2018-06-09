@@ -29,7 +29,7 @@ const store = new Vuex.Store({
         },
         setObstructionSelection(state, selectedObstruction) {
             state.obstructions.content.data = collect(state.obstructions.content.data).map((obstruction) => {
-                obstruction.selected = obstruction.id === selectedObstruction.id;
+                obstruction.selected = selectedObstruction && obstruction.id === selectedObstruction.id;
                 return obstruction;
             }).toArray();
         },
@@ -51,6 +51,7 @@ const store = new Vuex.Store({
             axios.get(url).then(response => {
                 let data = response.data;
                 data.data = collect(data.data).map((obstruction) => {
+                    obstruction.selected = false;
                     obstruction.created_at = new Date(obstruction.created_at);
                     obstruction.updated_at = new Date(obstruction.updated_at);
                     obstruction.deleted_at = obstruction.deleted_at ? new Date(obstruction.deleted_at) : null;
