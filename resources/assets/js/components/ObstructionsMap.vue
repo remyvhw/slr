@@ -27,6 +27,12 @@ export default {
       handler: function(val, oldVal) {
         this.putMarkersOnMap(val, oldVal);
       }
+    },
+    selectedObstruction: {
+      deep: false,
+      handler: function(val, oldVal) {
+        this.map.flyTo({ center: [val.lng, val.lat] });
+      }
     }
   },
   mounted() {
@@ -91,6 +97,13 @@ export default {
           return marker;
         })
         .toArray();
+    },
+    selectedObstruction() {
+      if (!this.markers) return null;
+      return collect(this.$store.state.obstructions.content.data).firstWhere(
+        "selected",
+        true
+      );
     }
   },
   methods: {

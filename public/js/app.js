@@ -17104,6 +17104,12 @@ var collect = __webpack_require__(6);
       handler: function handler(val, oldVal) {
         this.putMarkersOnMap(val, oldVal);
       }
+    },
+    selectedObstruction: {
+      deep: false,
+      handler: function handler(val, oldVal) {
+        this.map.flyTo({ center: [val.lng, val.lat] });
+      }
     }
   },
   mounted: function mounted() {
@@ -17153,6 +17159,10 @@ var collect = __webpack_require__(6);
 
         return marker;
       }).toArray();
+    },
+    selectedObstruction: function selectedObstruction() {
+      if (!this.markers) return null;
+      return collect(this.$store.state.obstructions.content.data).firstWhere("selected", true);
     }
   },
   methods: {
