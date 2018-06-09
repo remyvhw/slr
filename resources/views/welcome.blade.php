@@ -15,6 +15,7 @@
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#85bb23">
 
         <title>{{ config('app.name') }}</title>
+
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
     </head>
 

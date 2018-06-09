@@ -60,21 +60,34 @@ export default {
           enclosingDiv.className = "marker";
           let svgElement = document.createElement("svg");
           svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+          const sizeClasses = obstruction.selected ? "h-10 w-10" : "h-8 w-8";
+          const colorClasses = obstruction.selected
+            ? "text-orange-dark"
+            : "text-orange";
           svgElement.setAttribute(
             "class",
-            "fill-current text-orange inline-block h-8 w-8"
+            collect([
+              "fill-current",
+              "inline-block",
+              sizeClasses,
+              colorClasses
+            ]).implode(" ")
           );
           svgElement.setAttribute("viewBox", "0 0 384 512");
           let pathElement = document.createElement("path");
           pathElement.setAttribute("d", mapMarkerSvgPath);
           svgElement.appendChild(pathElement);
+
           enclosingDiv.innerHTML = svgElement.outerHTML;
+          enclosingDiv.addEventListener("click", () => {
+            this.$store.commit("setObstructionSelection", obstruction);
+          });
 
           let marker = new window.mapbox.Marker(enclosingDiv).setLngLat([
             obstruction.lng,
             obstruction.lat
           ]);
-          marker._color = "#FF0000";
+
           return marker;
         })
         .toArray();

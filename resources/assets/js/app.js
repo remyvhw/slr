@@ -27,6 +27,12 @@ const store = new Vuex.Store({
         setObstructionData(state, obstructions) {
             state.obstructions.content = obstructions;
         },
+        setObstructionSelection(state, selectedObstruction) {
+            state.obstructions.content.data = collect(state.obstructions.content.data).map((obstruction) => {
+                obstruction.selected = obstruction.id === selectedObstruction.id;
+                return obstruction;
+            }).toArray();
+        },
         setLastVisitDate(state, lDate) {
             state.lastVisitDate = lDate;
         }
@@ -63,6 +69,6 @@ const app = new Vue({
         obstructionsBrowser: require("./components/ObstructionsBrowser.vue")
     },
     mounted() {
-        
+
     }
 });

@@ -1373,6 +1373,12 @@ var store = new __WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* default */].Store({
         setObstructionData: function setObstructionData(state, obstructions) {
             state.obstructions.content = obstructions;
         },
+        setObstructionSelection: function setObstructionSelection(state, selectedObstruction) {
+            state.obstructions.content.data = collect(state.obstructions.content.data).map(function (obstruction) {
+                obstruction.selected = obstruction.id === selectedObstruction.id;
+                return obstruction;
+            }).toArray();
+        },
         setLastVisitDate: function setLastVisitDate(state, lDate) {
             state.lastVisitDate = lDate;
         }
@@ -17119,6 +17125,8 @@ var collect = __webpack_require__(6);
 
   computed: {
     markers: function markers() {
+      var _this2 = this;
+
       if (!this.$store.state.obstructions.content || !this.$store.state.obstructions.content.data) return [];
 
       var mapMarkerSvgPath = "M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z";
@@ -17128,22 +17136,28 @@ var collect = __webpack_require__(6);
         enclosingDiv.className = "marker";
         var svgElement = document.createElement("svg");
         svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-        svgElement.setAttribute("class", "fill-current text-orange inline-block h-8 w-8");
+        var sizeClasses = obstruction.selected ? "h-10 w-10" : "h-8 w-8";
+        var colorClasses = obstruction.selected ? "text-orange-dark" : "text-orange";
+        svgElement.setAttribute("class", collect(["fill-current", "inline-block", sizeClasses, colorClasses]).implode(" "));
         svgElement.setAttribute("viewBox", "0 0 384 512");
         var pathElement = document.createElement("path");
         pathElement.setAttribute("d", mapMarkerSvgPath);
         svgElement.appendChild(pathElement);
+
         enclosingDiv.innerHTML = svgElement.outerHTML;
+        enclosingDiv.addEventListener("click", function () {
+          _this2.$store.commit("setObstructionSelection", obstruction);
+        });
 
         var marker = new window.mapbox.Marker(enclosingDiv).setLngLat([obstruction.lng, obstruction.lat]);
-        marker._color = "#FF0000";
+
         return marker;
       }).toArray();
     }
   },
   methods: {
     putMarkersOnMap: function putMarkersOnMap(newMarkers, oldMarkers) {
-      var _this2 = this;
+      var _this3 = this;
 
       // Remove old markers
       if (oldMarkers) {
@@ -17153,18 +17167,18 @@ var collect = __webpack_require__(6);
       }
 
       collect(newMarkers).each(function (marker) {
-        marker.addTo(_this2.map);
+        marker.addTo(_this3.map);
       });
     },
     loadGeojsonFeatures: function loadGeojsonFeatures() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get(this.apiEndpoint).then(function (response) {
         var features = collect(response.data).map(function (feature) {
           return feature.payload;
         }).toArray();
 
-        _this3.map.addSource("rem", {
+        _this4.map.addSource("rem", {
           type: "geojson",
           data: {
             type: "FeatureCollection",
@@ -17172,7 +17186,7 @@ var collect = __webpack_require__(6);
           }
         });
 
-        _this3.map.addLayer({
+        _this4.map.addLayer({
           id: "lines",
           type: "line",
           source: "rem",
@@ -17187,7 +17201,7 @@ var collect = __webpack_require__(6);
           filter: ["==", "$type", "LineString"]
         });
 
-        _this3.map.addLayer({
+        _this4.map.addLayer({
           id: "stations",
           type: "circle",
           source: "rem",
