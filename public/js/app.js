@@ -17545,7 +17545,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     imageUrl: function imageUrl() {
       var longLat = this.obstruction.lng + "," + this.obstruction.lat;
-      return "https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v10/static/pin-s(" + longLat + ")/" + longLat + ",14.25,0,30/200x200@2x?logo=false&access_token=" + window.mapbox.accessToken;
+      return "https://api.mapbox.com/v4/mapbox.streets-satellite/" + longLat + ",14.25,0,30/300x300@2x.png32?access_token=" + window.mapbox.accessToken;
     }
   }
 });
