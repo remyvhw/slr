@@ -9,9 +9,9 @@
         <obstruction-updated-label :create-date="obstruction.created_at" :update-date="obstruction.updated_at" :delete-date="obstruction.deleted_at"></obstruction-updated-label>
         <div class="text-black font-bold text-l mb-2">{{ obstruction.name }}</div>
         <p class="text-grey-darker text-base">{{ obstruction.description }}</p>
-        <p class="mt-2 text-center">
+        <div class="mt-2">
           <obstruction-metas :obstruction="obstruction"></obstruction-metas>
-        </p>
+        </div>
 
       </div>
 
