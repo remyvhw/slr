@@ -9,6 +9,7 @@
         <obstruction-meta :type='"night:" + (obstruction.night ? "true" : "false")'></obstruction-meta>
         <obstruction-meta type='level:major' v-if="obstruction.major"></obstruction-meta>
         <obstruction-meta :type='"active:" + (obstruction.active ? "true" : "false")'></obstruction-meta>
+        <obstruction-link :url="'https://rem.info' + obstruction.url"></obstruction-link>
     </div>
 
 </template>
@@ -22,7 +23,8 @@ export default {
     }
   },
   components: {
-    obstructionMeta: require("./ObstructionMeta.vue")
+    obstructionMeta: require("./ObstructionMeta.vue"),
+    obstructionLink: require("./ObstructionLink.vue")
   }
 };
 </script>
