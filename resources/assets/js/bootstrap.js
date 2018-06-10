@@ -25,5 +25,5 @@ if (token) {
 /**
  * Load and provision mapbox.
  */
-window.mapbox = require('mapbox-gl');
+window.mapbox = require('mapbox-gl/dist/mapbox-gl.js');
 window.mapbox.accessToken = document.head.querySelector('meta[name="mapbox-pk"]').content;

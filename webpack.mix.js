@@ -2,8 +2,8 @@ let mix = require('laravel-mix');
 var tailwindcss = require('tailwindcss');
 
 mix.webpackConfig({
-    externals: {
-        'mapbox-gl': 'mapboxgl'
+    module: {
+        noParse: /(mapbox-gl)\.js$/,
     }
 });
 

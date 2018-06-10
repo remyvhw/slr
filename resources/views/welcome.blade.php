@@ -25,7 +25,6 @@
                 <obstructions-browser features-api-endpoint="{{ route('geojson-features.index') }}" obstructions-api-endpoint="{{ route('obstructions.index') }}"></obstructions-browser>
             </main>
         </div>
-        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js'></script>
         <script src="{{ mix('/js/app.js') }}"></script>
     </body>
 
