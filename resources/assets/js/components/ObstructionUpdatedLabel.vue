@@ -36,7 +36,7 @@ export default {
       return this.$store.state.lastVisitDate <= this.createDate;
     },
     wasUpdated() {
-      if (this.isNew) return false;
+      if (this.isNew || this.wasDeleted) return false;
       return this.$store.state.lastVisitDate <= this.updateDate;
     },
     wasDeleted() {
