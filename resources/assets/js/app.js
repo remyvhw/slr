@@ -6,7 +6,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 Vue.prototype.$http = window.axios;
 const rawLastVisitDate = document.head.querySelector('meta[name="last-visit"]').content;
-const lastVisitDate = rawLastVisitDate ? new Date(document.head.querySelector('meta[name="last-visit"]').content) : new Date();
+const lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date();
 
 const store = new Vuex.Store({
     state: {
