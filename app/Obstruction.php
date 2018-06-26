@@ -32,6 +32,8 @@ class Obstruction extends Model implements Auditable
         'major' => 'boolean',
         'active' => 'boolean',
         'night' => 'boolean',
+        'lat' => 'float',
+        'lng' => 'float',
     ];
 
 }
