@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\RefreshObstructionPayload;
 use App\Obstruction;
 use function GuzzleHttp\json_decode;
 use GuzzleHttp\Client as Guzzle;
@@ -64,6 +65,8 @@ class UpdateObstructions extends Command
         }
 
         $obstruction->fill(array_only((array) $hotObstruction, ["name", "type", "category", "major", "active", "night", "description", "lat", "lng", "url", "date"]))->save();
+
+        RefreshObstructionPayload::dispatch($obstruction);
 
         return $obstruction;
     }
