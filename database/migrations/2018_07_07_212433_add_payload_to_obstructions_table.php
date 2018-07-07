@@ -14,7 +14,7 @@ class AddPayloadToObstructionsTable extends Migration
     public function up()
     {
         Schema::table('obstructions', function (Blueprint $table) {
-            $table->longText('payload')->nullable();
+            $table->longText('payload')->nullable()->after("description");
         });
     }
 
