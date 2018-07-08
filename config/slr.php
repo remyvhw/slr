@@ -1,4 +1,5 @@
 <?php
+$baseDomain = "https://rem.info";
 
 return [
 
@@ -11,8 +12,9 @@ return [
     |
      */
 
+    'base_domain' => $baseDomain,
     'obstructions' => [
-        "url" => "https://rem.info/fr/api/obstruction",
+        "url" => $baseDomain . "/fr/api/obstruction",
     ],
 
 ];
