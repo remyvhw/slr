@@ -21,7 +21,7 @@ return [
     |
     | Define which Audit model implementation should be used.
     |
-    */
+     */
 
     'implementation' => OwenIt\Auditing\Models\Audit::class,
 
@@ -32,11 +32,11 @@ return [
     |
     | Define the morph prefix and authentication guards for the User resolver.
     |
-    */
+     */
 
     'user' => [
         'morph_prefix' => 'user',
-        'guards'       => [
+        'guards' => [
             'web',
             'api',
         ],
@@ -49,12 +49,12 @@ return [
     |
     | Define the User, IP Address, User Agent and URL resolver implementations.
     |
-    */
+     */
     'resolver' => [
-        'user'       => OwenIt\Auditing\Resolvers\UserResolver::class,
+        'user' => OwenIt\Auditing\Resolvers\UserResolver::class,
         'ip_address' => OwenIt\Auditing\Resolvers\IpAddressResolver::class,
         'user_agent' => OwenIt\Auditing\Resolvers\UserAgentResolver::class,
-        'url'        => OwenIt\Auditing\Resolvers\UrlResolver::class,
+        'url' => OwenIt\Auditing\Resolvers\UrlResolver::class,
     ],
 
     /*
@@ -64,7 +64,7 @@ return [
     |
     | The Eloquent events that trigger an Audit.
     |
-    */
+     */
 
     'events' => [
         'created',
@@ -80,7 +80,7 @@ return [
     |
     | Enable the strict mode when auditing?
     |
-    */
+     */
 
     'strict' => false,
 
@@ -91,9 +91,9 @@ return [
     |
     | Should the created_at, updated_at and deleted_at timestamps be audited?
     |
-    */
+     */
 
-    'timestamps' => false,
+    'timestamps' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -103,7 +103,7 @@ return [
     | Specify a threshold for the amount of Audit records a model can have.
     | Zero means no limit.
     |
-    */
+     */
 
     'threshold' => 0,
 
@@ -114,7 +114,7 @@ return [
     |
     | Redact attribute data when auditing?
     |
-    */
+     */
 
     'redact' => false,
 
@@ -125,7 +125,7 @@ return [
     |
     | The default audit driver used to keep track of changes.
     |
-    */
+     */
 
     'driver' => 'database',
 
@@ -136,11 +136,11 @@ return [
     |
     | Available audit drivers and respective configurations.
     |
-    */
+     */
 
     'drivers' => [
         'database' => [
-            'table'      => 'audits',
+            'table' => 'audits',
             'connection' => null,
         ],
     ],
@@ -152,7 +152,7 @@ return [
     |
     | Whether console events should be audited (eg. php artisan db:seed).
     |
-    */
+     */
 
     'console' => false,
 ];
