@@ -4,13 +4,27 @@
 -->
 <template>
 
-    <div>
-        <obstruction-meta :type='"work:" + obstruction.type'></obstruction-meta>
-        <obstruction-meta :type='"night:" + (obstruction.night ? "true" : "false")'></obstruction-meta>
-        <obstruction-meta type='level:major' v-if="obstruction.major"></obstruction-meta>
-        <obstruction-meta :type='"active:" + (obstruction.active ? "true" : "false")'></obstruction-meta>
-        <obstruction-link :url="'https://rem.info' + obstruction.url"></obstruction-link>
-    </div>
+  <div>
+
+    <obstruction-meta :type='"work:" + obstruction.type'></obstruction-meta>
+    <obstruction-meta :type='"night:" + (obstruction.night ? "true" : "false")'></obstruction-meta>
+    <obstruction-meta type='level:major' v-if="obstruction.major"></obstruction-meta>
+    <obstruction-meta :type='"active:" + (obstruction.active ? "true" : "false")'></obstruction-meta>
+
+    <button @click="showDetails=true" class="inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm text-blue no-underline mr-2 mb-2">
+
+      <svg class="fill-current text-blue w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+        <path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z" />
+
+      </svg>
+
+      <span class="mx-1">Détails</span>
+
+    </button>
+
+    <obstruction-details-modal v-if="showDetails" :obstruction="obstruction" @close="showDetails=false"></obstruction-details-modal>
+  </div>
 
 </template>
 
@@ -22,9 +36,14 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      showDetails: false
+    };
+  },
   components: {
     obstructionMeta: require("./ObstructionMeta.vue"),
-    obstructionLink: require("./ObstructionLink.vue")
+    obstructionDetailsModal: require("./ObstructionDetailsModal.vue")
   }
 };
 </script>

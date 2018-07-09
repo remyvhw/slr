@@ -127,6 +127,18 @@ let colors = {
   'pink-light': '#fa7ea8',
   'pink-lighter': '#ffbbca',
   'pink-lightest': '#ffebef',
+
+  /**
+   * Straight out of m2de's Creating a modal dialog with Tailwind CSS story.
+   * https://codeburst.io/creating-a-modal-dialog-with-tailwind-css-42722c9aea4f
+   */
+  'smoke-darkest': 'rgba(0, 0, 0, 0.9)',
+  'smoke-darker': 'rgba(0, 0, 0, 0.75)',
+  'smoke-dark': 'rgba(0, 0, 0, 0.6)',
+  'smoke': 'rgba(0, 0, 0, 0.5)',
+  'smoke-light': 'rgba(0, 0, 0, 0.4)',
+  'smoke-lighter': 'rgba(0, 0, 0, 0.25)',
+  'smoke-lightest': 'rgba(0, 0, 0, 0.1)',
 }
 
 module.exports = {
