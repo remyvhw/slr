@@ -2,6 +2,10 @@
 <template>
     <generic-modal @close="closeModal">
         <div v-html="payload"></div>
+
+        <div class="my-3 py-3 border-grey-light border-t">
+            <obstruction-link :url="'https://rem.info' + obstruction.url"></obstruction-link>
+        </div>
     </generic-modal>
 
 </template>
@@ -14,7 +18,8 @@ export default {
     obstruction: { type: Object, required: true }
   },
   components: {
-    genericModal: require("./GenericModal.vue")
+    genericModal: require("./GenericModal.vue"),
+    obstructionLink: require("./ObstructionLink.vue")
   },
   methods: {
     closeModal() {
