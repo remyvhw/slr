@@ -1,12 +1,12 @@
 
 <template>
-    <generic-modal @close="closeModal">
-        <div v-html="payload"></div>
+  <generic-modal @close="closeModal">
+    <div v-html="payload"></div>
 
-        <div class="my-3 py-3 border-grey-light border-t">
-            <obstruction-link :url="'https://rem.info' + obstruction.url"></obstruction-link>
-        </div>
-    </generic-modal>
+    <div class="my-3 py-3 border-grey-light border-t">
+      <obstruction-link :url="'https://rem.info' + obstruction.url"></obstruction-link>
+    </div>
+  </generic-modal>
 
 </template>
 
@@ -28,7 +28,10 @@ export default {
   },
   computed: {
     payload() {
-      return marked(this.obstruction.payload, { sanitize: true });
+      return marked(
+        this.obstruction.payload ? this.obstruction.payload : "(aucun contenu)",
+        { sanitize: true }
+      );
     }
   }
 };
