@@ -10,9 +10,36 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use League\HTMLToMarkdown\ElementInterface;
+use League\HTMLToMarkdown\Environment;
 use League\HTMLToMarkdown\HtmlConverter;
 use Masterminds\HTML5;
 use zz\Html\HTMLMinify;
+
+class ImageConverter extends \League\HTMLToMarkdown\Converter\ImageConverter
+{
+    /**
+     * @param ElementInterface $element
+     *
+     * @return string
+     */
+    public function convert(ElementInterface $element)
+    {
+        $src = $element->getAttribute('src');
+
+        if (starts_with($src, '/')) {
+            $src = "https://rem.info" . $src;
+        }
+
+        $alt = $element->getAttribute('alt');
+        $title = $element->getAttribute('title');
+        if ($title !== '') {
+            return '![' . $alt . '](' . $src . ' "' . $title . '")';
+        }
+        return '![' . $alt . '](' . $src . ')';
+    }
+
+}
 
 class RefreshObstructionPayload implements ShouldQueue
 {
@@ -52,7 +79,9 @@ class RefreshObstructionPayload implements ShouldQueue
 
     protected function cleanPayloadToMarkdown(string $payload): string
     {
-        $converter = new HtmlConverter(['strip_tags' => true, 'hard_break' => true]);
+        $environment = new Environment(['strip_tags' => true, 'hard_break' => true]);
+        $environment->addConverter(new ImageConverter());
+        $converter = new HtmlConverter($environment);
         return $converter->convert(HTMLMinify::minify($payload));
     }
 
