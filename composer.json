@@ -1,7 +1,6 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "remyvhw/slr",
+    "description": "SurLesRails.",
     "license": "MIT",
     "type": "project",
     "require": {
@@ -14,7 +13,8 @@
         "masterminds/html5": "2.*",
         "owen-it/laravel-auditing": "^7.0",
         "predis/predis": "^1.1",
-        "querypath/querypath": "^3.0"
+        "querypath/querypath": "^3.0",
+        "zaininnari/html-minifier": "^0.4.2"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
@@ -39,8 +39,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-            ]
+            "dont-discover": []
         }
     },
     "scripts": {

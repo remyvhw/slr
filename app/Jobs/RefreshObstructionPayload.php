@@ -12,6 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use League\HTMLToMarkdown\HtmlConverter;
 use Masterminds\HTML5;
+use zz\Html\HTMLMinify;
 
 class RefreshObstructionPayload implements ShouldQueue
 {
@@ -45,12 +46,10 @@ class RefreshObstructionPayload implements ShouldQueue
         return qp($dom, '.paragraph--type--wysiwyg')->innerHTML();
     }
 
-    protected function cleanPayloadToMarkdown($payload): string
+    protected function cleanPayloadToMarkdown(string $payload): string
     {
-
-        $converter = new HtmlConverter(['strip_tags' => true]);
-        return $converter->convert($payload);
-
+        $converter = new HtmlConverter(['strip_tags' => true, 'hard_break' => true]);
+        return $converter->convert(HTMLMinify::minify($payload));
     }
 
     /**
