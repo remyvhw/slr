@@ -43,7 +43,11 @@ class RefreshObstructionPayload implements ShouldQueue
     {
         $html5 = new HTML5();
         $dom = $html5->loadHTML($html);
-        return qp($dom, '.paragraph--type--wysiwyg')->innerHTML();
+
+        $content = htmlqp($dom, '.paragraph--type--wysiwyg')->innerHTML5();
+        $output = html5qp($content, null);
+        $output->find("span")->children()->unwrap();
+        return $output->innerHTML();
     }
 
     protected function cleanPayloadToMarkdown(string $payload): string
