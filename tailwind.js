@@ -139,6 +139,32 @@ let colors = {
   'smoke-light': 'rgba(0, 0, 0, 0.4)',
   'smoke-lighter': 'rgba(0, 0, 0, 0.25)',
   'smoke-lightest': 'rgba(0, 0, 0, 0.1)',
+
+  /**
+   * We use a "brand" color to consistently re-use the rem-green color.
+   * Adapted from https://github.com/laravel-frontend-presets/tailwindcss
+   */
+  get ["brand-darkest"]() {
+    return this["green-darkest"];
+  },
+  get ["brand-darker"]() {
+    return this["green-darker"];
+  },
+  get ["brand-dark"]() {
+    return this["green-dark"];
+  },
+  get ["brand"]() {
+    return this["green"];
+  },
+  get ["brand-light"]() {
+    return this["green-light"];
+  },
+  get ["brand-lighter"]() {
+    return this["green-lighter"];
+  },
+  get ["brand-lightest"]() {
+    return this["green-lightest"];
+  }
 }
 
 module.exports = {
