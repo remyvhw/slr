@@ -45,7 +45,7 @@ export default {
   },
   components: {
     radioPills: require("./RadioPills.vue"),
-    obstructionItem: require("./ObstructionItem.vue")
+    obstructionItem: require("./Obstructions/ObstructionItem.vue")
   },
   mounted() {
     this.toggleButtons(collect(this.buttons).first());

@@ -21,7 +21,7 @@ export default {
     obstruction: { type: Object, required: true }
   },
   components: {
-    genericModal: require("./GenericModal.vue"),
+    genericModal: require("../GenericModal.vue"),
     obstructionLink: require("./ObstructionLink.vue")
   },
   methods: {
