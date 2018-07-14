@@ -3,7 +3,7 @@
  * License - https://fontawesome.com/license (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
 -->
 <template>
-  <a :href="url" target="_blank" class="inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm text-blue no-underline mr-2 mb-2">
+  <a :href="url" target="_blank" class="inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm text-blue no-underline mr-2">
 
     <svg class="fill-current text-blue w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 
@@ -11,7 +11,7 @@
 
     </svg>
 
-    <span class="mx-1">Voir l'obstruction</span>
+    <span class="mx-1">Voir sur le site</span>
 
   </a>
 

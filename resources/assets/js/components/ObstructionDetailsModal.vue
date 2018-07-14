@@ -1,9 +1,11 @@
 
 <template>
-  <generic-modal @close="closeModal">
-    <div v-html="payload"></div>
+  <generic-modal @close="closeModal" title="Détails d'un chantier">
+    <h2 class="font-bold text-grey-darkest border-b border-grey-light mb-4 pb-4">{{ obstruction.name }}</h2>
 
-    <div class="my-3 py-3 border-grey-light border-t">
+    <div v-html="payload" class="text-grey-darkest text-base"></div>
+
+    <div class="mt-4 pt-4  border-t">
       <obstruction-link :url="'https://rem.info' + obstruction.url"></obstruction-link>
     </div>
   </generic-modal>
