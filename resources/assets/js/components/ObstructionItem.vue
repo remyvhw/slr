@@ -28,6 +28,15 @@ export default {
       required: true
     }
   },
+  watch: {
+    "obstruction.selected": function(newVal, oldVal) {
+      if (newVal && !oldVal)
+        this.$el.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+    }
+  },
   components: {
     obstructionStaticMap: require("./ObstructionStaticMap.vue"),
     obstructionMetas: require("./ObstructionMetas.vue"),
