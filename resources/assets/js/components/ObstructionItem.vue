@@ -30,7 +30,7 @@ export default {
   },
   watch: {
     "obstruction.selected": function(newVal, oldVal) {
-      if (newVal && !oldVal)
+      if (newVal && !oldVal && document.body.clientWidth > 992)
         this.$el.scrollIntoView({
           behavior: "smooth",
           block: "center"
