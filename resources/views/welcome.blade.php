@@ -8,7 +8,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="last-visit" content="@lastvisit">
         <meta name='mapbox-pk' content="{{ config('services.mapbox.public_key') }}">
-        <link href='https://api.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
+        <link href='https://api.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.css' rel='stylesheet' />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="manifest" href="/site.webmanifest">

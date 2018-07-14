@@ -4,7 +4,7 @@
 -->
 <template>
 
-    <div @click.self="closeModal" @keydown.esc="closeModal" class="animated fadeIn fixed z-50 pin overflow-auto bg-smoke-dark flex">
+    <div @click.self="closeModal" class="animated fadeIn fixed z-50 pin overflow-auto bg-smoke-dark flex">
         <div class="fixed shadow-inner max-w-md relative pin-b pin-x align-top m-auto justify-end md:justify-center p-8 bg-white md:rounded w-full md:h-auto md:shadow flex flex-col">
             <div class="h-12 pb-4 mb-4 overflow-hidden border-b border-grey-light">
                 <span class="font-bold text-xl mb-2" v-text="title"></span>
