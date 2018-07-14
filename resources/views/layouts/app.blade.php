@@ -32,8 +32,8 @@
                         </div>
                         <div class="flex-1 text-right">
                             @guest
-                            <a class="no-underline hover:underline text-grey-darker pr-3 text-sm" href="{{ url('/login') }}">Login</a>
-                            <a class="no-underline hover:underline text-grey-darker text-sm" href="{{ url('/register') }}">Register</a>
+                            <a class="no-underline hover:underline text-grey-darker pr-3 text-sm" href="{{ url('/login') }}">Connexion</a>
+                            <a class="no-underline hover:underline text-grey-darker text-sm" href="{{ url('/register') }}">Créer un compte</a>
                             @else
                             <span class="text-grey-darker text-sm pr-4">{{ Auth::user()->name }}</span>
 
