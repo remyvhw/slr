@@ -21,36 +21,34 @@
 
     <body class="bg-grey-lighter">
         <div id="app">
-            
-    <nav class="bg-white h-12 shadow mb-8 px-6 md:px-0">
-            <div class="container mx-auto h-full">
-                <div class="flex items-center justify-center h-12">
-                    <div class="mr-6">
-                        <a href="{{ url('/') }}" class="no-underline">
-                            {{ config('app.name', 'Laravel') }}
-                        </a>
-                    </div>
-                    <div class="flex-1 text-right">
-                        @guest
+
+            <nav class="bg-white h-12 shadow mb-8 px-4">
+                <div class="container mx-auto h-full">
+                    <div class="flex items-center justify-center h-12">
+                        <div class="mr-6">
+                            <a href="{{ url('/') }}" class="no-underline">
+                                <img src="/logo.svg" class="h-10 w-10">
+                            </a>
+                        </div>
+                        <div class="flex-1 text-right">
+                            @guest
                             <a class="no-underline hover:underline text-grey-darker pr-3 text-sm" href="{{ url('/login') }}">Login</a>
                             <a class="no-underline hover:underline text-grey-darker text-sm" href="{{ url('/register') }}">Register</a>
-                        @else
+                            @else
                             <span class="text-grey-darker text-sm pr-4">{{ Auth::user()->name }}</span>
 
-                            <a href="{{ route('logout') }}"
-                                class="no-underline hover:underline text-grey-darker text-sm"
-                                onclick="event.preventDefault();
+                            <a href="{{ route('logout') }}" class="no-underline hover:underline text-grey-darker text-sm" onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">Logout</a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
                                 {{ csrf_field() }}
                             </form>
-                        @endguest
+                            @endguest
+                        </div>
                     </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
 
-        @yield('content')
+            @yield('content')
 
 
         </div>
