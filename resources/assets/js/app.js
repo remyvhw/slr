@@ -68,7 +68,7 @@ const app = new Vue({
     el: '#app',
     store,
     components: {
-        obstructionsBrowser: require("./components/ObstructionsBrowser.vue")
+        slrBrowser: require("./components/SlrBrowser.vue")
     },
     mounted() {
 
