@@ -6,7 +6,8 @@
     <div v-html="payload" class="text-grey-darkest text-base"></div>
 
     <div class="mt-4 pt-4  border-t">
-      <obstruction-link :url="'https://rem.info' + obstruction.url"></obstruction-link>
+      <obstruction-link :url="'https://rem.info' + obstruction.url" type="external"></obstruction-link>
+      <obstruction-link :url="'http://maps.google.com/maps?q=&layer=c&cbll=' + obstruction.lat + ',' + obstruction.lng" type="streetview"></obstruction-link>
     </div>
   </generic-modal>
 
