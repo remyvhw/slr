@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
     </head>
 
-    <body class="bg-white">
+    <body class="bg-grey-lighter">
         <div id="app">
             <main class="container mx-auto">
                 <obstructions-browser features-api-endpoint="{{ route('geojson-features.index') }}" obstructions-api-endpoint="{{ route('obstructions.index') }}"></obstructions-browser>
