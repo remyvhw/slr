@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-md w-full lg:flex px-2 pt-2">
+  <div class="w-full lg:flex px-2 pt-2">
 
     <obstruction-static-map @click="selectObstruction" :obstruction="obstruction"></obstruction-static-map>
     <div class="border border-grey-light rounded-b rounded-t lg:rounded-b-none lg:rounded-t-none lg:rounded-r p-4 flex flex-col justify-between leading-normal" :class="{

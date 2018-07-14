@@ -7810,7 +7810,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "max-w-md w-full lg:flex px-2 pt-2" },
+    { staticClass: "w-full lg:flex px-2 pt-2" },
     [
       _c("obstruction-static-map", {
         attrs: { obstruction: _vm.obstruction },
