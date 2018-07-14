@@ -1,6 +1,10 @@
 
 <template>
   <generic-modal @close="closeModal" title="Détails d'un chantier">
+
+    <p class="text-sm text-grey-dark">
+      {{ obstruction.date }}
+    </p>
     <h2 class="font-bold text-grey-darkest border-b border-grey-light mb-4 pb-4">{{ obstruction.name }}</h2>
 
     <div v-html="payload" class="text-grey-darkest text-base"></div>
