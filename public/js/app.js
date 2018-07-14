@@ -7842,7 +7842,7 @@ var render = function() {
       "div",
       {
         staticClass:
-          "w-full min-h-screen lg:overflow-y-scroll bg-grey-lighter lg:w-1/3 mt-64 lg:mt-0"
+          "w-full min-h-screen lg:h-screen lg:overflow-y-scroll bg-grey-lighter lg:w-1/3 mt-64 lg:mt-0"
       },
       [
         _c(
