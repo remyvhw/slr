@@ -2049,83 +2049,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/ObstructionsList.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      buttons: [{
-        label: "Changements",
-        selected: false,
-        id: "whatsnew",
-        urlSuffix: "/new"
-      }, {
-        label: "Chantiers",
-        selected: false,
-        id: "present",
-        urlSuffix: ""
-      }]
-    };
-  },
-
-  props: {
-    apiEndpoint: {
-      Type: String
-    }
-  },
-  components: {
-    radioPills: __webpack_require__("./resources/assets/js/components/RadioPills.vue"),
-    obstructionItem: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionItem.vue")
-  },
-  mounted: function mounted() {
-    this.toggleButtons(collect(this.buttons).first());
-  },
-
-  computed: {
-    obstructions: function obstructions() {
-      return this.$store.state.obstructions.content.data ? this.$store.state.obstructions.content.data : {};
-    }
-  },
-  methods: {
-    toggleButtons: function toggleButtons(pressedButton) {
-      this.buttons = collect(this.buttons).map(function (button) {
-        button.selected = button.id === pressedButton.id;
-        return button;
-      }).toArray();
-
-      var url = new URL(this.apiEndpoint + pressedButton.urlSuffix);
-      if (pressedButton.id === "whatsnew" && this.$store.state.lastVisitDate) url.searchParams.append("since", this.$store.state.lastVisitDate.toISOString());
-      this.$store.dispatch("setObstructionsUrl", url);
-    }
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/RadioPills.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2203,7 +2126,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   components: {
     radioPills: __webpack_require__("./resources/assets/js/components/RadioPills.vue"),
     slrBrowserMap: __webpack_require__("./resources/assets/js/components/SlrBrowserMap.vue"),
-    obstructionsList: __webpack_require__("./resources/assets/js/components/ObstructionsList.vue")
+    slrSidebar: __webpack_require__("./resources/assets/js/components/SlrSidebar.vue")
   }
 });
 
@@ -2373,6 +2296,83 @@ var defaultZoomLevel = 10;
           filter: ["==", "$type", "Point"]
         });
       });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SlrSidebar.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      buttons: [{
+        label: "Changements",
+        selected: false,
+        id: "whatsnew",
+        urlSuffix: "/new"
+      }, {
+        label: "Chantiers",
+        selected: false,
+        id: "present",
+        urlSuffix: ""
+      }]
+    };
+  },
+
+  props: {
+    apiEndpoint: {
+      Type: String
+    }
+  },
+  components: {
+    radioPills: __webpack_require__("./resources/assets/js/components/RadioPills.vue"),
+    obstructionItem: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionItem.vue")
+  },
+  mounted: function mounted() {
+    this.toggleButtons(collect(this.buttons).first());
+  },
+
+  computed: {
+    obstructions: function obstructions() {
+      return this.$store.state.obstructions.content.data ? this.$store.state.obstructions.content.data : {};
+    }
+  },
+  methods: {
+    toggleButtons: function toggleButtons(pressedButton) {
+      this.buttons = collect(this.buttons).map(function (button) {
+        button.selected = button.id === pressedButton.id;
+        return button;
+      }).toArray();
+
+      var url = new URL(this.apiEndpoint + pressedButton.urlSuffix);
+      if (pressedButton.id === "whatsnew" && this.$store.state.lastVisitDate) url.searchParams.append("since", this.$store.state.lastVisitDate.toISOString());
+      this.$store.dispatch("setObstructionsUrl", url);
     }
   }
 });
@@ -7347,74 +7347,6 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1b88a1c8\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/ObstructionsList.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      { staticClass: "w-full text-center py-2" },
-      [
-        _c("radio-pills", {
-          attrs: { buttons: _vm.buttons },
-          on: { select: _vm.toggleButtons }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    !_vm.$store.state.obstructions.content.data
-      ? _c("div", { staticClass: "spinner h-10" })
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.obstructions && _vm.$store.state.obstructions.content.data
-      ? _c(
-          "div",
-          [
-            _vm._l(_vm.obstructions, function(obstruction) {
-              return _c("obstruction-item", {
-                key: obstruction.id,
-                attrs: { obstruction: obstruction }
-              })
-            }),
-            _vm._v(" "),
-            !_vm.$store.state.obstructions.content.data.length
-              ? _c(
-                  "div",
-                  {
-                    staticClass:
-                      "border-t order-t-1 px-4 py-3 m-4  text-center",
-                    attrs: { role: "alert" }
-                  },
-                  [
-                    _c("p", { staticClass: "font-sm italic text-grey-dark" }, [
-                      _vm._v("Rien de neuf")
-                    ])
-                  ]
-                )
-              : _vm._e()
-          ],
-          2
-        )
-      : _vm._e()
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1b88a1c8", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-30f2e1ae\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Obstructions/ObstructionItem.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7940,6 +7872,74 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-adc0304c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SlrSidebar.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "w-full text-center py-2" },
+      [
+        _c("radio-pills", {
+          attrs: { buttons: _vm.buttons },
+          on: { select: _vm.toggleButtons }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    !_vm.$store.state.obstructions.content.data
+      ? _c("div", { staticClass: "spinner h-10" })
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.obstructions && _vm.$store.state.obstructions.content.data
+      ? _c(
+          "div",
+          [
+            _vm._l(_vm.obstructions, function(obstruction) {
+              return _c("obstruction-item", {
+                key: obstruction.id,
+                attrs: { obstruction: obstruction }
+              })
+            }),
+            _vm._v(" "),
+            !_vm.$store.state.obstructions.content.data.length
+              ? _c(
+                  "div",
+                  {
+                    staticClass:
+                      "border-t order-t-1 px-4 py-3 m-4  text-center",
+                    attrs: { role: "alert" }
+                  },
+                  [
+                    _c("p", { staticClass: "font-sm italic text-grey-dark" }, [
+                      _vm._v("Rien de neuf")
+                    ])
+                  ]
+                )
+              : _vm._e()
+          ],
+          2
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-adc0304c", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d92f7cb4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SlrBrowser.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7974,7 +7974,7 @@ var render = function() {
           [
             _vm._m(0),
             _vm._v(" "),
-            _c("obstructions-list", {
+            _c("slr-sidebar", {
               attrs: { "api-endpoint": _vm.obstructionsApiEndpoint }
             })
           ],
@@ -20474,54 +20474,6 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/ObstructionsList.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/ObstructionsList.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1b88a1c8\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/ObstructionsList.vue")
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/ObstructionsList.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1b88a1c8", Component.options)
-  } else {
-    hotAPI.reload("data-v-1b88a1c8", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ "./resources/assets/js/components/RadioPills.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20655,6 +20607,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-351d5006", Component.options)
   } else {
     hotAPI.reload("data-v-351d5006", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/SlrSidebar.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SlrSidebar.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-adc0304c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SlrSidebar.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/SlrSidebar.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-adc0304c", Component.options)
+  } else {
+    hotAPI.reload("data-v-adc0304c", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
