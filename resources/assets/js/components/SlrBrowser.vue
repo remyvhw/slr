@@ -11,7 +11,7 @@
           <div class="self-center"><img src="/logo.svg" class="h-10 w-10"></div>
         </div>
 
-        <slr-sidebar :api-endpoint="obstructionsApiEndpoint"></slr-sidebar>
+        <slr-browser-content :api-endpoint="obstructionsApiEndpoint"></slr-browser-content>
       </div>
     </div>
   </div>
@@ -33,7 +33,7 @@ export default {
   components: {
     radioPills: require("./RadioPills.vue"),
     slrBrowserMap: require("./SlrBrowserMap.vue"),
-    slrSidebar: require("./SlrSidebar.vue")
+    slrBrowserContent: require("./SlrBrowserContent.vue")
   }
 };
 </script>
