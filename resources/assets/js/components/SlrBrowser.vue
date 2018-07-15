@@ -6,7 +6,8 @@
       </div>
     </div>
     <div class="w-full min-h-screen lg:h-screen lg:overflow-y-scroll bg-grey-lighter lg:w-1/3 mt-64 lg:mt-0">
-      <div class=" py-4">
+      <slr-browser-settings></slr-browser-settings>
+      <div class="py-4">
         <div class="w-full text-center">
           <div class="self-center"><img src="/logo.svg" class="h-10 w-10"></div>
         </div>
@@ -33,7 +34,8 @@ export default {
   components: {
     radioPills: require("./RadioPills.vue"),
     slrBrowserMap: require("./SlrBrowserMap.vue"),
-    slrBrowserContent: require("./SlrBrowserContent.vue")
+    slrBrowserContent: require("./SlrBrowserContent.vue"),
+    slrBrowserSettings: require("./SlrBrowserSettings.vue")
   }
 };
 </script>

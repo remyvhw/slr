@@ -5,6 +5,7 @@ window.Vue = require('vue');
 import Vuex from 'vuex'
 Vue.use(Vuex)
 Vue.prototype.$http = window.axios;
+
 const rawLastVisitDate = document.head.querySelector('meta[name="last-visit"]').content;
 const lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date();
 
@@ -17,6 +18,10 @@ const store = new Vuex.Store({
             }
         },
         lastVisitDate: lastVisitDate,
+        settings: {
+            showMap: true,
+            user: document.head.querySelector('meta[name="user"]').content
+        }
     },
     mutations: {
         setObstructionsUrl(state, url) {
@@ -36,7 +41,10 @@ const store = new Vuex.Store({
         },
         setLastVisitDate(state, lDate) {
             state.lastVisitDate = lDate;
-        }
+        },
+        setSetting(state, setting, value) {
+            state.settings[setting] = value;
+        },
     },
     actions: {
         setObstructionsUrl(context, url) {
