@@ -1,3 +1,5 @@
+require('vue2-animate/dist/vue2-animate.min.css')
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the

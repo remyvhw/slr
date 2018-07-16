@@ -33,7 +33,13 @@ export default {
         {
           label: "Chantiers",
           selected: false,
-          id: "present",
+          id: "obstructions",
+          urlSuffix: ""
+        },
+        {
+          label: "Photos",
+          selected: false,
+          id: "photos",
           urlSuffix: ""
         }
       ]
