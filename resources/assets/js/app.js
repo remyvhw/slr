@@ -1,5 +1,6 @@
 require('./bootstrap');
 const collect = require("collect.js");
+require('vue2-animate/dist/vue2-animate.min.css')
 
 window.Vue = require('vue');
 import Vuex from 'vuex'

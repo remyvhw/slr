@@ -4,17 +4,20 @@
 -->
 <template>
     <div>
-        <div v-if="!collapsed" class="bg-grey-darker shadow-inner text-grey-lightest px-2 py-4">
+        <transition name="fadeDown" enter-active-class="fadeInDown" leave-active-class="fadeOutUp" mode="out-in">
+            <div v-if="!collapsed" class="bg-grey-darker shadow-inner text-grey-lightest px-2 py-4">
 
-            <ul class="list-reset">
-                <setting-item-link v-if="$store.state.settings.user" title="Déconnexion" href="/logout" method="post"></setting-item-link>
-                <template v-else>
-                    <setting-item-link title="Connexion" href="/login"></setting-item-link>
-                    <setting-item-link title="Créer un compte" href="/register"></setting-item-link>
-                </template>
-            </ul>
+                <ul class="list-reset">
+                    <setting-item-link v-if="$store.state.settings.user" title="Déconnexion" href="/logout" method="post"></setting-item-link>
+                    <template v-else>
+                        <setting-item-link title="Connexion" href="/login"></setting-item-link>
+                        <setting-item-link title="Créer un compte" href="/register"></setting-item-link>
+                    </template>
+                </ul>
 
-        </div>
+            </div>
+        </transition>
+
         <div class="text-right -mb-8">
             <button @click="collapsed=!collapsed" class="p-2 hover:text-blue" :class="{'text-grey': collapsed, 'text-grey-darkest': !collapsed}">
                 <svg class=" h-4 w-4 fill-current  inline-block " xmlns="http://www.w3.org/2000/svg " viewBox="0 0 512 512 ">
