@@ -79,7 +79,7 @@ export default {
           "since",
           this.$store.state.lastVisitDate.toISOString()
         );
-      this.$store.dispatch("setObstructionsUrl", url);
+      this.$store.dispatch("obstructions/setUrl", url);
     }
   }
 };

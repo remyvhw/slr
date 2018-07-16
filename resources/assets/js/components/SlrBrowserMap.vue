@@ -96,7 +96,7 @@ export default {
 
           enclosingDiv.innerHTML = svgElement.outerHTML;
           enclosingDiv.addEventListener("click", () => {
-            this.$store.commit("setObstructionSelection", obstruction);
+            this.$store.commit("obstructions/setSelection", obstruction);
           });
 
           let marker = new window.mapbox.Marker(enclosingDiv).setLngLat([

@@ -45,7 +45,7 @@ export default {
   methods: {
     selectObstruction() {
       this.$store.commit(
-        "setObstructionSelection",
+        "obstructions/setSelection",
         this.obstruction.selected ? null : this.obstruction
       );
     }

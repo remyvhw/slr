@@ -142,7 +142,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   methods: {
     selectObstruction: function selectObstruction() {
-      this.$store.commit("setObstructionSelection", this.obstruction.selected ? null : this.obstruction);
+      this.$store.commit("obstructions/setSelection", this.obstruction.selected ? null : this.obstruction);
     }
   }
 });
@@ -629,7 +629,7 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 
       var url = new URL(this.apiEndpoint + pressedButton.urlSuffix);
       if (pressedButton.id === "whatsnew" && this.$store.state.lastVisitDate) url.searchParams.append("since", this.$store.state.lastVisitDate.toISOString());
-      this.$store.dispatch("setObstructionsUrl", url);
+      this.$store.dispatch("obstructions/setUrl", url);
     }
   }
 });
@@ -729,7 +729,7 @@ var defaultZoomLevel = 10;
 
         enclosingDiv.innerHTML = svgElement.outerHTML;
         enclosingDiv.addEventListener("click", function () {
-          _this2.$store.commit("setObstructionSelection", obstruction);
+          _this2.$store.commit("obstructions/setSelection", obstruction);
         });
 
         var marker = new window.mapbox.Marker(enclosingDiv).setLngLat([obstruction.lng, obstruction.lat]);
@@ -4852,6 +4852,7 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_obstructions__ = __webpack_require__("./resources/assets/js/store/modules/obstructions.js");
 
 
 
@@ -4859,16 +4860,13 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["default"]);
 
+
+
 var rawLastVisitDate = document.head.querySelector('meta[name="last-visit"]').content;
 var lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date();
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["default"].Store({
     state: {
-        obstructions: {
-            url: null,
-            content: {},
-            filters: {}
-        },
         lastVisitDate: lastVisitDate,
         settings: {
             showMap: true,
@@ -4876,21 +4874,6 @@ var lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date();
         }
     },
     mutations: {
-        setObstructionsUrl: function setObstructionsUrl(state, url) {
-            state.obstructions.url = url;
-        },
-        setObstructionFilters: function setObstructionFilters(state, filters) {
-            state.obstructions.filters = filters;
-        },
-        setObstructionData: function setObstructionData(state, obstructions) {
-            state.obstructions.content = obstructions;
-        },
-        setObstructionSelection: function setObstructionSelection(state, selectedObstruction) {
-            state.obstructions.content.data = collect(state.obstructions.content.data).map(function (obstruction) {
-                obstruction.selected = selectedObstruction && obstruction.id === selectedObstruction.id;
-                return obstruction;
-            }).toArray();
-        },
         setLastVisitDate: function setLastVisitDate(state, lDate) {
             state.lastVisitDate = lDate;
         },
@@ -4898,31 +4881,80 @@ var lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date();
             state.settings[setting] = value;
         }
     },
-    actions: {
-        setObstructionsUrl: function setObstructionsUrl(context, url) {
-            context.commit("setObstructionsUrl", url);
-            context.dispatch("getObstructions");
-        },
-        getObstructions: function getObstructions(context) {
-            context.commit("setObstructionData", {});
-            var url = new URL(context.state.obstructions.url);
-            collect(context.state.obstructions.filters).each(function (value, filter) {
-                url.searchParams.append(filter, value);
-            });
-            axios.get(url).then(function (response) {
-                var data = response.data;
-                data.data = collect(data.data).map(function (obstruction) {
-                    obstruction.selected = false;
-                    obstruction.created_at = new Date(obstruction.created_at);
-                    obstruction.updated_at = new Date(obstruction.updated_at);
-                    obstruction.deleted_at = obstruction.deleted_at ? new Date(obstruction.deleted_at) : null;
-                    return obstruction;
-                }).toArray();
-                context.commit('setObstructionData', data);
-            });
-        }
+    modules: {
+        obstructions: __WEBPACK_IMPORTED_MODULE_2__modules_obstructions__["a" /* default */]
     }
 }));
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/obstructions.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
+
+// initial state
+var state = {
+    url: null,
+    content: {},
+    filters: {}
+
+    // getters
+};var getters = {};
+
+// actions
+var actions = {
+    setUrl: function setUrl(context, url) {
+        context.commit("setUrl", url);
+        context.dispatch("get");
+    },
+    get: function get(context) {
+        context.commit("setData", {});
+        var url = new URL(context.state.url);
+        collect(context.state.filters).each(function (value, filter) {
+            url.searchParams.append(filter, value);
+        });
+        axios.get(url).then(function (response) {
+            var data = response.data;
+            data.data = collect(data.data).map(function (obstruction) {
+                obstruction.selected = false;
+                obstruction.created_at = new Date(obstruction.created_at);
+                obstruction.updated_at = new Date(obstruction.updated_at);
+                obstruction.deleted_at = obstruction.deleted_at ? new Date(obstruction.deleted_at) : null;
+                return obstruction;
+            }).toArray();
+            context.commit('setData', data);
+        });
+    }
+};
+
+// mutations
+var mutations = {
+    setUrl: function setUrl(state, url) {
+        state.url = url;
+    },
+    setFilters: function setFilters(state, filters) {
+        state.filters = filters;
+    },
+    setData: function setData(state, obstructions) {
+        state.content = obstructions;
+    },
+    setSelection: function setSelection(state, selectedObstruction) {
+        state.content.data = collect(state.content.data).map(function (obstruction) {
+            obstruction.selected = selectedObstruction && obstruction.id === selectedObstruction.id;
+            return obstruction;
+        }).toArray();
+    }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    namespaced: true,
+    state: state,
+    getters: getters,
+    actions: actions,
+    mutations: mutations
+});
 
 /***/ }),
 
