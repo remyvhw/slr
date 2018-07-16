@@ -12,4 +12,6 @@ mix.js('resources/assets/js/app.js', 'public/js')
     .options({
         postCss: [tailwindcss('./tailwind.js')],
         processCssUrls: false,
-    }).version();;
+    })
+    .version()
+    .extract(['vue', 'collect.js', 'vuex', 'axios', 'mapbox-gl/dist/mapbox-gl.js']);
