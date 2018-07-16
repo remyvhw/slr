@@ -4068,7 +4068,7 @@ if(false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_js__ = __webpack_require__("./resources/assets/js/store.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_index_js__ = __webpack_require__("./resources/assets/js/store/index.js");
 __webpack_require__("./resources/assets/js/bootstrap.js");
 var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 
@@ -4079,7 +4079,7 @@ Vue.prototype.$http = window.axios;
 
 var app = new Vue({
     el: '#app',
-    store: __WEBPACK_IMPORTED_MODULE_0__store_js__["a" /* default */],
+    store: __WEBPACK_IMPORTED_MODULE_0__store_index_js__["a" /* default */],
     components: {
         slrBrowser: __webpack_require__("./resources/assets/js/components/SlrBrowser.vue")
     },
@@ -4845,7 +4845,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/store.js":
+/***/ "./resources/assets/js/store/index.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
