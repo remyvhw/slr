@@ -13,6 +13,6 @@
 
 Route::middleware("lastvisit")->get('/', function () {
     return view('welcome');
-});
+})->name('browser');
 
 Auth::routes();

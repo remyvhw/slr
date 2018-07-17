@@ -6,14 +6,7 @@
       <radio-pills @select="toggleButtons" :buttons="buttons"></radio-pills>
     </div>
 
-    <div v-if="!$store.state.obstructions.content.data" class="spinner h-10"></div>
-
-    <div v-if="obstructions && $store.state.obstructions.content.data">
-      <obstruction-item v-for="obstruction in obstructions" :key="obstruction.id" :obstruction="obstruction"></obstruction-item>
-      <div v-if="!$store.state.obstructions.content.data.length" class="border-t order-t-1 px-4 py-3 m-4  text-center" role="alert">
-        <p class="font-sm italic text-grey-dark">Rien de neuf</p>
-      </div>
-    </div>
+    <obstruction-list v-if="selectedButton.id === 'obstructions'"></obstruction-list>
 
   </div>
 </template>
@@ -26,7 +19,7 @@ export default {
       buttons: [
         {
           label: "Changements",
-          selected: false,
+          selected: true,
           id: "whatsnew",
           urlSuffix: "/new"
         },
@@ -45,23 +38,19 @@ export default {
       ]
     };
   },
-  props: {
-    apiEndpoint: {
-      Type: String
-    }
-  },
   components: {
     radioPills: require("./RadioPills.vue"),
-    obstructionItem: require("./Obstructions/ObstructionItem.vue")
+    obstructionList: require("./Obstructions/ObstructionList.vue")
   },
-  mounted() {
-    this.toggleButtons(collect(this.buttons).first());
-  },
+  mounted() {},
   computed: {
     obstructions() {
       return this.$store.state.obstructions.content.data
         ? this.$store.state.obstructions.content.data
         : {};
+    },
+    selectedButton() {
+      return collect(this.buttons).first(item => item.selected);
     }
   },
   methods: {
@@ -73,13 +62,12 @@ export default {
         })
         .toArray();
 
-      var url = new URL(this.apiEndpoint + pressedButton.urlSuffix);
-      if (pressedButton.id === "whatsnew" && this.$store.state.lastVisitDate)
+      /*if (pressedButton.id === "whatsnew" && this.$store.state.lastVisitDate)
         url.searchParams.append(
           "since",
           this.$store.state.lastVisitDate.toISOString()
         );
-      this.$store.dispatch("obstructions/setUrl", url);
+      this.$store.dispatch("obstructions/setUrl", url);*/
     }
   }
 };

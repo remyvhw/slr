@@ -207,6 +207,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Obstructions/ObstructionList.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    obstructionItem: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionItem.vue")
+  },
+  mounted: function mounted() {
+    if (!this.$store.state.obstructions.content.data) this.retrieveObstructions();
+  },
+
+  computed: {
+    obstructions: function obstructions() {
+      return this.$store.state.obstructions.content.data ? this.$store.state.obstructions.content.data : {};
+    }
+  },
+  methods: {
+    retrieveObstructions: function retrieveObstructions() {
+      this.$store.dispatch("obstructions/get");
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Obstructions/ObstructionMeta.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -571,13 +615,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -585,7 +622,7 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
     return {
       buttons: [{
         label: "Changements",
-        selected: false,
+        selected: true,
         id: "whatsnew",
         urlSuffix: "/new"
       }, {
@@ -602,22 +639,20 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
     };
   },
 
-  props: {
-    apiEndpoint: {
-      Type: String
-    }
-  },
   components: {
     radioPills: __webpack_require__("./resources/assets/js/components/RadioPills.vue"),
-    obstructionItem: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionItem.vue")
+    obstructionList: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionList.vue")
   },
-  mounted: function mounted() {
-    this.toggleButtons(collect(this.buttons).first());
-  },
+  mounted: function mounted() {},
 
   computed: {
     obstructions: function obstructions() {
       return this.$store.state.obstructions.content.data ? this.$store.state.obstructions.content.data : {};
+    },
+    selectedButton: function selectedButton() {
+      return collect(this.buttons).first(function (item) {
+        return item.selected;
+      });
     }
   },
   methods: {
@@ -627,9 +662,12 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
         return button;
       }).toArray();
 
-      var url = new URL(this.apiEndpoint + pressedButton.urlSuffix);
-      if (pressedButton.id === "whatsnew" && this.$store.state.lastVisitDate) url.searchParams.append("since", this.$store.state.lastVisitDate.toISOString());
-      this.$store.dispatch("obstructions/setUrl", url);
+      /*if (pressedButton.id === "whatsnew" && this.$store.state.lastVisitDate)
+        url.searchParams.append(
+          "since",
+          this.$store.state.lastVisitDate.toISOString()
+        );
+      this.$store.dispatch("obstructions/setUrl", url);*/
     }
   }
 });
@@ -3050,54 +3088,27 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      { staticClass: "w-full text-center py-2" },
-      [
-        _c("radio-pills", {
-          attrs: { buttons: _vm.buttons },
-          on: { select: _vm.toggleButtons }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    !_vm.$store.state.obstructions.content.data
-      ? _c("div", { staticClass: "spinner h-10" })
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.obstructions && _vm.$store.state.obstructions.content.data
-      ? _c(
-          "div",
-          [
-            _vm._l(_vm.obstructions, function(obstruction) {
-              return _c("obstruction-item", {
-                key: obstruction.id,
-                attrs: { obstruction: obstruction }
-              })
-            }),
-            _vm._v(" "),
-            !_vm.$store.state.obstructions.content.data.length
-              ? _c(
-                  "div",
-                  {
-                    staticClass:
-                      "border-t order-t-1 px-4 py-3 m-4  text-center",
-                    attrs: { role: "alert" }
-                  },
-                  [
-                    _c("p", { staticClass: "font-sm italic text-grey-dark" }, [
-                      _vm._v("Rien de neuf")
-                    ])
-                  ]
-                )
-              : _vm._e()
-          ],
-          2
-        )
-      : _vm._e()
-  ])
+  return _c(
+    "div",
+    [
+      _c(
+        "div",
+        { staticClass: "w-full text-center py-2" },
+        [
+          _c("radio-pills", {
+            attrs: { buttons: _vm.buttons },
+            on: { select: _vm.toggleButtons }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _vm.selectedButton.id === "obstructions"
+        ? _c("obstruction-list")
+        : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -3646,6 +3657,62 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-351d5006", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3af859b9\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Obstructions/ObstructionList.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    !_vm.$store.state.obstructions.content.data
+      ? _c("div", { staticClass: "spinner h-10" })
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.obstructions && _vm.$store.state.obstructions.content.data
+      ? _c(
+          "div",
+          [
+            _vm._l(_vm.obstructions, function(obstruction) {
+              return _c("obstruction-item", {
+                key: obstruction.id,
+                attrs: { obstruction: obstruction }
+              })
+            }),
+            _vm._v(" "),
+            !_vm.$store.state.obstructions.content.data.length
+              ? _c(
+                  "div",
+                  {
+                    staticClass:
+                      "border-t order-t-1 px-4 py-3 m-4  text-center",
+                    attrs: { role: "alert" }
+                  },
+                  [
+                    _c("p", { staticClass: "font-sm italic text-grey-dark" }, [
+                      _vm._v("Rien de neuf")
+                    ])
+                  ]
+                )
+              : _vm._e()
+          ],
+          2
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3af859b9", module.exports)
   }
 }
 
@@ -4317,6 +4384,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/Obstructions/ObstructionList.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Obstructions/ObstructionList.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3af859b9\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Obstructions/ObstructionList.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Obstructions/ObstructionList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3af859b9", Component.options)
+  } else {
+    hotAPI.reload("data-v-3af859b9", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/Obstructions/ObstructionMeta.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4853,6 +4968,7 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_obstructions__ = __webpack_require__("./resources/assets/js/store/modules/obstructions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_changes__ = __webpack_require__("./resources/assets/js/store/modules/changes.js");
 
 
 
@@ -4862,12 +4978,14 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 
 
+
 var rawLastVisitDate = document.head.querySelector('meta[name="last-visit"]').content;
 var lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date();
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["default"].Store({
     state: {
         lastVisitDate: lastVisitDate,
+        apiRoot: document.head.querySelector('meta[name="api-root"]').content,
         settings: {
             showMap: true,
             user: document.head.querySelector('meta[name="user"]').content
@@ -4882,47 +5000,83 @@ var lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date();
         }
     },
     modules: {
-        obstructions: __WEBPACK_IMPORTED_MODULE_2__modules_obstructions__["a" /* default */]
+        obstructions: __WEBPACK_IMPORTED_MODULE_2__modules_obstructions__["a" /* default */],
+        changes: __WEBPACK_IMPORTED_MODULE_3__modules_changes__["a" /* default */]
     }
 }));
 
 /***/ }),
 
-/***/ "./resources/assets/js/store/modules/obstructions.js":
+/***/ "./resources/assets/js/store/models/Change.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Obstruction__ = __webpack_require__("./resources/assets/js/store/models/Obstruction.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+var Change = function Change(apiChange) {
+    _classCallCheck(this, Change);
+
+    if (apiChange.type === 'Obstruction') {
+        this.payload = new __WEBPACK_IMPORTED_MODULE_0__Obstruction__["a" /* default */](apiChange.payload);
+    }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Change);
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/models/Obstruction.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Obstruction = function Obstruction(apiObstruction) {
+    var _this = this;
+
+    _classCallCheck(this, Obstruction);
+
+    Object.keys(apiObstruction).forEach(function (key) {
+        _this[key] = apiObstruction[key];
+    });
+    this.selected = false;
+    this.created_at = new Date(this.created_at);
+    this.updated_at = new Date(this.updated_at);
+    this.deleted_at = this.deleted_at ? new Date(this.deleted_at) : null;
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Obstruction);
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/changes.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_Change__ = __webpack_require__("./resources/assets/js/store/models/Change.js");
+
+
 var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
+
+var endpoint = "/changes";
 
 // initial state
 var state = {
-    url: null,
-    content: {},
-    filters: {}
+    content: {}
 
-    // getters
-};var getters = {};
-
-// actions
-var actions = {
-    setUrl: function setUrl(context, url) {
-        context.commit("setUrl", url);
-        context.dispatch("get");
-    },
+    // actions
+};var actions = {
     get: function get(context) {
         context.commit("setData", {});
-        var url = new URL(context.state.url);
-        collect(context.state.filters).each(function (value, filter) {
-            url.searchParams.append(filter, value);
-        });
+        var url = new URL(context.rootState.apiRoot + context.state.endpoint);
+
         axios.get(url).then(function (response) {
             var data = response.data;
-            data.data = collect(data.data).map(function (obstruction) {
-                obstruction.selected = false;
-                obstruction.created_at = new Date(obstruction.created_at);
-                obstruction.updated_at = new Date(obstruction.updated_at);
-                obstruction.deleted_at = obstruction.deleted_at ? new Date(obstruction.deleted_at) : null;
-                return obstruction;
+            data.data = collect(data.data).map(function (apiChange) {
+                return new __WEBPACK_IMPORTED_MODULE_0__models_Change__["a" /* default */](apiChange).payload;
             }).toArray();
             context.commit('setData', data);
         });
@@ -4931,9 +5085,65 @@ var actions = {
 
 // mutations
 var mutations = {
-    setUrl: function setUrl(state, url) {
-        state.url = url;
+    setData: function setData(state, changes) {
+        state.content = changes;
     },
+    setSelection: function setSelection(state, selectedObstruction) {
+        state.content.data = collect(state.content.data).map(function (obstruction) {
+            obstruction.selected = selectedObstruction && obstruction.id === selectedObstruction.id;
+            return obstruction;
+        }).toArray();
+    }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    namespaced: true,
+    state: state,
+    actions: actions,
+    mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/obstructions.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_Obstruction__ = __webpack_require__("./resources/assets/js/store/models/Obstruction.js");
+
+
+var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
+
+var endpoint = "/obstructions";
+
+// initial state
+var state = {
+    content: {},
+    filters: {}
+
+    // getters
+};var getters = {};
+
+// actions
+var actions = {
+    get: function get(context) {
+        context.commit("setData", {});
+        var url = new URL(context.rootState.apiRoot + endpoint);
+        collect(context.state.filters).each(function (value, filter) {
+            url.searchParams.append(filter, value);
+        });
+        axios.get(url).then(function (response) {
+            var data = response.data;
+            data.data = collect(data.data).map(function (apiObstruction) {
+                return new __WEBPACK_IMPORTED_MODULE_0__models_Obstruction__["a" /* default */](apiObstruction);
+            }).toArray();
+            context.commit('setData', data);
+        });
+    }
+};
+
+// mutations
+var mutations = {
     setFilters: function setFilters(state, filters) {
         state.filters = filters;
     },

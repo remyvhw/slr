@@ -11,7 +11,10 @@
 |
  */
 
-Route::prefix('1')->group(function () {
+Route::prefix('1')->name("api.1.")->group(function () {
+    Route::get('', function () {
+        return redirect()->route('browser');;
+    })->name('root');;
     Route::get('obstructions/new', 'Api\v1\ObstructionController@getNew');
     Route::apiResources([
         'geojson-features' => 'Api\v1\GeojsonFeatureController',

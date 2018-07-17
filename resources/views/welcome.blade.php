@@ -9,6 +9,7 @@
         <meta name="last-visit" content="@lastvisit">
         <meta name='mapbox-pk' content="{{ config('services.mapbox.public_key') }}">
         <meta name='user' content="{{ Auth::check() ? Auth::id() : '' }}">
+        <meta name='api-root' content="{{ route('api.1.root') }}">
         <link href='https://api.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.css' rel='stylesheet' />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -23,7 +24,7 @@
     <body class="bg-grey-lighter">
         <div id="app">
             <main class="container mx-auto">
-                <slr-browser features-api-endpoint="{{ route('geojson-features.index') }}" obstructions-api-endpoint="{{ route('obstructions.index') }}"></slr-browser>
+                <slr-browser features-api-endpoint="{{ route('api.1.geojson-features.index') }}"></slr-browser>
             </main>
         </div>
         <script src="{{ mix('/js/manifest.js') }}"></script>

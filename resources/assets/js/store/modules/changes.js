@@ -1,31 +1,24 @@
-import Obstruction from "../models/Obstruction";
+import Change from "../models/Change";
 
 const collect = require("collect.js");
 
-const endpoint = "/obstructions";
+const endpoint = "/changes";
 
 // initial state
 const state = {
     content: {},
-    filters: {
-    }
 }
-
-// getters
-const getters = {}
 
 // actions
 const actions = {
     get(context) {
         context.commit("setData", {});
-        const url = new URL(context.rootState.apiRoot + endpoint);
-        collect(context.state.filters).each((value, filter) => {
-            url.searchParams.append(filter, value);
-        });
+        const url = new URL(context.rootState.apiRoot + context.state.endpoint);
+
         axios.get(url).then(response => {
             let data = response.data;
-            data.data = collect(data.data).map((apiObstruction) => {
-                return new Obstruction(apiObstruction);
+            data.data = collect(data.data).map((apiChange) => {
+                return (new Change(apiChange)).payload;
             }).toArray();
             context.commit('setData', data);
         });
@@ -34,11 +27,8 @@ const actions = {
 
 // mutations
 const mutations = {
-    setFilters(state, filters) {
-        state.filters = filters;
-    },
-    setData(state, obstructions) {
-        state.content = obstructions;
+    setData(state, changes) {
+        state.content = changes;
     },
     setSelection(state, selectedObstruction) {
         state.content.data = collect(state.content.data).map((obstruction) => {
@@ -51,7 +41,6 @@ const mutations = {
 export default {
     namespaced: true,
     state,
-    getters,
     actions,
     mutations
 }
