@@ -661,13 +661,6 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
         button.selected = button.id === pressedButton.id;
         return button;
       }).toArray();
-
-      /*if (pressedButton.id === "whatsnew" && this.$store.state.lastVisitDate)
-        url.searchParams.append(
-          "since",
-          this.$store.state.lastVisitDate.toISOString()
-        );
-      this.$store.dispatch("obstructions/setUrl", url);*/
     }
   }
 });

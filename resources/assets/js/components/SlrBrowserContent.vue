@@ -61,13 +61,6 @@ export default {
           return button;
         })
         .toArray();
-
-      /*if (pressedButton.id === "whatsnew" && this.$store.state.lastVisitDate)
-        url.searchParams.append(
-          "since",
-          this.$store.state.lastVisitDate.toISOString()
-        );
-      this.$store.dispatch("obstructions/setUrl", url);*/
     }
   }
 };
