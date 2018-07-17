@@ -5115,6 +5115,7 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_obstructions__ = __webpack_require__("./resources/assets/js/store/modules/obstructions.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_changes__ = __webpack_require__("./resources/assets/js/store/modules/changes.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_settings__ = __webpack_require__("./resources/assets/js/store/modules/settings.js");
 
 
 
@@ -5125,29 +5126,25 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 
 
+
 var rawLastVisitDate = document.head.querySelector('meta[name="last-visit"]').content;
 var lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date();
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["default"].Store({
     state: {
         lastVisitDate: lastVisitDate,
-        apiRoot: document.head.querySelector('meta[name="api-root"]').content,
-        settings: {
-            showMap: true,
-            user: document.head.querySelector('meta[name="user"]').content
-        }
+        apiRoot: document.head.querySelector('meta[name="api-root"]').content
+
     },
     mutations: {
         setLastVisitDate: function setLastVisitDate(state, lDate) {
             state.lastVisitDate = lDate;
-        },
-        setSetting: function setSetting(state, setting, value) {
-            state.settings[setting] = value;
         }
     },
     modules: {
         obstructions: __WEBPACK_IMPORTED_MODULE_2__modules_obstructions__["a" /* default */],
-        changes: __WEBPACK_IMPORTED_MODULE_3__modules_changes__["a" /* default */]
+        changes: __WEBPACK_IMPORTED_MODULE_3__modules_changes__["a" /* default */],
+        settings: __WEBPACK_IMPORTED_MODULE_4__modules_settings__["a" /* default */]
     }
 }));
 
@@ -5313,6 +5310,30 @@ var mutations = {
     state: state,
     getters: getters,
     actions: actions,
+    mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/settings.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// initial state
+var state = {
+    showMap: true,
+    user: document.head.querySelector('meta[name="user"]').content
+
+    // mutations
+};var mutations = {
+    setSetting: function setSetting(state, setting, value) {
+        state.settings[setting] = value;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    namespaced: true,
+    state: state,
     mutations: mutations
 });
 
