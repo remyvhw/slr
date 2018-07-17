@@ -1,5 +1,49 @@
 webpackJsonp([1],{
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Changes/ChangeList.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    obstructionItem: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionItem.vue")
+  },
+  mounted: function mounted() {
+    if (!this.$store.state.changes.content.data) this.retrieveChanges();
+  },
+
+  computed: {
+    changes: function changes() {
+      return this.$store.state.changes.content.data ? this.$store.state.changes.content.data : {};
+    }
+  },
+  methods: {
+    retrieveChanges: function retrieveChanges() {
+      this.$store.dispatch("changes/get");
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/GenericModal.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -615,6 +659,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -623,25 +668,27 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
       buttons: [{
         label: "Changements",
         selected: true,
-        id: "whatsnew",
+        id: "changes",
         urlSuffix: "/new"
       }, {
         label: "Chantiers",
         selected: false,
         id: "obstructions",
         urlSuffix: ""
-      }, {
-        label: "Photos",
-        selected: false,
-        id: "photos",
-        urlSuffix: ""
+        /*{
+          label: "Photos",
+          selected: false,
+          id: "photos",
+          urlSuffix: ""
+        }*/
       }]
     };
   },
 
   components: {
     radioPills: __webpack_require__("./resources/assets/js/components/RadioPills.vue"),
-    obstructionList: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionList.vue")
+    obstructionList: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionList.vue"),
+    changeList: __webpack_require__("./resources/assets/js/components/Changes/ChangeList.vue")
   },
   mounted: function mounted() {},
 
@@ -3096,6 +3143,8 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _vm.selectedButton.id === "changes" ? _c("change-list") : _vm._e(),
+      _vm._v(" "),
       _vm.selectedButton.id === "obstructions"
         ? _c("obstruction-list")
         : _vm._e()
@@ -3197,6 +3246,62 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-0dd288d8", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-17efa4d1\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Changes/ChangeList.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    !_vm.$store.state.changes.content.data
+      ? _c("div", { staticClass: "spinner h-10" })
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.changes && _vm.$store.state.changes.content.data
+      ? _c(
+          "div",
+          [
+            _vm._l(_vm.changes, function(change) {
+              return _c("obstruction-item", {
+                key: change.id,
+                attrs: { obstruction: change.payload }
+              })
+            }),
+            _vm._v(" "),
+            !_vm.$store.state.changes.content.data.length
+              ? _c(
+                  "div",
+                  {
+                    staticClass:
+                      "border-t order-t-1 px-4 py-3 m-4  text-center",
+                    attrs: { role: "alert" }
+                  },
+                  [
+                    _c("p", { staticClass: "font-sm italic text-grey-dark" }, [
+                      _vm._v("Rien de neuf")
+                    ])
+                  ]
+                )
+              : _vm._e()
+          ],
+          2
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-17efa4d1", module.exports)
   }
 }
 
@@ -4185,6 +4290,54 @@ window.mapbox.accessToken = document.head.querySelector('meta[name="mapbox-pk"]'
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/Changes/ChangeList.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Changes/ChangeList.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-17efa4d1\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Changes/ChangeList.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Changes/ChangeList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-17efa4d1", Component.options)
+  } else {
+    hotAPI.reload("data-v-17efa4d1", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/GenericModal.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5012,6 +5165,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var Change = function Change(apiChange) {
     _classCallCheck(this, Change);
 
+    this.id = apiChange.id;
+    this.type = apiChange.type;
     if (apiChange.type === 'Obstruction') {
         this.payload = new __WEBPACK_IMPORTED_MODULE_0__Obstruction__["a" /* default */](apiChange.payload);
     }
@@ -5064,12 +5219,14 @@ var state = {
 };var actions = {
     get: function get(context) {
         context.commit("setData", {});
-        var url = new URL(context.rootState.apiRoot + context.state.endpoint);
+        var url = new URL(context.rootState.apiRoot + endpoint);
+
+        url.searchParams.append("since", context.rootState.lastVisitDate.toISOString());
 
         axios.get(url).then(function (response) {
             var data = response.data;
             data.data = collect(data.data).map(function (apiChange) {
-                return new __WEBPACK_IMPORTED_MODULE_0__models_Change__["a" /* default */](apiChange).payload;
+                return new __WEBPACK_IMPORTED_MODULE_0__models_Change__["a" /* default */](apiChange);
             }).toArray();
             context.commit('setData', data);
         });

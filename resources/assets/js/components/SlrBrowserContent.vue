@@ -6,6 +6,7 @@
       <radio-pills @select="toggleButtons" :buttons="buttons"></radio-pills>
     </div>
 
+    <change-list v-if="selectedButton.id === 'changes'"></change-list>
     <obstruction-list v-if="selectedButton.id === 'obstructions'"></obstruction-list>
 
   </div>
@@ -20,7 +21,7 @@ export default {
         {
           label: "Changements",
           selected: true,
-          id: "whatsnew",
+          id: "changes",
           urlSuffix: "/new"
         },
         {
@@ -28,19 +29,20 @@ export default {
           selected: false,
           id: "obstructions",
           urlSuffix: ""
-        },
-        {
+        }
+        /*{
           label: "Photos",
           selected: false,
           id: "photos",
           urlSuffix: ""
-        }
+        }*/
       ]
     };
   },
   components: {
     radioPills: require("./RadioPills.vue"),
-    obstructionList: require("./Obstructions/ObstructionList.vue")
+    obstructionList: require("./Obstructions/ObstructionList.vue"),
+    changeList: require("./Changes/ChangeList.vue")
   },
   mounted() {},
   computed: {

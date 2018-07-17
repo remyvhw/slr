@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ChangeCollection;
 use App\Http\Resources\Obstruction as ObstructionResource;
 use App\Obstruction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ChangeController extends Controller
@@ -23,6 +24,7 @@ class ChangeController extends Controller
             return collect([
                 "payload" => new ObstructionResource($obstruction),
                 "type" => "Obstruction",
+                "id" => "obstruction_" . $obstruction->id,
             ]);
         });
         return new ChangeCollection($changes);
