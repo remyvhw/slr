@@ -34,7 +34,8 @@ export default {
       deep: false,
       handler: function(val, oldVal) {
         if (val) {
-          let flyToPoint = { center: [val.lng, val.lat] };
+          const latLng = val.getLngLat();
+          let flyToPoint = { center: [latLng.lng, latLng.lat] };
           if (this.map.getZoom() == 10) {
             flyToPoint["zoom"] = 12;
           }
@@ -60,24 +61,49 @@ export default {
     });
   },
   computed: {
-    markers() {
+    /**
+     * We re-use the format of a "Change" item to present items on the map.
+     * Therefore, if the browser presention type is Obstruction, we'll need to
+     * wrap our Obstructions objects in an object that, at lease, present a `type`
+     * and a `payload` property.
+     */
+    basicItems() {
+      const presentationType = this.$store.state.browser.presentationType;
       if (
-        !this.$store.state.obstructions.content ||
-        !this.$store.state.obstructions.content.data
-      )
-        return [];
+        presentationType === "changes" &&
+        this.$store.state.changes.content.data
+      ) {
+        return this.$store.state.changes.content.data;
+      } else if (
+        presentationType === "obstructions" &&
+        this.$store.state.obstructions.content.data
+      ) {
+        return collect(this.$store.state.obstructions.content.data)
+          .map(obstruction => {
+            return {
+              payload: obstruction,
+              type: "obstruction"
+            };
+          })
+          .toArray();
+      }
+      return [];
+    },
 
+    markers() {
       const mapMarkerSvgPath =
         "M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z";
 
-      return collect(this.$store.state.obstructions.content.data)
-        .map(obstruction => {
+      return collect(this.basicItems)
+        .map(item => {
           let enclosingDiv = document.createElement("div");
           enclosingDiv.className = "marker";
           let svgElement = document.createElement("svg");
           svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-          const sizeClasses = obstruction.selected ? "h-10 w-10" : "h-8 w-8";
-          const colorClasses = obstruction.selected
+          const sizeClasses = item.payload.isSelectedInStore(this.$store)
+            ? "h-10 w-10"
+            : "h-8 w-8";
+          const colorClasses = item.payload.isSelectedInStore(this.$store)
             ? "text-orange-dark"
             : "text-orange";
           svgElement.setAttribute(
@@ -96,25 +122,28 @@ export default {
 
           enclosingDiv.innerHTML = svgElement.outerHTML;
           enclosingDiv.addEventListener("click", () => {
-            this.$store.commit("obstructions/setSelection", obstruction);
+            this.$store.commit("browser/setSelection", item.payload);
           });
 
           let marker = new window.mapbox.Marker(enclosingDiv).setLngLat([
-            obstruction.lng,
-            obstruction.lat
+            item.payload.lng,
+            item.payload.lat
           ]);
-          marker.setOffset([0, obstruction.selected ? -10 : -8]);
+          marker.setOffset([
+            0,
+            item.payload.isSelectedInStore(this.$store) ? -10 : -8
+          ]);
+          marker._slr_item = item;
 
           return marker;
         })
         .toArray();
     },
     selectedObstruction() {
-      if (!this.markers) return null;
-      return collect(this.$store.state.obstructions.content.data).firstWhere(
-        "selected",
-        true
-      );
+      if (!this.$store.state.browser.selection) return null;
+      return collect(this.markers).first(marker => {
+        return marker._slr_item.payload.isSelectedInStore(this.$store);
+      });
     }
   },
   methods: {

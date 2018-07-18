@@ -57,6 +57,8 @@ export default {
   },
   methods: {
     toggleButtons(pressedButton) {
+      this.$store.commit("browser/setPresentationType", pressedButton.id);
+
       this.buttons = collect(this.buttons)
         .map(button => {
           button.selected = button.id === pressedButton.id;

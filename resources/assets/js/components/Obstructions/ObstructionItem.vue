@@ -39,12 +39,7 @@ export default {
   },
   computed: {
     selected() {
-      return (
-        this.$store.state.highlight.selection &&
-        this.$store.state.highlight.selection.constructor.name ===
-          this.obstruction.constructor.name &&
-        this.$store.state.highlight.selection.id === this.obstruction.id
-      );
+      return this.obstruction.isSelectedInStore(this.$store);
     }
   },
   components: {
@@ -55,7 +50,7 @@ export default {
   methods: {
     selectObstruction() {
       this.$store.commit(
-        "highlight/setSelection",
+        "browser/setSelection",
         this.selected ? null : this.obstruction
       );
     }

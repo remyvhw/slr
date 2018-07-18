@@ -181,7 +181,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     selected: function selected() {
-      return this.$store.state.highlight.selection && this.$store.state.highlight.selection.constructor.name === this.obstruction.constructor.name && this.$store.state.highlight.selection.id === this.obstruction.id;
+      return this.obstruction.isSelectedInStore(this.$store);
     }
   },
   components: {
@@ -191,7 +191,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   methods: {
     selectObstruction: function selectObstruction() {
-      this.$store.commit("highlight/setSelection", this.selected ? null : this.obstruction);
+      this.$store.commit("browser/setSelection", this.selected ? null : this.obstruction);
     }
   }
 });
@@ -709,6 +709,8 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
   },
   methods: {
     toggleButtons: function toggleButtons(pressedButton) {
+      this.$store.commit("browser/setPresentationType", pressedButton.id);
+
       this.buttons = collect(this.buttons).map(function (button) {
         button.selected = button.id === pressedButton.id;
         return button;
@@ -761,7 +763,8 @@ var defaultZoomLevel = 10;
       deep: false,
       handler: function handler(val, oldVal) {
         if (val) {
-          var flyToPoint = { center: [val.lng, val.lat] };
+          var latLng = val.getLngLat();
+          var flyToPoint = { center: [latLng.lng, latLng.lat] };
           if (this.map.getZoom() == 10) {
             flyToPoint["zoom"] = 12;
           }
@@ -790,20 +793,38 @@ var defaultZoomLevel = 10;
   },
 
   computed: {
+    /**
+     * We re-use the format of a "Change" item to present items on the map.
+     * Therefore, if the browser presention type is Obstruction, we'll need to
+     * wrap our Obstructions objects in an object that, at lease, present a `type`
+     * and a `payload` property.
+     */
+    basicItems: function basicItems() {
+      var presentationType = this.$store.state.browser.presentationType;
+      if (presentationType === "changes" && this.$store.state.changes.content.data) {
+        return this.$store.state.changes.content.data;
+      } else if (presentationType === "obstructions" && this.$store.state.obstructions.content.data) {
+        return collect(this.$store.state.obstructions.content.data).map(function (obstruction) {
+          return {
+            payload: obstruction,
+            type: "obstruction"
+          };
+        }).toArray();
+      }
+      return [];
+    },
     markers: function markers() {
       var _this2 = this;
 
-      if (!this.$store.state.obstructions.content || !this.$store.state.obstructions.content.data) return [];
-
       var mapMarkerSvgPath = "M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z";
 
-      return collect(this.$store.state.obstructions.content.data).map(function (obstruction) {
+      return collect(this.basicItems).map(function (item) {
         var enclosingDiv = document.createElement("div");
         enclosingDiv.className = "marker";
         var svgElement = document.createElement("svg");
         svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-        var sizeClasses = obstruction.selected ? "h-10 w-10" : "h-8 w-8";
-        var colorClasses = obstruction.selected ? "text-orange-dark" : "text-orange";
+        var sizeClasses = item.payload.isSelectedInStore(_this2.$store) ? "h-10 w-10" : "h-8 w-8";
+        var colorClasses = item.payload.isSelectedInStore(_this2.$store) ? "text-orange-dark" : "text-orange";
         svgElement.setAttribute("class", collect(["fill-current", "inline-block", sizeClasses, colorClasses]).implode(" "));
         svgElement.setAttribute("viewBox", "0 0 384 512");
         var pathElement = document.createElement("path");
@@ -812,23 +833,28 @@ var defaultZoomLevel = 10;
 
         enclosingDiv.innerHTML = svgElement.outerHTML;
         enclosingDiv.addEventListener("click", function () {
-          _this2.$store.commit("obstructions/setSelection", obstruction);
+          _this2.$store.commit("browser/setSelection", item.payload);
         });
 
-        var marker = new window.mapbox.Marker(enclosingDiv).setLngLat([obstruction.lng, obstruction.lat]);
-        marker.setOffset([0, obstruction.selected ? -10 : -8]);
+        var marker = new window.mapbox.Marker(enclosingDiv).setLngLat([item.payload.lng, item.payload.lat]);
+        marker.setOffset([0, item.payload.isSelectedInStore(_this2.$store) ? -10 : -8]);
+        marker._slr_item = item;
 
         return marker;
       }).toArray();
     },
     selectedObstruction: function selectedObstruction() {
-      if (!this.markers) return null;
-      return collect(this.$store.state.obstructions.content.data).firstWhere("selected", true);
+      var _this3 = this;
+
+      if (!this.$store.state.browser.selection) return null;
+      return collect(this.markers).first(function (marker) {
+        return marker._slr_item.payload.isSelectedInStore(_this3.$store);
+      });
     }
   },
   methods: {
     putMarkersOnMap: function putMarkersOnMap(newMarkers, oldMarkers) {
-      var _this3 = this;
+      var _this4 = this;
 
       // Remove old markers
       if (oldMarkers) {
@@ -838,18 +864,18 @@ var defaultZoomLevel = 10;
       }
 
       collect(newMarkers).each(function (marker) {
-        marker.addTo(_this3.map);
+        marker.addTo(_this4.map);
       });
     },
     loadGeojsonFeatures: function loadGeojsonFeatures() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.get(this.apiEndpoint).then(function (response) {
         var features = collect(response.data).map(function (feature) {
           return feature.payload;
         }).toArray();
 
-        _this4.map.addSource("rem", {
+        _this5.map.addSource("rem", {
           type: "geojson",
           data: {
             type: "FeatureCollection",
@@ -857,7 +883,7 @@ var defaultZoomLevel = 10;
           }
         });
 
-        _this4.map.addLayer({
+        _this5.map.addLayer({
           id: "lines",
           type: "line",
           source: "rem",
@@ -872,7 +898,7 @@ var defaultZoomLevel = 10;
           filter: ["==", "$type", "LineString"]
         });
 
-        _this4.map.addLayer({
+        _this5.map.addLayer({
           id: "stations",
           type: "circle",
           source: "rem",
@@ -5121,11 +5147,10 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_obstructions__ = __webpack_require__("./resources/assets/js/store/modules/obstructions.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_changes__ = __webpack_require__("./resources/assets/js/store/modules/changes.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_settings__ = __webpack_require__("./resources/assets/js/store/modules/settings.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_highlight__ = __webpack_require__("./resources/assets/js/store/modules/highlight.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_browser__ = __webpack_require__("./resources/assets/js/store/modules/browser.js");
 
 
 
-var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["default"]);
 
@@ -5152,7 +5177,7 @@ var lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date();
         obstructions: __WEBPACK_IMPORTED_MODULE_2__modules_obstructions__["a" /* default */],
         changes: __WEBPACK_IMPORTED_MODULE_3__modules_changes__["a" /* default */],
         settings: __WEBPACK_IMPORTED_MODULE_4__modules_settings__["a" /* default */],
-        highlight: __WEBPACK_IMPORTED_MODULE_5__modules_highlight__["a" /* default */]
+        browser: __WEBPACK_IMPORTED_MODULE_5__modules_browser__["a" /* default */]
     }
 }));
 
@@ -5185,23 +5210,63 @@ var Change = function Change(apiChange) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Obstruction = function Obstruction(apiObstruction) {
-    var _this = this;
+var Obstruction = function () {
+    function Obstruction(apiObstruction) {
+        var _this = this;
 
-    _classCallCheck(this, Obstruction);
+        _classCallCheck(this, Obstruction);
 
-    Object.keys(apiObstruction).forEach(function (key) {
-        _this[key] = apiObstruction[key];
-    });
-    this.selected = false;
-    this.created_at = new Date(this.created_at);
-    this.updated_at = new Date(this.updated_at);
-    this.deleted_at = this.deleted_at ? new Date(this.deleted_at) : null;
-};
+        Object.keys(apiObstruction).forEach(function (key) {
+            _this[key] = apiObstruction[key];
+        });
+        this.selected = false;
+        this.created_at = new Date(this.created_at);
+        this.updated_at = new Date(this.updated_at);
+        this.deleted_at = this.deleted_at ? new Date(this.deleted_at) : null;
+    }
+
+    _createClass(Obstruction, [{
+        key: "isSelectedInStore",
+        value: function isSelectedInStore(store) {
+            return store.state.browser.selection && store.state.browser.selection.constructor.name === this.constructor.name && store.state.browser.selection.id === this.id;
+        }
+    }]);
+
+    return Obstruction;
+}();
 
 /* harmony default export */ __webpack_exports__["a"] = (Obstruction);
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/browser.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// initial state
+var state = {
+    selection: null,
+    presentationType: "changes"
+
+    // mutations
+};var mutations = {
+    setSelection: function setSelection(state, selectedObject) {
+        state.selection = selectedObject;
+    },
+    setPresentationType: function setPresentationType(state, presentationType) {
+        state.presentationType = presentationType;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    namespaced: true,
+    state: state,
+    mutations: mutations
+});
 
 /***/ }),
 
@@ -5255,33 +5320,6 @@ var mutations = {
     namespaced: true,
     state: state,
     actions: actions,
-    mutations: mutations
-});
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/highlight.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-// initial state
-var state = {
-    selection: null,
-    presentionType: "changes"
-
-    // mutations
-};var mutations = {
-    setSelection: function setSelection(state, selectedObject) {
-        state.selection = selectedObject;
-    },
-    setPresentationType: function setPresentationType(state, presentationType) {
-        state.presentationType = presentationType;
-    }
-};
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    namespaced: true,
-    state: state,
     mutations: mutations
 });
 
