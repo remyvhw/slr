@@ -29,13 +29,13 @@ export default {
           selected: false,
           id: "obstructions",
           urlSuffix: ""
-        }
-        /*{
+        },
+        {
           label: "Photos",
           selected: false,
           id: "photos",
           urlSuffix: ""
-        }*/
+        }
       ]
     };
   },

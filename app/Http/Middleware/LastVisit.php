@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Auth;
 use Cache;
 use Closure;
+use DB;
 
 class LastVisit
 {
