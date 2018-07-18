@@ -97,7 +97,7 @@ export default {
       return collect(this.basicItems)
         .map(item => {
           let enclosingDiv = document.createElement("div");
-          enclosingDiv.className = "marker";
+          enclosingDiv.className = "marker cursor-pointer";
           let svgElement = document.createElement("svg");
           svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
           const sizeClasses = item.payload.isSelectedInStore(this.$store)

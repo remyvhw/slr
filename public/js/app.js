@@ -820,7 +820,7 @@ var defaultZoomLevel = 10;
 
       return collect(this.basicItems).map(function (item) {
         var enclosingDiv = document.createElement("div");
-        enclosingDiv.className = "marker";
+        enclosingDiv.className = "marker cursor-pointer";
         var svgElement = document.createElement("svg");
         svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
         var sizeClasses = item.payload.isSelectedInStore(_this2.$store) ? "h-10 w-10" : "h-8 w-8";
