@@ -8,6 +8,7 @@ Vue.use(Vuex)
 import obstructions from './modules/obstructions'
 import changes from './modules/changes'
 import settings from './modules/settings'
+import highlight from './modules/highlight'
 
 const rawLastVisitDate = document.head.querySelector('meta[name="last-visit"]').content;
 const lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date();
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     modules: {
         obstructions,
         changes,
-        settings
+        settings,
+        highlight
     }
 });

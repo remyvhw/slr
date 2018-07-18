@@ -3,8 +3,8 @@
 
     <obstruction-static-map @click="selectObstruction" :obstruction="obstruction"></obstruction-static-map>
     <div class="border border-grey-light rounded-b rounded-t lg:rounded-b-none lg:rounded-t-none lg:rounded-r p-4 flex flex-col justify-between leading-normal" :class="{
-      'bg-white': !obstruction.selected,
-      'bg-orange-lightest': obstruction.selected
+      'bg-white': !selected,
+      'bg-orange-lightest': selected
     }">
       <div class="mb-8">
         <obstruction-updated-label :create-date="obstruction.created_at" :update-date="obstruction.updated_at" :delete-date="obstruction.deleted_at"></obstruction-updated-label>
@@ -29,12 +29,22 @@ export default {
     }
   },
   watch: {
-    "obstruction.selected": function(newVal, oldVal) {
+    selected: function(newVal, oldVal) {
       if (newVal && !oldVal && document.body.clientWidth > 992)
         this.$el.scrollIntoView({
           behavior: "smooth",
           block: "center"
         });
+    }
+  },
+  computed: {
+    selected() {
+      return (
+        this.$store.state.highlight.selection &&
+        this.$store.state.highlight.selection.constructor.name ===
+          this.obstruction.constructor.name &&
+        this.$store.state.highlight.selection.id === this.obstruction.id
+      );
     }
   },
   components: {
@@ -45,8 +55,8 @@ export default {
   methods: {
     selectObstruction() {
       this.$store.commit(
-        "obstructions/setSelection",
-        this.obstruction.selected ? null : this.obstruction
+        "highlight/setSelection",
+        this.selected ? null : this.obstruction
       );
     }
   }

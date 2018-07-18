@@ -172,11 +172,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   watch: {
-    "obstruction.selected": function obstructionSelected(newVal, oldVal) {
+    selected: function selected(newVal, oldVal) {
       if (newVal && !oldVal && document.body.clientWidth > 992) this.$el.scrollIntoView({
         behavior: "smooth",
         block: "center"
       });
+    }
+  },
+  computed: {
+    selected: function selected() {
+      return this.$store.state.highlight.selection && this.$store.state.highlight.selection.constructor.name === this.obstruction.constructor.name && this.$store.state.highlight.selection.id === this.obstruction.id;
     }
   },
   components: {
@@ -186,7 +191,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   methods: {
     selectObstruction: function selectObstruction() {
-      this.$store.commit("obstructions/setSelection", this.obstruction.selected ? null : this.obstruction);
+      this.$store.commit("highlight/setSelection", this.selected ? null : this.obstruction);
     }
   }
 });
@@ -3400,8 +3405,8 @@ var render = function() {
           staticClass:
             "border border-grey-light rounded-b rounded-t lg:rounded-b-none lg:rounded-t-none lg:rounded-r p-4 flex flex-col justify-between leading-normal",
           class: {
-            "bg-white": !_vm.obstruction.selected,
-            "bg-orange-lightest": _vm.obstruction.selected
+            "bg-white": !_vm.selected,
+            "bg-orange-lightest": _vm.selected
           }
         },
         [
@@ -5116,12 +5121,14 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_obstructions__ = __webpack_require__("./resources/assets/js/store/modules/obstructions.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_changes__ = __webpack_require__("./resources/assets/js/store/modules/changes.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_settings__ = __webpack_require__("./resources/assets/js/store/modules/settings.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_highlight__ = __webpack_require__("./resources/assets/js/store/modules/highlight.js");
 
 
 
 var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["default"]);
+
 
 
 
@@ -5144,7 +5151,8 @@ var lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date();
     modules: {
         obstructions: __WEBPACK_IMPORTED_MODULE_2__modules_obstructions__["a" /* default */],
         changes: __WEBPACK_IMPORTED_MODULE_3__modules_changes__["a" /* default */],
-        settings: __WEBPACK_IMPORTED_MODULE_4__modules_settings__["a" /* default */]
+        settings: __WEBPACK_IMPORTED_MODULE_4__modules_settings__["a" /* default */],
+        highlight: __WEBPACK_IMPORTED_MODULE_5__modules_highlight__["a" /* default */]
     }
 }));
 
@@ -5252,6 +5260,33 @@ var mutations = {
 
 /***/ }),
 
+/***/ "./resources/assets/js/store/modules/highlight.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// initial state
+var state = {
+    selection: null,
+    presentionType: "changes"
+
+    // mutations
+};var mutations = {
+    setSelection: function setSelection(state, selectedObject) {
+        state.selection = selectedObject;
+    },
+    setPresentationType: function setPresentationType(state, presentationType) {
+        state.presentationType = presentationType;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    namespaced: true,
+    state: state,
+    mutations: mutations
+});
+
+/***/ }),
+
 /***/ "./resources/assets/js/store/modules/obstructions.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5268,11 +5303,8 @@ var state = {
     content: {},
     filters: {}
 
-    // getters
-};var getters = {};
-
-// actions
-var actions = {
+    // actions
+};var actions = {
     get: function get(context) {
         context.commit("setData", {});
         var url = new URL(context.rootState.apiRoot + endpoint);
@@ -5308,7 +5340,6 @@ var mutations = {
 /* harmony default export */ __webpack_exports__["a"] = ({
     namespaced: true,
     state: state,
-    getters: getters,
     actions: actions,
     mutations: mutations
 });
