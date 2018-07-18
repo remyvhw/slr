@@ -1,8 +1,8 @@
 
 <template>
-    <generic-modal @close="closeModal" title="Envoi de photos">
+  <generic-modal @close="closeModal" title="Envoi de photos">
 
-    </generic-modal>
+  </generic-modal>
 
 </template>
 
@@ -15,7 +15,11 @@ export default {
   },
   methods: {
     closeModal() {
-      this.$emit("close");
+      if (this.$route.meta.shouldBackOnClose) {
+        this.$router.go(-1);
+      } else {
+        this.$router.push({ name: "browser" });
+      }
     }
   }
 };

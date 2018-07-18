@@ -534,6 +534,64 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pictures/PictureList.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pictures/PictureUploadModal.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+
+var marked = __webpack_require__("./node_modules/marked/lib/marked.js");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    genericModal: __webpack_require__("./resources/assets/js/components/GenericModal.vue")
+  },
+  methods: {
+    closeModal: function closeModal() {
+      if (this.$route.meta.shouldBackOnClose) {
+        this.$router.go(-1);
+      } else {
+        this.$router.push({ name: "browser" });
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/RadioPills.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -696,6 +754,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -704,18 +763,15 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
       buttons: [{
         label: "Changements",
         selected: true,
-        id: "changes",
-        urlSuffix: "/new"
+        id: "changes"
       }, {
         label: "Chantiers",
         selected: false,
-        id: "obstructions",
-        urlSuffix: ""
+        id: "obstructions"
       }, {
         label: "Photos",
         selected: false,
-        id: "photos",
-        urlSuffix: ""
+        id: "pictures"
       }]
     };
   },
@@ -723,7 +779,8 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
   components: {
     radioPills: __webpack_require__("./resources/assets/js/components/RadioPills.vue"),
     obstructionList: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionList.vue"),
-    changeList: __webpack_require__("./resources/assets/js/components/Changes/ChangeList.vue")
+    changeList: __webpack_require__("./resources/assets/js/components/Changes/ChangeList.vue"),
+    pictureList: __webpack_require__("./resources/assets/js/components/Pictures/PictureList.vue")
   },
   mounted: function mounted() {},
 
@@ -20454,7 +20511,9 @@ var render = function() {
       _vm._v(" "),
       _vm.selectedButton.id === "obstructions"
         ? _c("obstruction-list")
-        : _vm._e()
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.selectedButton.id === "pictures" ? _c("picture-list") : _vm._e()
     ],
     1
   )
@@ -20692,6 +20751,30 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-195f2db4", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1dff9fbe\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Pictures/PictureUploadModal.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("generic-modal", {
+    attrs: { title: "Envoi de photos" },
+    on: { close: _vm.closeModal }
+  })
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1dff9fbe", module.exports)
   }
 }
 
@@ -21122,6 +21205,65 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-3af859b9", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-521d770e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Pictures/PictureList.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "text-center p-4" },
+      [
+        _c(
+          "router-link",
+          {
+            staticClass:
+              "bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center",
+            attrs: { to: { name: "pictureUploadModal" } }
+          },
+          [
+            _c(
+              "svg",
+              {
+                staticClass: "fill-current w-4 h-4 mr-2",
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  viewBox: "0 0 512 512"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    d:
+                      "M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c("span", [_vm._v("Ajouter des photos")])
+          ]
+        )
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-521d770e", module.exports)
   }
 }
 
@@ -24742,6 +24884,102 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/Pictures/PictureList.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pictures/PictureList.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-521d770e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Pictures/PictureList.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Pictures/PictureList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-521d770e", Component.options)
+  } else {
+    hotAPI.reload("data-v-521d770e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/Pictures/PictureUploadModal.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pictures/PictureUploadModal.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1dff9fbe\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Pictures/PictureUploadModal.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Pictures/PictureUploadModal.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1dff9fbe", Component.options)
+  } else {
+    hotAPI.reload("data-v-1dff9fbe", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/RadioPills.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25096,15 +25334,23 @@ var routes = [{
         props: true,
         meta: {
             shouldBackOnClose: true
-        },
-        beforeEnter: function beforeEnter(to, from, next) {
-            if (!from.name) to.meta.shouldBackOnClose = false;
-            next();
+        }
+    }, {
+        path: '/pictures/upload',
+        component: __webpack_require__("./resources/assets/js/components/Pictures/PictureUploadModal.vue"),
+        name: 'pictureUploadModal',
+        meta: {
+            shouldBackOnClose: true
         }
     }]
 }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({ routes: routes });
+
+router.beforeEach(function (to, from, next) {
+    if (!from.name) to.meta.shouldBackOnClose = false;
+    next();
+});
 
 /* harmony default export */ __webpack_exports__["a"] = (router);
 

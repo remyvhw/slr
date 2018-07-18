@@ -8,6 +8,7 @@
 
     <change-list v-if="selectedButton.id === 'changes'"></change-list>
     <obstruction-list v-if="selectedButton.id === 'obstructions'"></obstruction-list>
+    <picture-list v-if="selectedButton.id === 'pictures'"></picture-list>
 
   </div>
 </template>
@@ -21,20 +22,17 @@ export default {
         {
           label: "Changements",
           selected: true,
-          id: "changes",
-          urlSuffix: "/new"
+          id: "changes"
         },
         {
           label: "Chantiers",
           selected: false,
-          id: "obstructions",
-          urlSuffix: ""
+          id: "obstructions"
         },
         {
           label: "Photos",
           selected: false,
-          id: "photos",
-          urlSuffix: ""
+          id: "pictures"
         }
       ]
     };
@@ -42,7 +40,8 @@ export default {
   components: {
     radioPills: require("./RadioPills.vue"),
     obstructionList: require("./Obstructions/ObstructionList.vue"),
-    changeList: require("./Changes/ChangeList.vue")
+    changeList: require("./Changes/ChangeList.vue"),
+    pictureList: require("./Pictures/PictureList.vue")
   },
   mounted() {},
   computed: {
