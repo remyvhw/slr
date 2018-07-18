@@ -8,9 +8,18 @@
 </template>
 
 <script type="text/babel">
+import { colors } from "../../../../tailwind.js";
 const collect = require("collect.js");
 const defaultMapCenter = [-73.665923, 45.50219];
 const defaultZoomLevel = 10;
+
+const mapMarkerSvgPath = `M22 11c0 1.42-.226 2.585-.677 3.496l-7.465 15.117c-.218.43-.543.77-.974 1.016-.43.246-.892.37-1.384.37-.492 0-.954-.124-1.384-.37-.43-.248-.75-.587-.954-1.017L1.677 14.496C1.227 13.586 1 12.42 1 11c0-2.76 1.025-5.117 3.076-7.07C6.126 1.977 8.602 1 11.5 1c2.898 0 5.373.977 7.424 2.93C20.974 5.883 22 8.24 22 11z`;
+
+const obstructionIcon = {
+  path: `M1024 161v190q0 14 -9.5 23.5t-22.5 9.5h-192q-13 0 -22.5 -9.5t-9.5 -23.5v-190q0 -14 9.5 -23.5t22.5 -9.5h192q13 0 22.5 9.5t9.5 23.5zM1022 535l18 459q0 12 -10 19q-13 11 -24 11h-220q-11 0 -24 -11q-10 -7 -10 -21l17 -457q0 -10 10 -16.5t24 -6.5h185 q14 0 23.5 6.5t10.5 16.5zM1008 1469l768 -1408q35 -63 -2 -126q-17 -29 -46.5 -46t-63.5 -17h-1536q-34 0 -63.5 17t-46.5 46q-37 63 -2 126l768 1408q17 31 47 49t65 18t65 -18t47 -49z`,
+  defaultColor: colors.orange,
+  selectedColor: colors["orange-dark"]
+};
 
 export default {
   props: {
@@ -91,9 +100,6 @@ export default {
     },
 
     markers() {
-      const mapMarkerSvgPath =
-        "M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z";
-
       return collect(this.basicItems)
         .map(item => {
           let enclosingDiv = document.createElement("div");
@@ -115,10 +121,38 @@ export default {
               colorClasses
             ]).implode(" ")
           );
-          svgElement.setAttribute("viewBox", "0 0 384 512");
-          let pathElement = document.createElement("path");
-          pathElement.setAttribute("d", mapMarkerSvgPath);
-          svgElement.appendChild(pathElement);
+          svgElement.setAttribute("viewBox", "0 0 30 42");
+
+          const gElement = document.createElement("g");
+          gElement.setAttribute("fill", "none");
+          gElement.setAttribute("fill-rule", "evenodd");
+          gElement.setAttribute("transform", "scale(1.3125)");
+          gElement.innerHTML = mapMarkerSvgPath;
+          svgElement.appendChild(gElement);
+
+          const secondaryIcon = obstructionIcon;
+
+          let markerPathElement = document.createElement("path");
+          markerPathElement.setAttribute("d", mapMarkerSvgPath);
+          markerPathElement.setAttribute("stroke", "#ffffff");
+          markerPathElement.setAttribute("stroke-width", ".6");
+          markerPathElement.setAttribute(
+            "fill",
+            item.payload.isSelectedInStore(this.$store)
+              ? secondaryIcon.selectedColor
+              : secondaryIcon.defaultColor
+          );
+          markerPathElement.setAttribute("fill-rule", "nonzero");
+          gElement.appendChild(markerPathElement);
+
+          let iconPathElement = document.createElement("path");
+          iconPathElement.setAttribute("d", secondaryIcon.path);
+          iconPathElement.setAttribute(
+            "transform",
+            "translate(11.5 10) scale(0.006 -0.006) translate(-896, -768)"
+          );
+          iconPathElement.setAttribute("fill", "#ffffff");
+          gElement.appendChild(iconPathElement);
 
           enclosingDiv.innerHTML = svgElement.outerHTML;
           enclosingDiv.addEventListener("click", () => {
