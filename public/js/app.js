@@ -111,12 +111,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 var marked = __webpack_require__("./node_modules/marked/lib/marked.js");
+var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    obstruction: { type: Object, required: true }
+    obstructionId: { type: String, required: true }
   },
   components: {
     genericModal: __webpack_require__("./resources/assets/js/components/GenericModal.vue"),
@@ -124,12 +130,34 @@ var marked = __webpack_require__("./node_modules/marked/lib/marked.js");
   },
   methods: {
     closeModal: function closeModal() {
-      this.$emit("close");
+      if (this.$route.meta.shouldBackOnClose) {
+        this.$router.go(-1);
+      } else {
+        this.$router.push({ name: "browser" });
+      }
     }
   },
+  mounted: function mounted() {
+    if (!this.$store.state.obstructions.content.data) {
+      this.$store.dispatch("obstructions/get");
+    }
+  },
+
   computed: {
     payload: function payload() {
+      if (!this.obstruction) return null;
       return marked(this.obstruction.payload ? this.obstruction.payload : "(aucun contenu)", { sanitize: true });
+    },
+    obstructions: function obstructions() {
+      return this.$store.state.obstructions.content.data ? this.$store.state.obstructions.content.data : {};
+    },
+    obstruction: function obstruction() {
+      var _this = this;
+
+      var obstruction = collect(this.obstructions).first(function (obstruction) {
+        return obstruction.id === _this.obstructionId;
+      });
+      return obstruction;
     }
   }
 });
@@ -236,6 +264,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     url: {
       type: String,
       required: true
+    },
+    title: {
+      type: String,
+      required: false
     },
     type: {
       type: String,
@@ -402,7 +434,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -411,15 +442,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       required: true
     }
   },
-  data: function data() {
-    return {
-      showDetails: false
-    };
-  },
 
   components: {
-    obstructionMeta: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionMeta.vue"),
-    obstructionDetailsModal: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionDetailsModal.vue")
+    obstructionMeta: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionMeta.vue")
   }
 });
 
@@ -602,6 +627,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -20597,48 +20628,60 @@ var render = function() {
       on: { close: _vm.closeModal }
     },
     [
-      _c("p", { staticClass: "text-sm text-grey-dark" }, [
-        _vm._v("\n    " + _vm._s(_vm.obstruction.date) + "\n  ")
-      ]),
+      !_vm.obstructions.length && !_vm.obstruction
+        ? _c("div", { staticClass: "spinner h-10" })
+        : _vm._e(),
       _vm._v(" "),
-      _c(
-        "h2",
-        {
-          staticClass:
-            "font-bold text-grey-darkest border-b border-grey-light mb-4 pb-4"
-        },
-        [_vm._v(_vm._s(_vm.obstruction.name))]
-      ),
+      _vm.obstructions.length && !_vm.obstruction
+        ? _c("div", [_vm._v("\n    Oups! 404: Obstruction introuvable.\n  ")])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", {
-        staticClass: "text-grey-darkest text-base",
-        domProps: { innerHTML: _vm._s(_vm.payload) }
-      }),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "mt-4 pt-4  border-t" },
-        [
-          _c("obstruction-link", {
-            attrs: {
-              url: "https://rem.info" + _vm.obstruction.url,
-              type: "external"
-            }
-          }),
-          _vm._v(" "),
-          _c("obstruction-link", {
-            attrs: {
-              url:
-                "http://maps.google.com/maps?q=&layer=c&cbll=" +
-                _vm.obstruction.lat +
-                "," +
-                _vm.obstruction.lng,
-              type: "streetview"
-            }
-          })
-        ],
-        1
-      )
+      _vm.obstruction
+        ? _c("main", [
+            _c("p", { staticClass: "text-sm text-grey-dark" }, [
+              _vm._v("\n      " + _vm._s(_vm.obstruction.date) + "\n    ")
+            ]),
+            _vm._v(" "),
+            _c(
+              "h2",
+              {
+                staticClass:
+                  "font-bold text-grey-darkest border-b border-grey-light mb-4 pb-4"
+              },
+              [_vm._v(_vm._s(_vm.obstruction.name))]
+            ),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "text-grey-darkest text-base",
+              domProps: { innerHTML: _vm._s(_vm.payload) }
+            }),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "mt-4 pt-4  border-t" },
+              [
+                _c("obstruction-link", {
+                  attrs: {
+                    url: "https://rem.info" + _vm.obstruction.url,
+                    type: "external"
+                  }
+                }),
+                _vm._v(" "),
+                _c("obstruction-link", {
+                  attrs: {
+                    url:
+                      "http://maps.google.com/maps?q=&layer=c&cbll=" +
+                      _vm.obstruction.lat +
+                      "," +
+                      _vm.obstruction.lng,
+                    type: "streetview"
+                  }
+                })
+              ],
+              1
+            )
+          ])
+        : _vm._e()
     ]
   )
 }
@@ -20763,50 +20806,42 @@ var render = function() {
         attrs: { type: "active:" + (_vm.obstruction.active ? "true" : "false") }
       }),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass:
-            "inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm text-blue no-underline mr-2 mb-2",
-          on: {
-            click: function($event) {
-              _vm.showDetails = true
-            }
-          }
-        },
-        [
-          _c(
-            "svg",
+      !_vm.obstruction.deleted_at
+        ? _c(
+            "router-link",
             {
-              staticClass: "fill-current text-blue w-3 h-3",
+              staticClass:
+                "inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm text-blue no-underline mr-2 mb-2",
               attrs: {
-                xmlns: "http://www.w3.org/2000/svg",
-                viewBox: "0 0 512 512"
+                to: {
+                  name: "obstructionDetailsModal",
+                  params: { obstructionId: _vm.obstruction.id }
+                }
               }
             },
             [
-              _c("path", {
-                attrs: {
-                  d:
-                    "M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"
-                }
-              })
+              _c(
+                "svg",
+                {
+                  staticClass: "fill-current text-blue w-3 h-3",
+                  attrs: {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    viewBox: "0 0 512 512"
+                  }
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c("span", { staticClass: "mx-1" }, [_vm._v("Détails")])
             ]
-          ),
-          _vm._v(" "),
-          _c("span", { staticClass: "mx-1" }, [_vm._v("Détails")])
-        ]
-      ),
-      _vm._v(" "),
-      _vm.showDetails
-        ? _c("obstruction-details-modal", {
-            attrs: { obstruction: _vm.obstruction },
-            on: {
-              close: function($event) {
-                _vm.showDetails = false
-              }
-            }
-          })
+          )
         : _vm._e()
     ],
     1
@@ -21384,30 +21419,43 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "flex flex-wrap" }, [
-    _c("div", { staticClass: "w-full fixed lg:relative lg:w-2/3" }, [
-      _c("div", { staticClass: "h-64 lg:h-screen" }, [_c("slr-browser-map")], 1)
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass:
-          "w-full min-h-screen lg:h-screen lg:overflow-y-scroll bg-grey-lighter lg:w-1/3 mt-64 lg:mt-0"
-      },
-      [
-        _c("slr-browser-settings"),
+  return _c(
+    "section",
+    [
+      _c("div", { staticClass: "flex flex-wrap" }, [
+        _c("div", { staticClass: "w-full fixed lg:relative lg:w-2/3" }, [
+          _c(
+            "div",
+            { staticClass: "h-64 lg:h-screen" },
+            [_c("slr-browser-map")],
+            1
+          )
+        ]),
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "py-4" },
-          [_vm._m(0), _vm._v(" "), _c("slr-browser-content")],
+          {
+            staticClass:
+              "w-full min-h-screen lg:h-screen lg:overflow-y-scroll bg-grey-lighter lg:w-1/3 mt-64 lg:mt-0"
+          },
+          [
+            _c("slr-browser-settings"),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "py-4" },
+              [_vm._m(0), _vm._v(" "), _c("slr-browser-content")],
+              1
+            )
+          ],
           1
         )
-      ],
-      1
-    )
-  ])
+      ]),
+      _vm._v(" "),
+      _c("router-view")
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -24156,7 +24204,7 @@ module.exports = function(module) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_index_js__ = __webpack_require__("./resources/assets/js/store/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__routes_js__ = __webpack_require__("./resources/assets/js/routes.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__router_js__ = __webpack_require__("./resources/assets/js/router.js");
 __webpack_require__("./resources/assets/js/bootstrap.js");
 var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 
@@ -24169,12 +24217,10 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
 
 
-var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({ routes: __WEBPACK_IMPORTED_MODULE_2__routes_js__["a" /* default */] });
-
 var app = new Vue({
     el: '#app',
     store: __WEBPACK_IMPORTED_MODULE_1__store_index_js__["a" /* default */],
-    router: router
+    router: __WEBPACK_IMPORTED_MODULE_2__router_js__["a" /* default */]
 });
 
 /***/ }),
@@ -25032,15 +25078,35 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/routes.js":
+/***/ "./resources/assets/js/router.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ([{
-    path: '/',
-    component: __webpack_require__("./resources/assets/js/components/SlrBrowser.vue")
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
 
-}]);
+
+var routes = [{
+    path: '/',
+    component: __webpack_require__("./resources/assets/js/components/SlrBrowser.vue"),
+    name: 'browser',
+    children: [{
+        path: '/obstructions/:obstructionId',
+        component: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionDetailsModal.vue"),
+        name: 'obstructionDetailsModal',
+        props: true,
+        meta: {
+            shouldBackOnClose: true
+        },
+        beforeEnter: function beforeEnter(to, from, next) {
+            if (!from.name) to.meta.shouldBackOnClose = false;
+            next();
+        }
+    }]
+}];
+
+var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({ routes: routes });
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
 

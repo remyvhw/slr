@@ -32,6 +32,10 @@ export default {
       type: String,
       required: true
     },
+    title: {
+      type: String,
+      required: false
+    },
     type: {
       type: String,
 

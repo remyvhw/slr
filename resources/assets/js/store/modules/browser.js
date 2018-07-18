@@ -1,7 +1,7 @@
 // initial state
 const state = {
     selection: null,
-    presentationType: "changes"
+    presentationType: "changes",
 }
 
 // mutations
@@ -13,6 +13,7 @@ const mutations = {
         state.presentationType = presentationType
         state.selection = null;
     },
+
 }
 
 export default {

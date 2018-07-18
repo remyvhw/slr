@@ -9,9 +9,9 @@ Vue.use(VueRouter)
 
 import store from './store/index.js'
 
-import routes from './routes.js'
+import router from './router.js'
 
-const router = new VueRouter({ routes })
+
 
 const app = new Vue({
     el: '#app',
