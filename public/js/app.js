@@ -22538,6 +22538,7 @@ var state = {
     },
     setPresentationType: function setPresentationType(state, presentationType) {
         state.presentationType = presentationType;
+        state.selection = null;
     }
 };
 

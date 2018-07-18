@@ -11,6 +11,7 @@ const mutations = {
     },
     setPresentationType(state, presentationType) {
         state.presentationType = presentationType
+        state.selection = null;
     },
 }
 

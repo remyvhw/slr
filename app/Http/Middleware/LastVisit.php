@@ -23,7 +23,7 @@ class LastVisit
 
             if (Auth::check()) {
                 $lastVisit = Auth::user()->last_visit ?? $lastVisit;
-                //DB::table(Auth::user()->getTable())->where('id', Auth::id())->update(['last_visit' => now()]);
+                DB::table(Auth::user()->getTable())->where('id', Auth::id())->update(['last_visit' => now()]);
             }
 
             return $lastVisit;
