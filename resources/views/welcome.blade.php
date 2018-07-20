@@ -11,6 +11,8 @@
         <meta name='user' content="{{ Auth::check() ? Auth::id() : '' }}">
         <meta name='api-root' content="{{ route('api.1.root') }}">
         <link href='https://api.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.css' rel='stylesheet' />
+        <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.css'
+            type='text/css' />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="manifest" href="/site.webmanifest">

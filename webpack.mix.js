@@ -14,4 +14,4 @@ mix.js('resources/assets/js/app.js', 'public/js')
         processCssUrls: false,
     })
     .version()
-    .extract(['vue', 'collect.js', 'vuex', 'axios', 'mapbox-gl/dist/mapbox-gl.js']);
+    .extract(['vue', 'collect.js', 'vuex', 'axios', 'mapbox-gl/dist/mapbox-gl.js', '@mapbox/mapbox-gl-geocoder']);

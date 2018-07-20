@@ -5,7 +5,7 @@
 <template>
   <generic-modal @close="closeModal" title="Envoi de photos">
 
-    <picture-upload-item v-for="file in files" :key='file.name'></picture-upload-item>
+    <picture-upload-item v-for="file in files" :photo="file" :key='file.temporaryId'></picture-upload-item>
 
     <button @click="openFileDialog" class="bg-grey-light hover:bg-grey text-grey-darkest font-bold mx-auto my-2 py-2 px-4 rounded inline-flex items-center text-center">
       <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -24,7 +24,8 @@ import { PhotoScaffold } from "../../store/models/Photo";
 
 export default {
   components: {
-    genericModal: require("../GenericModal.vue")
+    genericModal: require("../GenericModal.vue"),
+    pictureUploadItem: require("./PictureUploadItem.vue")
   },
   data() {
     return {

@@ -27,9 +27,17 @@ export class Photo extends AbstractPhoto {
 export class PhotoScaffold extends AbstractPhoto {
     constructor(file) {
         super();
+        this.created_at = new Date();
         this.exif = null;
+        this.temporaryId = window.crypto.getRandomValues(new Uint32Array(10))[0];
+        this.processing = true;
         this.readFile(file);
-        this.extractExif(file);
+        try {
+            this.extractExif(file);
+        } catch (e) {
+            this.processing = false;
+        }
+
     }
 
     readFile(file) {
@@ -48,6 +56,7 @@ export class PhotoScaffold extends AbstractPhoto {
             this.exif = exif;
             this.extractLocation(exif);
             this.extractOriginalDate(exif);
+            this.processing = false;
         };
         reader.readAsArrayBuffer(file);
 
