@@ -1,6 +1,5 @@
 <template>
     <div class="block w-full h-64 text-grey-darker border border-grey-lighter rounded">
-
     </div>
 </template>
 
@@ -8,10 +7,12 @@
 import { colors } from "../../../../tailwind.js";
 var MapboxGeocoder = require("@mapbox/mapbox-gl-geocoder");
 
+const defaultCenter = { lat: 45.5001181, lng: -73.5664569 };
+
 export default {
   props: {
-    lat: { type: Number, default: 45.5001181 },
-    lng: { type: Number, default: -73.5664569 }
+    lat: { type: Number, default: defaultCenter.lat },
+    lng: { type: Number, default: defaultCenter.lng }
   },
 
   data() {
@@ -25,8 +26,11 @@ export default {
     this.map = new window.mapbox.Map({
       container: this.$el,
       style: "mapbox://styles/mapbox/streets-v10",
-      center: [this.lng, this.lat],
-      zoom: 13,
+      center: [
+        this.lng ? this.lng : defaultCenter.lng,
+        this.lat ? this.lat : defaultCenter.lat
+      ],
+      zoom: this.lat && this.lng ? 14 : 12,
       scrollZoom: false
     });
 
@@ -38,7 +42,10 @@ export default {
       this.marker = new window.mapbox.Marker({
         draggable: true
       })
-        .setLngLat([this.lng, this.lat])
+        .setLngLat([
+          this.lng ? this.lng : defaultCenter.lng,
+          this.lat ? this.lat : defaultCenter.lat
+        ])
         .addTo(this.map);
 
       this.marker.on("dragend", this.markerLocationDidUpdate);

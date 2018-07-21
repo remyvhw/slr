@@ -418,15 +418,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 var MapboxGeocoder = __webpack_require__("./node_modules/@mapbox/mapbox-gl-geocoder/lib/index.js");
 
+var defaultCenter = { lat: 45.5001181, lng: -73.5664569 };
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    lat: { type: Number, default: 45.5001181 },
-    lng: { type: Number, default: -73.5664569 }
+    lat: { type: Number, default: defaultCenter.lat },
+    lng: { type: Number, default: defaultCenter.lng }
   },
 
   data: function data() {
@@ -442,8 +443,8 @@ var MapboxGeocoder = __webpack_require__("./node_modules/@mapbox/mapbox-gl-geoco
     this.map = new window.mapbox.Map({
       container: this.$el,
       style: "mapbox://styles/mapbox/streets-v10",
-      center: [this.lng, this.lat],
-      zoom: 13,
+      center: [this.lng ? this.lng : defaultCenter.lng, this.lat ? this.lat : defaultCenter.lat],
+      zoom: this.lat && this.lng ? 14 : 12,
       scrollZoom: false
     });
 
@@ -454,7 +455,7 @@ var MapboxGeocoder = __webpack_require__("./node_modules/@mapbox/mapbox-gl-geoco
     this.map.on("load", function () {
       _this.marker = new window.mapbox.Marker({
         draggable: true
-      }).setLngLat([_this.lng, _this.lat]).addTo(_this.map);
+      }).setLngLat([_this.lng ? _this.lng : defaultCenter.lng, _this.lat ? _this.lat : defaultCenter.lat]).addTo(_this.map);
 
       _this.marker.on("dragend", _this.markerLocationDidUpdate);
 
@@ -1031,6 +1032,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -1082,6 +1087,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var marked = __webpack_require__("./node_modules/marked/lib/marked.js");
 
@@ -1106,20 +1120,16 @@ var marked = __webpack_require__("./node_modules/marked/lib/marked.js");
       }
     },
     openFileDialog: function openFileDialog() {
+      this.$refs.fileinput.click();
+    },
+    processFiles: function processFiles(event) {
       var _this = this;
 
-      var fileInput = document.createElement("input");
-      fileInput.setAttribute("type", "file");
-      fileInput.setAttribute("multiple", "");
-
-      fileInput.addEventListener("change", function () {
-        Array.from(fileInput.files).forEach(function (file) {
-          var photo = new __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__["a" /* PhotoScaffold */](file);
-          _this.files.push(photo);
-        });
+      Array.from(event.target.files).forEach(function (file) {
+        var photo = new __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__["a" /* PhotoScaffold */](file);
+        _this.files.push(photo);
       });
-
-      fileInput.click();
+      event.target.value = "";
     }
   }
 });
@@ -30578,36 +30588,51 @@ var render = function() {
         })
       }),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass:
-            "bg-grey-light hover:bg-grey text-grey-darkest font-bold mx-auto my-2 py-2 px-4 rounded inline-flex items-center text-center",
-          on: { click: _vm.openFileDialog }
-        },
-        [
+      _c("div", { staticClass: "flex flex-wrap py-4" }, [
+        _c("div", { staticClass: "w-full" }, [
           _c(
-            "svg",
+            "button",
             {
-              staticClass: "fill-current w-4 h-4 mr-2",
-              attrs: {
-                xmlns: "http://www.w3.org/2000/svg",
-                viewBox: "0 0 512 512"
-              }
+              staticClass:
+                "flex items-center block w-full text-white font-bold py-2 px-4 rounded justify-center h-12",
+              class: {
+                "bg-brand hover:bg-brand-dark": !_vm.files.length,
+                "bg-grey hover:bg-grey-dark": _vm.files.length
+              },
+              on: { click: _vm.openFileDialog }
             },
             [
-              _c("path", {
-                attrs: {
-                  d:
-                    "M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
-                }
-              })
+              _c(
+                "svg",
+                {
+                  staticClass: "fill-current inline-block w-4 h-4 mr-2",
+                  attrs: {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    viewBox: "0 0 512 512"
+                  }
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c("span", [_vm._v("Ajouter des photos")])
             ]
           ),
           _vm._v(" "),
-          _c("span", [_vm._v("Ajouter des photos")])
-        ]
-      )
+          _c("input", {
+            ref: "fileinput",
+            staticClass: "opacity-0",
+            attrs: { multiple: "", type: "file" },
+            on: { change: _vm.processFiles }
+          })
+        ])
+      ])
     ],
     2
   )
@@ -31415,34 +31440,8 @@ var render = function() {
               attrs: { src: _vm.photo.blob }
             }),
             _vm._v(" "),
-            _c("div", { staticClass: "px-6 py-4" }, [
-              _c("div", { staticClass: "flex flex-wrap" }, [
-                _c("div", { staticClass: "w-full" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass:
-                        "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
-                      attrs: { for: "legend_" + _vm._uid }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        Légende (facultative)\n                    "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("textarea", {
-                    staticClass:
-                      "appearance-none block w-full h-16 bg-grey-lighter text-grey-darker border border-grey-lighter rounded p-2 leading-tight",
-                    attrs: { id: "legend_" + _vm._uid }
-                  })
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "px-6 py-4" }, [
-              _c("div", { staticClass: "flex flex-wrap" }, [
+            _c("div", { staticClass: "px-6 " }, [
+              _c("div", { staticClass: "flex flex-wrap py-4" }, [
                 _c(
                   "div",
                   { staticClass: "w-full" },
@@ -31468,13 +31467,57 @@ var render = function() {
                   ],
                   1
                 )
-              ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex flex-wrap py-4" }, [
+                _c("div", { staticClass: "w-full" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
+                      attrs: { for: "legend_" + _vm._uid }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        Légende (facultative)\n                    "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    staticClass:
+                      "appearance-none block w-full h-16 bg-grey-lighter text-grey-darker border border-grey-lighter rounded p-2 leading-tight",
+                    attrs: { id: "legend_" + _vm._uid }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(0)
             ])
           ])
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "flex flex-wrap py-4" }, [
+      _c("div", { staticClass: "w-full" }, [
+        _c(
+          "button",
+          {
+            staticClass:
+              "bg-brand block w-full hover:bg-brand-dark text-white font-bold py-2 px-4 rounded h-12"
+          },
+          [_vm._v("Enregistrer l'image")]
+        )
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

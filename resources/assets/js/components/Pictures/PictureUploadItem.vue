@@ -4,19 +4,8 @@
         <div v-else>
             <img class="w-full" :src="photo.blob">
 
-            <div class="px-6 py-4">
-                <div class="flex flex-wrap">
-                    <div class="w-full">
-                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" :for="'legend_'+_uid">
-                            Légende (facultative)
-                        </label>
-                        <textarea :id="'legend_'+_uid" class="appearance-none block w-full h-16 bg-grey-lighter text-grey-darker border border-grey-lighter rounded p-2 leading-tight"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div class="px-6 py-4">
-                <div class="flex flex-wrap">
+            <div class="px-6 ">
+                <div class="flex flex-wrap py-4">
                     <div class="w-full">
                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" :for="'legend_'+_uid">
                             Localisation
@@ -25,8 +14,23 @@
                     </div>
                 </div>
 
+                <div class="flex flex-wrap py-4">
+                    <div class="w-full">
+                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" :for="'legend_'+_uid">
+                            Légende (facultative)
+                        </label>
+                        <textarea :id="'legend_'+_uid" class="appearance-none block w-full h-16 bg-grey-lighter text-grey-darker border border-grey-lighter rounded p-2 leading-tight"></textarea>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap py-4">
+                    <div class="w-full">
+                        <button class="bg-brand block w-full hover:bg-brand-dark text-white font-bold py-2 px-4 rounded h-12">Enregistrer l'image</button>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
     </div>
 </template>
 
