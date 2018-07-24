@@ -22,6 +22,7 @@ class CreatePhotosTable extends Migration
                 ->onUpdate('cascade');
             $table->string("lat")->nullable();
             $table->string("lng")->nullable();
+            $table->text("legend")->nullable();
         });
     }
 
