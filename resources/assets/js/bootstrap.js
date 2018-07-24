@@ -21,7 +21,7 @@ let token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    window.alert('CSRF token not found.');
 }
 
 /**
@@ -29,3 +29,6 @@ if (token) {
  */
 window.mapbox = require('mapbox-gl/dist/mapbox-gl.js');
 window.mapbox.accessToken = document.head.querySelector('meta[name="mapbox-pk"]').content;
+
+
+window.apiRoot = document.head.querySelector('meta[name="api-root"]').content;

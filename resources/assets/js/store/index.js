@@ -15,7 +15,7 @@ const lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date()
 export default new Vuex.Store({
     state: {
         lastVisitDate: lastVisitDate,
-        apiRoot: document.head.querySelector('meta[name="api-root"]').content,
+        apiRoot: window.apiRoot,
 
     },
     mutations: {

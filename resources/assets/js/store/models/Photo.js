@@ -1,6 +1,9 @@
 var EXIF = require('exif-js');
 
+const endpoint = "/photos";
+
 export class AbstractPhoto {
+
     constructor() {
         this.id = null;
         this.blob = null;
@@ -31,25 +34,26 @@ export class PhotoScaffold extends AbstractPhoto {
         this.exif = null;
         this.temporaryId = window.crypto.getRandomValues(new Uint32Array(10))[0];
         this.processing = true;
-        this.readFile(file);
+        this.file = file;
+        this.readFile();
         try {
-            this.extractExif(file);
+            this.extractExif();
         } catch (e) {
             this.processing = false;
         }
 
     }
 
-    readFile(file) {
+    readFile() {
         let reader = new FileReader();
         reader.onloadend = () => {
             this.blob = reader.result;
-            this.type = file.type;
+            this.type = this.file.type;
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(this.file);
     }
 
-    extractExif(file) {
+    extractExif() {
         let reader = new FileReader();
         reader.onloadend = () => {
             const exif = EXIF.readFromBinaryFile(reader.result);
@@ -58,7 +62,7 @@ export class PhotoScaffold extends AbstractPhoto {
             this.extractOriginalDate(exif);
             this.processing = false;
         };
-        reader.readAsArrayBuffer(file);
+        reader.readAsArrayBuffer(this.file);
 
     }
 
@@ -90,5 +94,25 @@ export class PhotoScaffold extends AbstractPhoto {
 
     extractOriginalDate(exif) {
         this.created_at = Date(exif.DateTimeOriginal);
+    }
+
+    saveAndExchangeForMainPhotoObject(onProgress, onComplete, onError) {
+        const url = new URL(window.apiRoot + endpoint);
+
+        let data = new FormData();
+        data.append("file", this.file);
+        window.axios
+            .post(url, data, {
+                onUploadProgress: e => {
+                    onProgress(Math.round(e.loaded * 100 / e.total));
+                }
+            })
+            .then(res => {
+                onComplete(res);
+            })
+            .catch(err => {
+                onError(err);
+            });
+
     }
 }

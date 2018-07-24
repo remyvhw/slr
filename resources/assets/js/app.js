@@ -1,4 +1,5 @@
-require('./bootstrap');
+import './bootstrap';
+
 const collect = require("collect.js");
 
 

@@ -25,7 +25,7 @@
 
                 <div class="flex flex-wrap py-4">
                     <div class="w-full">
-                        <button class="bg-brand block w-full hover:bg-brand-dark text-white font-bold py-2 px-4 rounded h-12">Enregistrer l'image</button>
+                        <button @click="save" class="bg-brand block w-full hover:bg-brand-dark text-white font-bold py-2 px-4 rounded h-12" :disabled="progress === false || progress === true">Enregistrer l'image</button>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@ export default {
   computed: {},
   data() {
     return {
-      editingLocation: false
+      progress: false
     };
   },
   components: {
@@ -52,6 +52,15 @@ export default {
     updateLatLng(point) {
       this.photo.lat = point.lat;
       this.photo.lng = point.lng;
+    },
+    save() {
+      this.progress = 0;
+      this.photo.saveAndExchangeForMainPhotoObject(
+        p => {
+          this.progress = p;
+        },
+        photo => {}
+      );
     }
   }
 };
