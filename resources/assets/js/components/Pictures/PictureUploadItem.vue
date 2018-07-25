@@ -46,7 +46,8 @@ export default {
     };
   },
   components: {
-    draggablePinMap: require("../DraggablePinMap.vue")
+    draggablePinMap: require("../DraggablePinMap.vue"),
+    progressIndicator: require("../ProgressIndicator.vue")
   },
   methods: {
     updateLatLng(point) {

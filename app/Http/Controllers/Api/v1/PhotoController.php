@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePhoto;
+use App\Http\Resources\Photo as PhotoResource;
 use App\Photo;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class PhotoController extends Controller
 {
@@ -24,9 +26,19 @@ class PhotoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePhoto $request)
     {
-        //
+        $photo = new Photo;
+        if ($request->has("created_at")) {
+            $photo->created_at = $request->input("created_at");
+        }
+        $photo->legend = $request->input("legend");
+        $photo->save();
+
+        $request->photo->storeAs('images', $photo->getStoragePathAttribute(), 'public');
+
+        return new PhotoResource($photo);
+
     }
 
     /**
@@ -37,19 +49,7 @@ class PhotoController extends Controller
      */
     public function show(Photo $photo)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Photo  $photo
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Photo $photo)
-    {
-        //
+        return new PhotoResource($photo);
     }
 
     /**

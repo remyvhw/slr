@@ -100,7 +100,7 @@ export class PhotoScaffold extends AbstractPhoto {
         const url = new URL(window.apiRoot + endpoint);
 
         let data = new FormData();
-        data.append("file", this.file);
+        data.append("photo", this.file);
         window.axios
             .post(url, data, {
                 onUploadProgress: e => {
