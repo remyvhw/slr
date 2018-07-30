@@ -98,7 +98,7 @@ export class PhotoScaffold extends AbstractPhoto {
 
     saveAndExchangeForMainPhotoObject(onProgress, onComplete, onError) {
         const url = new URL(window.apiRoot + endpoint);
-
+        debugger;
         let data = new FormData();
         data.append("photo", this.file);
         window.axios

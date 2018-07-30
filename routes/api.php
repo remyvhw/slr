@@ -17,6 +17,7 @@ Route::prefix('1')->name("api.1.")->group(function () {
     })->name('root');;
 
     Route::apiResources([
+        'photos' => 'Api\v1\PhotoController',
         'changes' => 'Api\v1\ChangeController',
         'geojson-features' => 'Api\v1\GeojsonFeatureController',
         'obstructions' => 'Api\v1\ObstructionController',

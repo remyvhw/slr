@@ -695,10 +695,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.photo.lat = point.lat;
       this.photo.lng = point.lng;
     },
-    save: function save() {
+    saveImage: function saveImage() {
       var _this = this;
 
+      debugger;
       this.progress = 0;
+
       this.photo.saveAndExchangeForMainPhotoObject(function (p) {
         _this.progress = p;
       }, function (photo) {});
@@ -788,6 +790,10 @@ var marked = __webpack_require__("./node_modules/marked/lib/marked.js");
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
 //
 //
 //
@@ -22724,7 +22730,19 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", { staticClass: "w-full" }, [
+    _c("div", { staticClass: "shadow w-full bg-grey-light" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "bg-blue text-xs leading-none py-1 text-center text-white",
+          style: { width: _vm.progress + "%" }
+        },
+        [_vm._v(_vm._s(_vm.progress) + "%")]
+      )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -22985,9 +23003,9 @@ var render = function() {
                         "bg-brand block w-full hover:bg-brand-dark text-white font-bold py-2 px-4 rounded h-12",
                       attrs: {
                         disabled:
-                          _vm.progress === false || _vm.progress === true
+                          _vm.progress !== false && _vm.progress !== true
                       },
-                      on: { click: _vm.save }
+                      on: { click: _vm.saveImage }
                     },
                     [_vm._v("Enregistrer l'image")]
                   )
@@ -27189,7 +27207,7 @@ var PhotoScaffold = function (_AbstractPhoto2) {
         key: "saveAndExchangeForMainPhotoObject",
         value: function saveAndExchangeForMainPhotoObject(onProgress, onComplete, onError) {
             var url = new URL(window.apiRoot + endpoint);
-
+            debugger;
             var data = new FormData();
             data.append("photo", this.file);
             window.axios.post(url, data, {
