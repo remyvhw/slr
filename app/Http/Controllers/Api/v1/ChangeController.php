@@ -18,6 +18,7 @@ class ChangeController extends Controller
      */
     public function index(Request $request)
     {
+
         $changes = Obstruction::withTrashed()->when($request->has("since"), function ($query) use ($request) {
             return $query->where("updated_at", ">=", new Carbon($request->input("since")));
         })->orderBy('updated_at', 'desc')->get()->map(function ($obstruction) {
