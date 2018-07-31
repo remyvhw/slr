@@ -55,7 +55,6 @@ export default {
       this.photo.lng = point.lng;
     },
     saveImage() {
-      debugger;
       this.progress = 0;
 
       this.photo.saveAndExchangeForMainPhotoObject(

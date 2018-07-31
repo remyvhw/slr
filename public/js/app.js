@@ -698,7 +698,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     saveImage: function saveImage() {
       var _this = this;
 
-      debugger;
       this.progress = 0;
 
       this.photo.saveAndExchangeForMainPhotoObject(function (p) {
@@ -27207,7 +27206,6 @@ var PhotoScaffold = function (_AbstractPhoto2) {
         key: "saveAndExchangeForMainPhotoObject",
         value: function saveAndExchangeForMainPhotoObject(onProgress, onComplete, onError) {
             var url = new URL(window.apiRoot + endpoint);
-            debugger;
             var data = new FormData();
             data.append("photo", this.file);
             window.axios.post(url, data, {
