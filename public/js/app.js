@@ -674,6 +674,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -681,9 +682,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {},
   data: function data() {
-    return {
-      progress: false
-    };
+    return { apiPhoto: null };
   },
 
   components: {
@@ -698,11 +697,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     saveImage: function saveImage() {
       var _this = this;
 
-      this.progress = 0;
-
-      this.photo.saveAndExchangeForMainPhotoObject(function (p) {
-        _this.progress = p;
-      }, function (photo) {});
+      this.photo.getSavePromise().then(function (apiPhoto) {
+        debugger;
+        _this.apiPhoto = apiPhoto;
+      });
     }
   }
 });
@@ -755,7 +753,7 @@ var marked = __webpack_require__("./node_modules/marked/lib/marked.js");
   },
   data: function data() {
     return {
-      files: []
+      photos: []
     };
   },
 
@@ -770,12 +768,12 @@ var marked = __webpack_require__("./node_modules/marked/lib/marked.js");
     openFileDialog: function openFileDialog() {
       this.$refs.fileinput.click();
     },
-    processFiles: function processFiles(event) {
+    processPhotos: function processPhotos(event) {
       var _this = this;
 
       Array.from(event.target.files).forEach(function (file) {
         var photo = new __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__["a" /* PhotoScaffold */](file);
-        _this.files.push(photo);
+        _this.photos.push(photo);
       });
       event.target.value = "";
     }
@@ -22048,10 +22046,10 @@ var render = function() {
     "generic-modal",
     { attrs: { title: "Envoi de photos" }, on: { close: _vm.closeModal } },
     [
-      _vm._l(_vm.files, function(file) {
+      _vm._l(_vm.photos, function(photo) {
         return _c("picture-upload-item", {
-          key: file.temporaryId,
-          attrs: { photo: file }
+          key: photo.temporaryId,
+          attrs: { photo: photo }
         })
       }),
       _vm._v(" "),
@@ -22063,8 +22061,8 @@ var render = function() {
               staticClass:
                 "flex items-center block w-full text-white font-bold py-2 px-4 rounded justify-center h-12",
               class: {
-                "bg-brand hover:bg-brand-dark": !_vm.files.length,
-                "bg-grey hover:bg-grey-dark": _vm.files.length
+                "bg-brand hover:bg-brand-dark": !_vm.photos.length,
+                "bg-grey hover:bg-grey-dark": _vm.photos.length
               },
               on: { click: _vm.openFileDialog }
             },
@@ -22096,7 +22094,7 @@ var render = function() {
             ref: "fileinput",
             staticClass: "opacity-0",
             attrs: { multiple: "", type: "file" },
-            on: { change: _vm.processFiles }
+            on: { change: _vm.processPhotos }
           })
         ])
       ])
@@ -22937,7 +22935,7 @@ var render = function() {
         : _c("div", [
             _c("img", {
               staticClass: "w-full",
-              attrs: { src: _vm.photo.blob }
+              attrs: { src: _vm.photo.versions.orig }
             }),
             _vm._v(" "),
             _c("div", { staticClass: "px-6 " }, [
@@ -22993,23 +22991,33 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "flex flex-wrap py-4" }, [
-                _c("div", { staticClass: "w-full" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass:
-                        "bg-brand block w-full hover:bg-brand-dark text-white font-bold py-2 px-4 rounded h-12",
-                      attrs: {
-                        disabled:
-                          _vm.progress !== false && _vm.progress !== true
-                      },
-                      on: { click: _vm.saveImage }
-                    },
-                    [_vm._v("Enregistrer l'image")]
-                  )
-                ])
-              ])
+              !_vm.apiPhoto
+                ? _c("div", { staticClass: "flex flex-wrap py-4" }, [
+                    _c(
+                      "div",
+                      { staticClass: "w-full" },
+                      [
+                        this.photo.uploadProgress !== false
+                          ? _c("progress-indicator", {
+                              attrs: { progress: this.photo.uploadProgress }
+                            })
+                          : _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "bg-brand block w-full hover:bg-brand-dark text-white font-bold py-2 px-4 rounded h-12",
+                                attrs: {
+                                  disabled: _vm.photo.uploadProgress !== false
+                                },
+                                on: { click: _vm.saveImage }
+                              },
+                              [_vm._v("Enregistrer l'image")]
+                            )
+                      ],
+                      1
+                    )
+                  ])
+                : _vm._e()
             ])
           ])
     ]
@@ -27104,7 +27112,9 @@ var AbstractPhoto = function AbstractPhoto() {
     _classCallCheck(this, AbstractPhoto);
 
     this.id = null;
-    this.blob = null;
+    this.versions = {
+        orig: null
+    };
     this.type = null;
     this.lat = null;
     this.lng = null;
@@ -27144,6 +27154,7 @@ var PhotoScaffold = function (_AbstractPhoto2) {
         _this2.temporaryId = window.crypto.getRandomValues(new Uint32Array(10))[0];
         _this2.processing = true;
         _this2.file = file;
+        _this2.uploadProgress = false;
         _this2.readFile();
         try {
             _this2.extractExif();
@@ -27161,7 +27172,7 @@ var PhotoScaffold = function (_AbstractPhoto2) {
 
             var reader = new FileReader();
             reader.onloadend = function () {
-                _this3.blob = reader.result;
+                _this3.versions.orig = reader.result;
                 _this3.type = _this3.file.type;
             };
             reader.readAsDataURL(this.file);
@@ -27203,19 +27214,29 @@ var PhotoScaffold = function (_AbstractPhoto2) {
             this.created_at = Date(exif.DateTimeOriginal);
         }
     }, {
-        key: "saveAndExchangeForMainPhotoObject",
-        value: function saveAndExchangeForMainPhotoObject(onProgress, onComplete, onError) {
-            var url = new URL(window.apiRoot + endpoint);
-            var data = new FormData();
-            data.append("photo", this.file);
-            window.axios.post(url, data, {
-                onUploadProgress: function onUploadProgress(e) {
-                    onProgress(Math.round(e.loaded * 100 / e.total));
+        key: "getSavePromise",
+        value: function getSavePromise() {
+            var _this5 = this;
+
+            return new Promise(function (resolve, reject) {
+                var url = new URL(window.apiRoot + endpoint);
+                var data = new FormData();
+                data.append("photo", _this5.file);
+                data.append("lat", _this5.lat);
+                data.append("lng", _this5.lng);
+                if (_this5.created_at) {
+                    data.append("created_at", new Date(_this5.created_at).toISOString());
                 }
-            }).then(function (res) {
-                onComplete(res);
-            }).catch(function (err) {
-                onError(err);
+
+                window.axios.post(url, data, {
+                    onUploadProgress: function onUploadProgress(e) {
+                        _this5.uploadProgress = Math.round(e.loaded * 100 / e.total);
+                    }
+                }).then(function (res) {
+                    resolve(new AbstractPhoto());
+                }).catch(function (err) {
+                    reject(_this5, err);
+                });
             });
         }
     }]);

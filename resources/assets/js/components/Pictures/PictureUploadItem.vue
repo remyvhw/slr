@@ -2,7 +2,7 @@
     <div class="w-auto rounded overflow-hidden mb-8 shadow-lg">
         <div v-if="photo.processing" class="spinner h-10"></div>
         <div v-else>
-            <img class="w-full" :src="photo.blob">
+            <img class="w-full" :src="photo.versions.orig">
 
             <div class="px-6 ">
                 <div class="flex flex-wrap py-4">
@@ -23,9 +23,10 @@
                     </div>
                 </div>
 
-                <div class="flex flex-wrap py-4">
+                <div v-if="!apiPhoto" class="flex flex-wrap py-4">
                     <div class="w-full">
-                        <button @click="saveImage" class="bg-brand block w-full hover:bg-brand-dark text-white font-bold py-2 px-4 rounded h-12" :disabled="progress !== false && progress !== true">Enregistrer l'image</button>
+                        <progress-indicator v-if="this.photo.uploadProgress !== false" :progress="this.photo.uploadProgress"></progress-indicator>
+                        <button v-else @click="saveImage" class="bg-brand block w-full hover:bg-brand-dark text-white font-bold py-2 px-4 rounded h-12" :disabled="photo.uploadProgress !== false">Enregistrer l'image</button>
                     </div>
                 </div>
             </div>
@@ -41,9 +42,7 @@ export default {
   },
   computed: {},
   data() {
-    return {
-      progress: false
-    };
+    return { apiPhoto: null };
   },
   components: {
     draggablePinMap: require("../DraggablePinMap.vue"),
@@ -55,14 +54,10 @@ export default {
       this.photo.lng = point.lng;
     },
     saveImage() {
-      this.progress = 0;
-
-      this.photo.saveAndExchangeForMainPhotoObject(
-        p => {
-          this.progress = p;
-        },
-        photo => {}
-      );
+      this.photo.getSavePromise().then(apiPhoto => {
+        debugger;
+        this.apiPhoto = apiPhoto;
+      });
     }
   }
 };

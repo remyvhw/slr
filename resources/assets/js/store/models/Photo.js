@@ -6,7 +6,9 @@ export class AbstractPhoto {
 
     constructor() {
         this.id = null;
-        this.blob = null;
+        this.versions = {
+            orig: null,
+        };
         this.type = null;
         this.lat = null;
         this.lng = null;
@@ -35,6 +37,7 @@ export class PhotoScaffold extends AbstractPhoto {
         this.temporaryId = window.crypto.getRandomValues(new Uint32Array(10))[0];
         this.processing = true;
         this.file = file;
+        this.uploadProgress = false;
         this.readFile();
         try {
             this.extractExif();
@@ -47,7 +50,7 @@ export class PhotoScaffold extends AbstractPhoto {
     readFile() {
         let reader = new FileReader();
         reader.onloadend = () => {
-            this.blob = reader.result;
+            this.versions.orig = reader.result;
             this.type = this.file.type;
         };
         reader.readAsDataURL(this.file);
@@ -96,22 +99,32 @@ export class PhotoScaffold extends AbstractPhoto {
         this.created_at = Date(exif.DateTimeOriginal);
     }
 
-    saveAndExchangeForMainPhotoObject(onProgress, onComplete, onError) {
-        const url = new URL(window.apiRoot + endpoint);
-        let data = new FormData();
-        data.append("photo", this.file);
-        window.axios
-            .post(url, data, {
-                onUploadProgress: e => {
-                    onProgress(Math.round(e.loaded * 100 / e.total));
-                }
-            })
-            .then(res => {
-                onComplete(res);
-            })
-            .catch(err => {
-                onError(err);
-            });
+    getSavePromise() {
+        return new Promise((resolve, reject) => {
+            const url = new URL(window.apiRoot + endpoint);
+            let data = new FormData();
+            data.append("photo", this.file);
+            data.append("lat", this.lat);
+            data.append("lng", this.lng);
+            if (this.created_at) {
+                data.append("created_at", (new Date(this.created_at)).toISOString());
+            }
+
+            window.axios
+                .post(url, data, {
+                    onUploadProgress: e => {
+                        this.uploadProgress = Math.round(e.loaded * 100 / e.total);
+                    }
+                })
+                .then(res => {
+                    resolve(new AbstractPhoto());
+                })
+                .catch(err => {
+                    reject(this, err);
+                });
+        });
+
+
 
     }
 }

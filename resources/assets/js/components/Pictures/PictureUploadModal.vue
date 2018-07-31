@@ -5,13 +5,13 @@
 <template>
   <generic-modal @close="closeModal" title="Envoi de photos">
 
-    <picture-upload-item v-for="file in files" :photo="file" :key='file.temporaryId'></picture-upload-item>
+    <picture-upload-item v-for="photo in photos" :photo="photo" :key='photo.temporaryId'></picture-upload-item>
 
     <div class="flex flex-wrap py-4">
       <div class="w-full">
         <button @click="openFileDialog" class="flex items-center block w-full text-white font-bold py-2 px-4 rounded justify-center h-12" :class="{
-          'bg-brand hover:bg-brand-dark': !files.length,
-          'bg-grey hover:bg-grey-dark': files.length,
+          'bg-brand hover:bg-brand-dark': !photos.length,
+          'bg-grey hover:bg-grey-dark': photos.length,
           
         }">
           <svg class="fill-current inline-block w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -19,7 +19,7 @@
           </svg>
           <span>Ajouter des photos</span>
         </button>
-        <input ref="fileinput" multiple type="file" @change="processFiles" class="opacity-0">
+        <input ref="fileinput" multiple type="file" @change="processPhotos" class="opacity-0">
       </div>
     </div>
 
@@ -38,7 +38,7 @@ export default {
   },
   data() {
     return {
-      files: []
+      photos: []
     };
   },
   methods: {
@@ -54,10 +54,10 @@ export default {
       this.$refs.fileinput.click();
     },
 
-    processFiles(event) {
+    processPhotos(event) {
       Array.from(event.target.files).forEach(file => {
         let photo = new PhotoScaffold(file);
-        this.files.push(photo);
+        this.photos.push(photo);
       });
       event.target.value = "";
     }

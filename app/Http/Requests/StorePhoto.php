@@ -28,6 +28,8 @@ class StorePhoto extends FormRequest
             'photo' => 'required|mimetypes:image/jpeg|max:25000|dimensions:min_width=500,min_height=500',
             'legend' => 'nullable',
             'created_at' => 'nullable|date',
+            'lat' => ['nullable', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+            'lng' => ['nullable', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
         ];
     }
 }

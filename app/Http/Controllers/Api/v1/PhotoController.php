@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePhoto;
 use App\Http\Resources\Photo as PhotoResource;
 use App\Photo;
+use Carbon;
 use Illuminate\Http\Request;
 
 class PhotoController extends Controller
@@ -30,8 +31,11 @@ class PhotoController extends Controller
     {
         $photo = new Photo;
         if ($request->has("created_at")) {
-            $photo->created_at = $request->input("created_at");
+            $photo->created_at = new \Carbon\Carbon($request->input("created_at"));
         }
+        $photo->legend = $request->input("legend");
+        $photo->lat = $request->input("lat");
+        $photo->lng = $request->input("lng");
         $photo->legend = $request->input("legend");
         $photo->save();
 
