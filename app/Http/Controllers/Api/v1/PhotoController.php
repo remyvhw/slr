@@ -39,7 +39,7 @@ class PhotoController extends Controller
         $photo->legend = $request->input("legend");
         $photo->save();
 
-        dd($request->photo->storeAs('images', $photo->getStoragePathAttribute(), config("filesystems.cloud")));
+        $request->photo->storeAs('images', $photo->getStoragePathAttribute(), config("filesystems.cloud"));
 
         return new PhotoResource($photo);
 

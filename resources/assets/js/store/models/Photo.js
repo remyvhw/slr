@@ -12,6 +12,7 @@ export class AbstractPhoto {
         this.type = null;
         this.lat = null;
         this.lng = null;
+        this.legend = null;
         this.created_at = null;
     }
 }
@@ -104,6 +105,7 @@ export class PhotoScaffold extends AbstractPhoto {
             const url = new URL(window.apiRoot + endpoint);
             let data = new FormData();
             data.append("photo", this.file);
+            data.append("photo", this.legend);
             data.append("lat", this.lat);
             data.append("lng", this.lng);
             if (this.created_at) {
@@ -117,7 +119,9 @@ export class PhotoScaffold extends AbstractPhoto {
                     }
                 })
                 .then(res => {
-                    resolve(new AbstractPhoto());
+                    let apiPhoto = new Photo(res.data.data);
+                    apiPhoto.versions.orig = this.versions.orig;
+                    resolve(apiPhoto);
                 })
                 .catch(err => {
                     reject(this, err);

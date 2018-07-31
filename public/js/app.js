@@ -633,11 +633,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pictures/PictureUploadCompleted.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    photo: { type: Object, required: true }
+  },
+  computed: {
+    imageStyle: function imageStyle() {
+      return {
+        "background-image": "url('" + this.photo.versions.orig + "')"
+      };
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pictures/PictureUploadItem.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -687,7 +724,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   components: {
     draggablePinMap: __webpack_require__("./resources/assets/js/components/DraggablePinMap.vue"),
-    progressIndicator: __webpack_require__("./resources/assets/js/components/ProgressIndicator.vue")
+    progressIndicator: __webpack_require__("./resources/assets/js/components/ProgressIndicator.vue"),
+    pictureUploadCompleted: __webpack_require__("./resources/assets/js/components/Pictures/PictureUploadCompleted.vue")
   },
   methods: {
     updateLatLng: function updateLatLng(point) {
@@ -698,7 +736,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       this.photo.getSavePromise().then(function (apiPhoto) {
-        debugger;
         _this.apiPhoto = apiPhoto;
       });
     }
@@ -713,7 +750,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__ = __webpack_require__("./resources/assets/js/store/models/Photo.js");
-//
 //
 //
 //
@@ -22114,6 +22150,55 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1ec21ebf\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Pictures/PictureUploadCompleted.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass:
+        "border border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal"
+    },
+    [
+      _c("div", { staticClass: "flex items-center" }, [
+        _c("div", {
+          staticClass: "w-12 h-12 rounded mr-4 bg-cover",
+          style: _vm.imageStyle,
+          attrs: { alt: "Photo enregistrée" }
+        }),
+        _vm._v(" "),
+        _vm._m(0)
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-sm" }, [
+      _c("p", { staticClass: "text-green-dark leading-none" }, [
+        _vm._v("Votre image a été entregistrée!")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1ec21ebf", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-30f2e1ae\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Obstructions/ObstructionItem.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22932,7 +23017,14 @@ var render = function() {
     [
       _vm.photo.processing
         ? _c("div", { staticClass: "spinner h-10" })
-        : _c("div", [
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.photo.processing && _vm.apiPhoto
+        ? _c("picture-upload-completed", { attrs: { photo: _vm.apiPhoto } })
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.photo.processing && !_vm.apiPhoto
+        ? _c("div", [
             _c("img", {
               staticClass: "w-full",
               attrs: { src: _vm.photo.versions.orig }
@@ -22984,9 +23076,26 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.photo.legend,
+                        expression: "photo.legend"
+                      }
+                    ],
                     staticClass:
                       "appearance-none block w-full h-16 bg-grey-lighter text-grey-darker border border-grey-lighter rounded p-2 leading-tight",
-                    attrs: { id: "legend_" + _vm._uid }
+                    attrs: { id: "legend_" + _vm._uid },
+                    domProps: { value: _vm.photo.legend },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.photo, "legend", $event.target.value)
+                      }
+                    }
                   })
                 ])
               ]),
@@ -23011,7 +23120,7 @@ var render = function() {
                                 },
                                 on: { click: _vm.saveImage }
                               },
-                              [_vm._v("Enregistrer l'image")]
+                              [_vm._v("Enregistrer la photo")]
                             )
                       ],
                       1
@@ -23020,7 +23129,9 @@ var render = function() {
                 : _vm._e()
             ])
           ])
-    ]
+        : _vm._e()
+    ],
+    1
   )
 }
 var staticRenderFns = []
@@ -26463,6 +26574,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/Pictures/PictureUploadCompleted.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pictures/PictureUploadCompleted.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1ec21ebf\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Pictures/PictureUploadCompleted.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Pictures/PictureUploadCompleted.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1ec21ebf", Component.options)
+  } else {
+    hotAPI.reload("data-v-1ec21ebf", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/Pictures/PictureUploadItem.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27118,6 +27277,7 @@ var AbstractPhoto = function AbstractPhoto() {
     this.type = null;
     this.lat = null;
     this.lng = null;
+    this.legend = null;
     this.created_at = null;
 };
 
@@ -27222,6 +27382,7 @@ var PhotoScaffold = function (_AbstractPhoto2) {
                 var url = new URL(window.apiRoot + endpoint);
                 var data = new FormData();
                 data.append("photo", _this5.file);
+                data.append("photo", _this5.legend);
                 data.append("lat", _this5.lat);
                 data.append("lng", _this5.lng);
                 if (_this5.created_at) {
@@ -27233,7 +27394,9 @@ var PhotoScaffold = function (_AbstractPhoto2) {
                         _this5.uploadProgress = Math.round(e.loaded * 100 / e.total);
                     }
                 }).then(function (res) {
-                    resolve(new AbstractPhoto());
+                    var apiPhoto = new Photo(res.data.data);
+                    apiPhoto.versions.orig = _this5.versions.orig;
+                    resolve(apiPhoto);
                 }).catch(function (err) {
                     reject(_this5, err);
                 });
