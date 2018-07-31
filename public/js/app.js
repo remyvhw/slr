@@ -712,6 +712,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -719,7 +735,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {},
   data: function data() {
-    return { apiPhoto: null };
+    return { apiPhoto: null, errors: null };
   },
 
   components: {
@@ -735,8 +751,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     saveImage: function saveImage() {
       var _this = this;
 
+      this.errors = null;
       this.photo.getSavePromise().then(function (apiPhoto) {
         _this.apiPhoto = apiPhoto;
+      }, function (err) {
+        _this.errors = deep(err, "response.data.errors");
       });
     }
   }
@@ -1419,6 +1438,45 @@ function toComment(sourceMap) {
 	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
 
 	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/deep-get-set/index.js":
+/***/ (function(module, exports) {
+
+var hasOwnProp = Object.prototype.hasOwnProperty;
+
+module.exports = deep;
+
+function deep (obj, path, value) {
+  if (arguments.length === 3) return set.apply(null, arguments);
+  return get.apply(null, arguments);
+}
+
+function get (obj, path) {
+  var keys = Array.isArray(path) ? path : path.split('.');
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    if (!obj || !hasOwnProp.call(obj, key)) {
+      obj = undefined;
+      break;
+    }
+    obj = obj[key];
+  }
+  return obj;
+}
+
+function set (obj, path, value) {
+  var keys = Array.isArray(path) ? path : path.split('.');
+  for (var i = 0; i < keys.length - 1; i++) {
+    var key = keys[i];
+    if (deep.p && !hasOwnProp.call(obj, key)) obj[key] = {};
+    obj = obj[key];
+  }
+  obj[keys[i]] = value;
+  return value;
 }
 
 
@@ -23100,6 +23158,43 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
+              _vm.errors
+                ? _c(
+                    "div",
+                    {
+                      staticClass:
+                        "bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded relative",
+                      attrs: { role: "alert" }
+                    },
+                    [
+                      _c("strong", { staticClass: "font-bold" }, [
+                        _vm._v("Oups!")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "block sm:inline" }, [
+                        _vm._v(
+                          "SurLesRails ne peut accepter votre photo. Les messages suivants ont été retournés par le serveur:\n                    "
+                        ),
+                        _c(
+                          "ul",
+                          _vm._l(_vm.errors, function(error, key) {
+                            return _c("li", [
+                              _c("em", [_vm._v(_vm._s(key))]),
+                              _vm._v(" "),
+                              _c(
+                                "ul",
+                                _vm._l(error, function(problem) {
+                                  return _c("li", [_vm._v(_vm._s(problem))])
+                                })
+                              )
+                            ])
+                          })
+                        )
+                      ])
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
               !_vm.apiPhoto
                 ? _c("div", { staticClass: "flex flex-wrap py-4" }, [
                     _c(
@@ -27398,7 +27493,8 @@ var PhotoScaffold = function (_AbstractPhoto2) {
                     apiPhoto.versions.orig = _this5.versions.orig;
                     resolve(apiPhoto);
                 }).catch(function (err) {
-                    reject(_this5, err);
+                    _this5.uploadProgress = false;
+                    reject(err);
                 });
             });
         }

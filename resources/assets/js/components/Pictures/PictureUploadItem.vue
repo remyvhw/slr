@@ -24,6 +24,20 @@
                     </div>
                 </div>
 
+                <div v-if="errors" class="bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">Oups!</strong>
+                    <span class="block sm:inline">SurLesRails ne peut accepter votre photo. Les messages suivants ont été retournés par le serveur:
+                        <ul>
+                            <li v-for="(error, key) in errors">
+                                <em>{{ key }}</em>
+                                <ul>
+                                    <li v-for="problem in error">{{ problem }}</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </span>
+                </div>
+
                 <div v-if="!apiPhoto" class="flex flex-wrap py-4">
                     <div class="w-full">
                         <progress-indicator v-if="this.photo.uploadProgress !== false" :progress="this.photo.uploadProgress"></progress-indicator>
@@ -37,13 +51,15 @@
 </template>
 
 <script type="text/babel">
+var deep = require("deep-get-set");
+
 export default {
   props: {
     photo: { type: Object, required: true }
   },
   computed: {},
   data() {
-    return { apiPhoto: null };
+    return { apiPhoto: null, errors: null };
   },
   components: {
     draggablePinMap: require("../DraggablePinMap.vue"),
@@ -56,9 +72,15 @@ export default {
       this.photo.lng = point.lng;
     },
     saveImage() {
-      this.photo.getSavePromise().then(apiPhoto => {
-        this.apiPhoto = apiPhoto;
-      });
+      this.errors = null;
+      this.photo.getSavePromise().then(
+        apiPhoto => {
+          this.apiPhoto = apiPhoto;
+        },
+        err => {
+          this.errors = deep(err, "response.data.errors");
+        }
+      );
     }
   }
 };

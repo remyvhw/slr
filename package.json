@@ -19,6 +19,7 @@
     "dependencies": {
         "@mapbox/mapbox-gl-geocoder": "^2.3.0",
         "collect.js": "^4.0.17",
+        "deep-get-set": "^1.1.0",
         "exif-js": "^2.3.0",
         "mapbox-gl": "^0.46.0",
         "marked": "^0.4.0",

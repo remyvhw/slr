@@ -124,7 +124,8 @@ export class PhotoScaffold extends AbstractPhoto {
                     resolve(apiPhoto);
                 })
                 .catch(err => {
-                    reject(this, err);
+                    this.uploadProgress = false;
+                    reject(err);
                 });
         });
 

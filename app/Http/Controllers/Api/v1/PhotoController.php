@@ -29,6 +29,8 @@ class PhotoController extends Controller
      */
     public function store(StorePhoto $request)
     {
+        $this->authorize('create', Photo::class);
+
         $photo = new Photo;
         if ($request->has("created_at")) {
             $photo->created_at = new \Carbon\Carbon($request->input("created_at"));
@@ -64,6 +66,7 @@ class PhotoController extends Controller
      */
     public function destroy(Photo $photo)
     {
-        //
+        $this->authorize('delete', $photo);
+
     }
 }
