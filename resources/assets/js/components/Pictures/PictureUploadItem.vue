@@ -1,8 +1,8 @@
 <template>
     <div class="w-auto rounded overflow-hidden mb-8 shadow-lg">
         <div class="spinner h-10" v-if="photo.processing"></div>
-        <picture-upload-completed v-if="!photo.processing && apiPhoto" :photo="apiPhoto"></picture-upload-completed>
-        <div v-if="!photo.processing && !apiPhoto">
+        <picture-upload-completed v-if="!photo.processing && photo.resultingPhoto" :photo="photo.resultingPhoto"></picture-upload-completed>
+        <div v-if="!photo.processing && !photo.resultingPhoto">
             <img class="w-full" :src="photo.versions.orig">
 
             <div class="px-6 ">
@@ -38,7 +38,7 @@
                     </span>
                 </div>
 
-                <div v-if="!apiPhoto" class="flex flex-wrap py-4">
+                <div v-if="!photo.resultingPhoto" class="flex flex-wrap py-4">
                     <div class="w-full">
                         <progress-indicator v-if="this.photo.uploadProgress !== false" :progress="this.photo.uploadProgress"></progress-indicator>
                         <button v-else @click="saveImage" class="bg-brand block w-full hover:bg-brand-dark text-white font-bold py-2 px-4 rounded h-12" :disabled="photo.uploadProgress !== false">Enregistrer la photo</button>
@@ -59,7 +59,7 @@ export default {
   },
   computed: {},
   data() {
-    return { apiPhoto: null, errors: null };
+    return { errors: null };
   },
   components: {
     draggablePinMap: require("../DraggablePinMap.vue"),
@@ -74,9 +74,7 @@ export default {
     saveImage() {
       this.errors = null;
       this.photo.getSavePromise().then(
-        apiPhoto => {
-          this.apiPhoto = apiPhoto;
-        },
+        photo => {},
         err => {
           this.errors = deep(err, "response.data.errors");
         }

@@ -128,7 +128,7 @@ export class PhotoScaffold extends AbstractPhoto {
                     let apiPhoto = new Photo(res.data.data);
                     apiPhoto.versions.orig = this.versions.orig;
                     this.resultingPhoto = apiPhoto;
-                    resolve(apiPhoto);
+                    resolve(this);
                 })
                 .catch(err => {
                     this.uploadProgress = false;

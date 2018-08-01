@@ -735,7 +735,7 @@ var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
   },
   computed: {},
   data: function data() {
-    return { apiPhoto: null, errors: null };
+    return { errors: null };
   },
 
   components: {
@@ -752,9 +752,7 @@ var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
       var _this = this;
 
       this.errors = null;
-      this.photo.getSavePromise().then(function (apiPhoto) {
-        _this.apiPhoto = apiPhoto;
-      }, function (err) {
+      this.photo.getSavePromise().then(function (photo) {}, function (err) {
         _this.errors = deep(err, "response.data.errors");
       });
     }
@@ -814,7 +812,8 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     genericModal: __webpack_require__("./resources/assets/js/components/GenericModal.vue"),
-    pictureUploadItem: __webpack_require__("./resources/assets/js/components/Pictures/PictureUploadItem.vue")
+    pictureUploadItem: __webpack_require__("./resources/assets/js/components/Pictures/PictureUploadItem.vue"),
+    progressIndicator: __webpack_require__("./resources/assets/js/components/ProgressIndicator.vue")
   },
   data: function data() {
     return {
@@ -828,9 +827,18 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
         return photo.uploadProgress === false ? 0 : photo.uploadProgress;
       });
 
+      if (!items.count()) {
+        return false;
+      }
+
       return Math.ceil(items.sum() / items.count());
     },
-    awaitingPhotos: function awaitingPhotos() {
+    uploading: function uploading() {
+      return this.progress < 100 && collect(this.photos).contains(function (photo) {
+        return photo.uploadProgress !== false;
+      });
+    },
+    awaitingUpload: function awaitingUpload() {
       return collect(this.photos).reject(function (photo) {
         return photo.uploadProgress !== false || photo.resultingPhoto;
       }).count();
@@ -873,6 +881,9 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -22171,39 +22182,48 @@ var render = function() {
     "generic-modal",
     { attrs: { title: "Envoi de photos" }, on: { close: _vm.closeModal } },
     [
-      _vm.photos.length
-        ? _c("div", [
-            _c(
-              "button",
-              {
-                staticClass:
-                  "flex items-center block w-full text-white font-bold py-2 px-4 rounded justify-center h-12 bg-brand hover:bg-brand-dark mb-8",
-                on: { click: _vm.saveAll }
-              },
-              [
-                _c(
-                  "svg",
-                  {
-                    staticClass: "fill-current inline-block w-4 h-4 mr-2",
+      _c(
+        "div",
+        { staticClass: "mb-8" },
+        [
+          _vm.uploading
+            ? _c("progress-indicator", { attrs: { progress: _vm.progress } })
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _vm.awaitingUpload > 1 && !_vm.uploading
+        ? _c(
+            "button",
+            {
+              staticClass:
+                "flex items-center block w-full text-white font-bold py-2 px-4 rounded justify-center h-12 bg-brand hover:bg-brand-dark mb-8",
+              on: { click: _vm.saveAll }
+            },
+            [
+              _c(
+                "svg",
+                {
+                  staticClass: "fill-current inline-block w-4 h-4 mr-2",
+                  attrs: {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    viewBox: "0 0 640 512"
+                  }
+                },
+                [
+                  _c("path", {
                     attrs: {
-                      xmlns: "http://www.w3.org/2000/svg",
-                      viewBox: "0 0 640 512"
+                      d:
+                        "M537.6 226.6c4.1-10.7 6.4-22.4 6.4-34.6 0-53-43-96-96-96-19.7 0-38.1 6-53.3 16.2C367 64.2 315.3 32 256 32c-88.4 0-160 71.6-160 160 0 2.7.1 5.4.2 8.1C40.2 219.8 0 273.2 0 336c0 79.5 64.5 144 144 144h368c70.7 0 128-57.3 128-128 0-61.9-44-113.6-102.4-125.4zM393.4 288H328v112c0 8.8-7.2 16-16 16h-48c-8.8 0-16-7.2-16-16V288h-65.4c-14.3 0-21.4-17.2-11.3-27.3l105.4-105.4c6.2-6.2 16.4-6.2 22.6 0l105.4 105.4c10.1 10.1 2.9 27.3-11.3 27.3z"
                     }
-                  },
-                  [
-                    _c("path", {
-                      attrs: {
-                        d:
-                          "M537.6 226.6c4.1-10.7 6.4-22.4 6.4-34.6 0-53-43-96-96-96-19.7 0-38.1 6-53.3 16.2C367 64.2 315.3 32 256 32c-88.4 0-160 71.6-160 160 0 2.7.1 5.4.2 8.1C40.2 219.8 0 273.2 0 336c0 79.5 64.5 144 144 144h368c70.7 0 128-57.3 128-128 0-61.9-44-113.6-102.4-125.4zM393.4 288H328v112c0 8.8-7.2 16-16 16h-48c-8.8 0-16-7.2-16-16V288h-65.4c-14.3 0-21.4-17.2-11.3-27.3l105.4-105.4c6.2-6.2 16.4-6.2 22.6 0l105.4 105.4c10.1 10.1 2.9 27.3-11.3 27.3z"
-                      }
-                    })
-                  ]
-                ),
-                _vm._v(" "),
-                _c("span", [_vm._v("Enregistrer toutes les photos")])
-              ]
-            )
-          ])
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c("span", [_vm._v("Enregistrer toutes les photos")])
+            ]
+          )
         : _vm._e(),
       _vm._v(" "),
       _vm._l(_vm.photos, function(photo) {
@@ -22221,8 +22241,8 @@ var render = function() {
               staticClass:
                 "flex items-center block w-full text-white font-bold py-2 px-4 rounded justify-center h-12",
               class: {
-                "bg-brand hover:bg-brand-dark": !_vm.photos.length,
-                "bg-grey hover:bg-grey-dark": _vm.photos.length
+                "bg-brand hover:bg-brand-dark": !_vm.awaitingUpload,
+                "bg-grey hover:bg-grey-dark": _vm.awaitingUpload
               },
               on: { click: _vm.openFileDialog }
             },
@@ -22936,19 +22956,26 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "w-full" }, [
-    _c("div", { staticClass: "shadow w-full bg-grey-light" }, [
-      _c(
-        "div",
-        {
-          staticClass:
-            "bg-blue text-xs leading-none py-1 text-center text-white",
-          style: { width: _vm.progress + "%" }
-        },
-        [_vm._v(_vm._s(_vm.progress) + "%")]
-      )
-    ])
-  ])
+  return _c(
+    "div",
+    { staticClass: "w-full rounded overflow-hidden" },
+    [
+      _c("transition", { attrs: { name: "fadeLeft" } }, [
+        _c("div", { staticClass: "shadow w-full bg-grey-light" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "bg-blue text-sm font-bold leading-none py-1 text-center text-white",
+              style: { width: _vm.progress + "%" }
+            },
+            [_vm._v(_vm._s(_vm.progress) + "%")]
+          )
+        ])
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -23143,11 +23170,13 @@ var render = function() {
         ? _c("div", { staticClass: "spinner h-10" })
         : _vm._e(),
       _vm._v(" "),
-      !_vm.photo.processing && _vm.apiPhoto
-        ? _c("picture-upload-completed", { attrs: { photo: _vm.apiPhoto } })
+      !_vm.photo.processing && _vm.photo.resultingPhoto
+        ? _c("picture-upload-completed", {
+            attrs: { photo: _vm.photo.resultingPhoto }
+          })
         : _vm._e(),
       _vm._v(" "),
-      !_vm.photo.processing && !_vm.apiPhoto
+      !_vm.photo.processing && !_vm.photo.resultingPhoto
         ? _c("div", [
             _c("img", {
               staticClass: "w-full",
@@ -23261,7 +23290,7 @@ var render = function() {
                   )
                 : _vm._e(),
               _vm._v(" "),
-              !_vm.apiPhoto
+              !_vm.photo.resultingPhoto
                 ? _c("div", { staticClass: "flex flex-wrap py-4" }, [
                     _c(
                       "div",
@@ -27564,7 +27593,7 @@ var PhotoScaffold = function (_AbstractPhoto2) {
                     var apiPhoto = new Photo(res.data.data);
                     apiPhoto.versions.orig = _this5.versions.orig;
                     _this5.resultingPhoto = apiPhoto;
-                    resolve(apiPhoto);
+                    resolve(_this5);
                 }).catch(function (err) {
                     _this5.uploadProgress = false;
                     reject(err);
