@@ -1,5 +1,5 @@
 var EXIF = require('exif-js');
-
+var deep = require("deep-get-set");
 const endpoint = "/photos";
 
 export class AbstractPhoto {
@@ -40,6 +40,7 @@ export class PhotoScaffold extends AbstractPhoto {
         this.file = file;
         this.uploadProgress = false;
         this.resultingPhoto = null;
+        this.errors = null;
 
         this.readFile();
         try {
@@ -104,6 +105,9 @@ export class PhotoScaffold extends AbstractPhoto {
 
     getSavePromise() {
         return new Promise((resolve, reject) => {
+
+            this.errors = null;
+
             const url = new URL(window.apiRoot + endpoint);
             let data = new FormData();
             data.append("photo", this.file);
@@ -128,11 +132,12 @@ export class PhotoScaffold extends AbstractPhoto {
                     let apiPhoto = new Photo(res.data.data);
                     apiPhoto.versions.orig = this.versions.orig;
                     this.resultingPhoto = apiPhoto;
+                    this.uploadProgress = false;
                     resolve(this);
                 })
                 .catch(err => {
                     this.uploadProgress = false;
-                    reject(err);
+                    this.errors = deep(err, "response.data.errors");
                 });
         });
 

@@ -727,16 +727,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     photo: { type: Object, required: true }
   },
   computed: {},
-  data: function data() {
-    return { errors: null };
-  },
 
   components: {
     draggablePinMap: __webpack_require__("./resources/assets/js/components/DraggablePinMap.vue"),
@@ -749,12 +744,7 @@ var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
       this.photo.lng = point.lng;
     },
     saveImage: function saveImage() {
-      var _this = this;
-
-      this.errors = null;
-      this.photo.getSavePromise().then(function (photo) {}, function (err) {
-        _this.errors = deep(err, "response.data.errors");
-      });
+      this.photo.getSavePromise().then(function (photo) {}, function (err) {});
     }
   }
 });
@@ -767,6 +757,8 @@ var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__ = __webpack_require__("./resources/assets/js/store/models/Photo.js");
+//
+//
 //
 //
 //
@@ -841,6 +833,11 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
     awaitingUpload: function awaitingUpload() {
       return collect(this.photos).reject(function (photo) {
         return photo.uploadProgress !== false || photo.resultingPhoto;
+      }).count();
+    },
+    hasErrors: function hasErrors() {
+      return collect(this.photos).filter(function (photo) {
+        return photo.errors;
       }).count();
     }
   },
@@ -22188,6 +22185,21 @@ var render = function() {
         [
           _vm.uploading
             ? _c("progress-indicator", { attrs: { progress: _vm.progress } })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.hasErrors
+            ? _c(
+                "div",
+                {
+                  staticClass:
+                    "bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded relative",
+                  attrs: { role: "alert" }
+                },
+                [
+                  _c("strong", { staticClass: "font-bold" }, [_vm._v("Oups!")]),
+                  _vm._v(" Une photo ne peut être enregistrée.")
+                ]
+              )
             : _vm._e()
         ],
         1
@@ -23253,7 +23265,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm.errors
+              _vm.photo.errors
                 ? _c(
                     "div",
                     {
@@ -23272,7 +23284,7 @@ var render = function() {
                         ),
                         _c(
                           "ul",
-                          _vm._l(_vm.errors, function(error, key) {
+                          _vm._l(_vm.photo.errors, function(error, key) {
                             return _c("li", [
                               _c("em", [_vm._v(_vm._s(key))]),
                               _vm._v(" "),
@@ -27454,7 +27466,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var EXIF = __webpack_require__("./node_modules/exif-js/exif.js");
-
+var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
 var endpoint = "/photos";
 
 var AbstractPhoto = function AbstractPhoto() {
@@ -27506,6 +27518,7 @@ var PhotoScaffold = function (_AbstractPhoto2) {
         _this2.file = file;
         _this2.uploadProgress = false;
         _this2.resultingPhoto = null;
+        _this2.errors = null;
 
         _this2.readFile();
         try {
@@ -27571,6 +27584,9 @@ var PhotoScaffold = function (_AbstractPhoto2) {
             var _this5 = this;
 
             return new Promise(function (resolve, reject) {
+
+                _this5.errors = null;
+
                 var url = new URL(window.apiRoot + endpoint);
                 var data = new FormData();
                 data.append("photo", _this5.file);
@@ -27593,10 +27609,11 @@ var PhotoScaffold = function (_AbstractPhoto2) {
                     var apiPhoto = new Photo(res.data.data);
                     apiPhoto.versions.orig = _this5.versions.orig;
                     _this5.resultingPhoto = apiPhoto;
+                    _this5.uploadProgress = false;
                     resolve(_this5);
                 }).catch(function (err) {
                     _this5.uploadProgress = false;
-                    reject(err);
+                    _this5.errors = deep(err, "response.data.errors");
                 });
             });
         }

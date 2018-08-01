@@ -6,6 +6,8 @@
   <generic-modal @close="closeModal" title="Envoi de photos">
     <div class="mb-8">
       <progress-indicator v-if="uploading" :progress="progress"></progress-indicator>
+      <div role="alert" v-if="hasErrors" class="bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded relative">
+        <strong class="font-bold">Oups!</strong> Une photo ne peut être enregistrée.</div>
     </div>
     <button v-if="awaitingUpload > 1 && !uploading" @click="saveAll" class="flex items-center block w-full text-white font-bold py-2 px-4 rounded justify-center h-12 bg-brand hover:bg-brand-dark mb-8">
       <svg class="fill-current inline-block w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
@@ -75,6 +77,13 @@ export default {
       return collect(this.photos)
         .reject(photo => {
           return photo.uploadProgress !== false || photo.resultingPhoto;
+        })
+        .count();
+    },
+    hasErrors() {
+      return collect(this.photos)
+        .filter(photo => {
+          return photo.errors;
         })
         .count();
     }
