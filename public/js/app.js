@@ -726,6 +726,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -745,6 +755,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     saveImage: function saveImage() {
       this.photo.getSavePromise().then(function (photo) {}, function (err) {});
+    },
+    toggleLocalization: function toggleLocalization() {
+      if (this.photo.lat && this.photo.lng) {
+        this.photo.lat = null;
+        this.photo.lng = null;
+      } else {
+        this.photo.lat = 45.5001181;
+        this.photo.lng = -73.5664569;
+      }
     }
   }
 });
@@ -23202,23 +23221,51 @@ var render = function() {
                   { staticClass: "w-full" },
                   [
                     _c(
-                      "label",
+                      "button",
                       {
                         staticClass:
                           "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
-                        attrs: { for: "legend_" + _vm._uid }
+                        on: { click: _vm.toggleLocalization }
                       },
                       [
                         _vm._v(
-                          "\n                        Localisation\n                    "
+                          "\n\n                        Localisation\n                        "
+                        ),
+                        _c(
+                          "svg",
+                          {
+                            staticClass:
+                              "fill-current text-grey-darker inline-block h-3 w-3",
+                            attrs: {
+                              xmlns: "http://www.w3.org/2000/svg",
+                              viewBox: "0 0 20 20"
+                            }
+                          },
+                          [
+                            _vm.photo.lat && _vm.photo.lng
+                              ? _c("path", {
+                                  attrs: {
+                                    d:
+                                      "M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z"
+                                  }
+                                })
+                              : _c("path", {
+                                  attrs: {
+                                    d:
+                                      "M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"
+                                  }
+                                })
+                          ]
                         )
                       ]
                     ),
                     _vm._v(" "),
-                    _c("draggable-pin-map", {
-                      attrs: { lat: _vm.photo.lat, lng: _vm.photo.lng },
-                      on: { update: _vm.updateLatLng }
-                    })
+                    _vm.photo.lat && _vm.photo.lng
+                      ? _c("draggable-pin-map", {
+                          attrs: { lat: _vm.photo.lat, lng: _vm.photo.lng },
+                          on: { update: _vm.updateLatLng }
+                        })
+                      : _vm._e()
                   ],
                   1
                 )
