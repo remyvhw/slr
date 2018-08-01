@@ -39,6 +39,8 @@ export class PhotoScaffold extends AbstractPhoto {
         this.processing = true;
         this.file = file;
         this.uploadProgress = false;
+        this.resultingPhoto = null;
+
         this.readFile();
         try {
             this.extractExif();
@@ -106,8 +108,12 @@ export class PhotoScaffold extends AbstractPhoto {
             let data = new FormData();
             data.append("photo", this.file);
             data.append("photo", this.legend);
-            data.append("lat", this.lat);
-            data.append("lng", this.lng);
+
+            if (this.lat && this.lng) {
+                data.append("lat", this.lat);
+                data.append("lng", this.lng);
+            }
+
             if (this.created_at) {
                 data.append("created_at", (new Date(this.created_at)).toISOString());
             }
@@ -121,6 +127,7 @@ export class PhotoScaffold extends AbstractPhoto {
                 .then(res => {
                     let apiPhoto = new Photo(res.data.data);
                     apiPhoto.versions.orig = this.versions.orig;
+                    this.resultingPhoto = apiPhoto;
                     resolve(apiPhoto);
                 })
                 .catch(err => {

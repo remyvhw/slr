@@ -797,8 +797,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var marked = __webpack_require__("./node_modules/marked/lib/marked.js");
+var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -812,6 +822,20 @@ var marked = __webpack_require__("./node_modules/marked/lib/marked.js");
     };
   },
 
+  computed: {
+    progress: function progress() {
+      var items = collect(this.photos).map(function (photo) {
+        return photo.uploadProgress === false ? 0 : photo.uploadProgress;
+      });
+
+      return Math.ceil(items.sum() / items.count());
+    },
+    awaitingPhotos: function awaitingPhotos() {
+      return collect(this.photos).reject(function (photo) {
+        return photo.uploadProgress !== false || photo.resultingPhoto;
+      }).count();
+    }
+  },
   methods: {
     closeModal: function closeModal() {
       if (this.$route.meta.shouldBackOnClose) {
@@ -831,6 +855,13 @@ var marked = __webpack_require__("./node_modules/marked/lib/marked.js");
         _this.photos.push(photo);
       });
       event.target.value = "";
+    },
+    saveAll: function saveAll() {
+      Promise.all(collect(this.photos).reject(function (photo) {
+        return photo.progress == 100;
+      }).map(function (photo) {
+        return photo.getSavePromise();
+      }).toArray());
     }
   }
 });
@@ -22140,6 +22171,41 @@ var render = function() {
     "generic-modal",
     { attrs: { title: "Envoi de photos" }, on: { close: _vm.closeModal } },
     [
+      _vm.photos.length
+        ? _c("div", [
+            _c(
+              "button",
+              {
+                staticClass:
+                  "flex items-center block w-full text-white font-bold py-2 px-4 rounded justify-center h-12 bg-brand hover:bg-brand-dark mb-8",
+                on: { click: _vm.saveAll }
+              },
+              [
+                _c(
+                  "svg",
+                  {
+                    staticClass: "fill-current inline-block w-4 h-4 mr-2",
+                    attrs: {
+                      xmlns: "http://www.w3.org/2000/svg",
+                      viewBox: "0 0 640 512"
+                    }
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        d:
+                          "M537.6 226.6c4.1-10.7 6.4-22.4 6.4-34.6 0-53-43-96-96-96-19.7 0-38.1 6-53.3 16.2C367 64.2 315.3 32 256 32c-88.4 0-160 71.6-160 160 0 2.7.1 5.4.2 8.1C40.2 219.8 0 273.2 0 336c0 79.5 64.5 144 144 144h368c70.7 0 128-57.3 128-128 0-61.9-44-113.6-102.4-125.4zM393.4 288H328v112c0 8.8-7.2 16-16 16h-48c-8.8 0-16-7.2-16-16V288h-65.4c-14.3 0-21.4-17.2-11.3-27.3l105.4-105.4c6.2-6.2 16.4-6.2 22.6 0l105.4 105.4c10.1 10.1 2.9 27.3-11.3 27.3z"
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c("span", [_vm._v("Enregistrer toutes les photos")])
+              ]
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _vm._l(_vm.photos, function(photo) {
         return _c("picture-upload-item", {
           key: photo.temporaryId,
@@ -27410,6 +27476,8 @@ var PhotoScaffold = function (_AbstractPhoto2) {
         _this2.processing = true;
         _this2.file = file;
         _this2.uploadProgress = false;
+        _this2.resultingPhoto = null;
+
         _this2.readFile();
         try {
             _this2.extractExif();
@@ -27478,8 +27546,12 @@ var PhotoScaffold = function (_AbstractPhoto2) {
                 var data = new FormData();
                 data.append("photo", _this5.file);
                 data.append("photo", _this5.legend);
-                data.append("lat", _this5.lat);
-                data.append("lng", _this5.lng);
+
+                if (_this5.lat && _this5.lng) {
+                    data.append("lat", _this5.lat);
+                    data.append("lng", _this5.lng);
+                }
+
                 if (_this5.created_at) {
                     data.append("created_at", new Date(_this5.created_at).toISOString());
                 }
@@ -27491,6 +27563,7 @@ var PhotoScaffold = function (_AbstractPhoto2) {
                 }).then(function (res) {
                     var apiPhoto = new Photo(res.data.data);
                     apiPhoto.versions.orig = _this5.versions.orig;
+                    _this5.resultingPhoto = apiPhoto;
                     resolve(apiPhoto);
                 }).catch(function (err) {
                     _this5.uploadProgress = false;
