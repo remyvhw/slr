@@ -1,4 +1,8 @@
+const collect = require("collect.js");
+const deep = require("deep-get-set");
 const endpoint = "/geojson-features";
+
+import Station from "../models/Station";
 
 // initial state
 const state = {
@@ -23,10 +27,20 @@ const actions = {
     }
 }
 
+const getters = {
+    stations(state) {
+        return collect(state.geojson).filter((feature) => {
+            return deep(feature, "payload.geometry.type") === "Point";
+        }).map(feature => {
+            return new Station(feature);
+        }).toArray();
+    }
+}
 
 export default {
     namespaced: true,
     state,
     mutations,
-    actions
+    actions,
+    getters
 }

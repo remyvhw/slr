@@ -27696,6 +27696,27 @@ var PhotoScaffold = function (_AbstractPhoto2) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/store/models/Station.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
+
+var Station = function Station(feature) {
+    _classCallCheck(this, Station);
+
+    this.id = deep(feature, "name");
+    this.name = deep(feature, "payload.properties.name");
+    this.lat = deep(feature, "payload.geometry.coordinates.1");
+    this.lng = deep(feature, "payload.geometry.coordinates.0");
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Station);
+
+/***/ }),
+
 /***/ "./resources/assets/js/store/modules/browser.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -27783,7 +27804,12 @@ var mutations = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_Station__ = __webpack_require__("./resources/assets/js/store/models/Station.js");
+var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
+var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
 var endpoint = "/geojson-features";
+
+
 
 // initial state
 var state = {
@@ -27806,11 +27832,22 @@ var actions = {
     }
 };
 
+var getters = {
+    stations: function stations(state) {
+        return collect(state.geojson).filter(function (feature) {
+            return deep(feature, "payload.geometry.type") === "Point";
+        }).map(function (feature) {
+            return new __WEBPACK_IMPORTED_MODULE_0__models_Station__["a" /* default */](feature);
+        }).toArray();
+    }
+};
+
 /* harmony default export */ __webpack_exports__["a"] = ({
     namespaced: true,
     state: state,
     mutations: mutations,
-    actions: actions
+    actions: actions,
+    getters: getters
 });
 
 /***/ }),
