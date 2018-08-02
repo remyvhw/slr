@@ -35,6 +35,13 @@ export default {
         this.putMarkersOnMap(val, oldVal);
       }
     },
+    "$store.state.features.geojson": {
+      handler: function(val, oldVal) {
+        if (val && !oldVal && this.map.loaded()) {
+          this.generateMapFeatures();
+        }
+      }
+    },
     selectedObstruction: {
       deep: false,
       handler: function(val, oldVal) {
@@ -62,7 +69,7 @@ export default {
     this.putMarkersOnMap(this.markers);
 
     this.map.on("load", () => {
-      this.loadGeojsonFeatures();
+      if (this.$store.state.features.geojson) this.generateMapFeatures();
     });
   },
   computed: {
@@ -189,50 +196,47 @@ export default {
         marker.addTo(this.map);
       });
     },
-    loadGeojsonFeatures() {
-      axios
-        .get(this.$store.state.apiRoot + "/geojson-features")
-        .then(response => {
-          const features = collect(response.data)
-            .map(feature => {
-              return feature.payload;
-            })
-            .toArray();
 
-          this.map.addSource("rem", {
-            type: "geojson",
-            data: {
-              type: "FeatureCollection",
-              features: features
-            }
-          });
+    generateMapFeatures() {
+      const features = collect(this.$store.state.features.geojson)
+        .map(feature => {
+          return feature.payload;
+        })
+        .toArray();
 
-          this.map.addLayer({
-            id: "lines",
-            type: "line",
-            source: "rem",
-            paint: {
-              "line-color": "#084638",
-              "line-width": 2
-            },
-            layout: {
-              "line-join": "round",
-              "line-cap": "round"
-            },
-            filter: ["==", "$type", "LineString"]
-          });
+      this.map.addSource("rem", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: features
+        }
+      });
 
-          this.map.addLayer({
-            id: "stations",
-            type: "circle",
-            source: "rem",
-            paint: {
-              "circle-radius": 3,
-              "circle-color": "#85bb23"
-            },
-            filter: ["==", "$type", "Point"]
-          });
-        });
+      this.map.addLayer({
+        id: "lines",
+        type: "line",
+        source: "rem",
+        paint: {
+          "line-color": "#084638",
+          "line-width": 2
+        },
+        layout: {
+          "line-join": "round",
+          "line-cap": "round"
+        },
+        filter: ["==", "$type", "LineString"]
+      });
+
+      this.map.addLayer({
+        id: "stations",
+        type: "circle",
+        source: "rem",
+        paint: {
+          "circle-radius": 3,
+          "circle-color": "#85bb23"
+        },
+        filter: ["==", "$type", "Point"]
+      });
     }
   }
 };

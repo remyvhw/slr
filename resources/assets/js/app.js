@@ -12,10 +12,11 @@ import store from './store/index.js'
 
 import router from './router.js'
 
-
-
 const app = new Vue({
     el: '#app',
     store,
-    router
+    router,
+    mounted() {
+        this.$store.dispatch("features/get");
+    }
 });

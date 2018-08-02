@@ -21,6 +21,7 @@
         "collect.js": "^4.0.24",
         "deep-get-set": "^1.1.0",
         "exif-js": "^2.3.0",
+        "haversine": "^1.1.0",
         "mapbox-gl": "^0.46.0",
         "marked": "^0.4.0",
         "tailwindcss-spinner": "^0.1.2",

@@ -1183,6 +1183,13 @@ var obstructionIcon = {
         this.putMarkersOnMap(val, oldVal);
       }
     },
+    "$store.state.features.geojson": {
+      handler: function handler(val, oldVal) {
+        if (val && !oldVal && this.map.loaded()) {
+          this.generateMapFeatures();
+        }
+      }
+    },
     selectedObstruction: {
       deep: false,
       handler: function handler(val, oldVal) {
@@ -1212,7 +1219,7 @@ var obstructionIcon = {
     this.putMarkersOnMap(this.markers);
 
     this.map.on("load", function () {
-      _this.loadGeojsonFeatures();
+      if (_this.$store.state.features.geojson) _this.generateMapFeatures();
     });
   },
 
@@ -1309,47 +1316,43 @@ var obstructionIcon = {
         marker.addTo(_this4.map);
       });
     },
-    loadGeojsonFeatures: function loadGeojsonFeatures() {
-      var _this5 = this;
+    generateMapFeatures: function generateMapFeatures() {
+      var features = collect(this.$store.state.features.geojson).map(function (feature) {
+        return feature.payload;
+      }).toArray();
 
-      axios.get(this.$store.state.apiRoot + "/geojson-features").then(function (response) {
-        var features = collect(response.data).map(function (feature) {
-          return feature.payload;
-        }).toArray();
+      this.map.addSource("rem", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: features
+        }
+      });
 
-        _this5.map.addSource("rem", {
-          type: "geojson",
-          data: {
-            type: "FeatureCollection",
-            features: features
-          }
-        });
+      this.map.addLayer({
+        id: "lines",
+        type: "line",
+        source: "rem",
+        paint: {
+          "line-color": "#084638",
+          "line-width": 2
+        },
+        layout: {
+          "line-join": "round",
+          "line-cap": "round"
+        },
+        filter: ["==", "$type", "LineString"]
+      });
 
-        _this5.map.addLayer({
-          id: "lines",
-          type: "line",
-          source: "rem",
-          paint: {
-            "line-color": "#084638",
-            "line-width": 2
-          },
-          layout: {
-            "line-join": "round",
-            "line-cap": "round"
-          },
-          filter: ["==", "$type", "LineString"]
-        });
-
-        _this5.map.addLayer({
-          id: "stations",
-          type: "circle",
-          source: "rem",
-          paint: {
-            "circle-radius": 3,
-            "circle-color": "#85bb23"
-          },
-          filter: ["==", "$type", "Point"]
-        });
+      this.map.addLayer({
+        id: "stations",
+        type: "circle",
+        source: "rem",
+        paint: {
+          "circle-radius": 3,
+          "circle-color": "#85bb23"
+        },
+        filter: ["==", "$type", "Point"]
       });
     }
   }
@@ -26219,7 +26222,10 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
 var app = new Vue({
     el: '#app',
     store: __WEBPACK_IMPORTED_MODULE_2__store_index_js__["a" /* default */],
-    router: __WEBPACK_IMPORTED_MODULE_3__router_js__["a" /* default */]
+    router: __WEBPACK_IMPORTED_MODULE_3__router_js__["a" /* default */],
+    mounted: function mounted() {
+        this.$store.dispatch("features/get");
+    }
 });
 
 /***/ }),
@@ -27418,11 +27424,13 @@ router.beforeEach(function (to, from, next) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_changes__ = __webpack_require__("./resources/assets/js/store/modules/changes.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_settings__ = __webpack_require__("./resources/assets/js/store/modules/settings.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_browser__ = __webpack_require__("./resources/assets/js/store/modules/browser.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_features__ = __webpack_require__("./resources/assets/js/store/modules/features.js");
 
 
 
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["default"]);
+
 
 
 
@@ -27447,7 +27455,8 @@ var lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date();
         obstructions: __WEBPACK_IMPORTED_MODULE_2__modules_obstructions__["a" /* default */],
         changes: __WEBPACK_IMPORTED_MODULE_3__modules_changes__["a" /* default */],
         settings: __WEBPACK_IMPORTED_MODULE_4__modules_settings__["a" /* default */],
-        browser: __WEBPACK_IMPORTED_MODULE_5__modules_browser__["a" /* default */]
+        browser: __WEBPACK_IMPORTED_MODULE_5__modules_browser__["a" /* default */],
+        features: __WEBPACK_IMPORTED_MODULE_6__modules_features__["a" /* default */]
     }
 }));
 
@@ -27766,6 +27775,42 @@ var mutations = {
     state: state,
     actions: actions,
     mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/features.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var endpoint = "/geojson-features";
+
+// initial state
+var state = {
+    geojson: null
+
+    // mutations
+};var mutations = {
+    setGeojson: function setGeojson(state, geojson) {
+        state.geojson = geojson;
+    }
+};
+
+// actions
+var actions = {
+    get: function get(context) {
+        var url = new URL(context.rootState.apiRoot + endpoint);
+        axios.get(url).then(function (response) {
+            context.commit('setGeojson', response.data);
+        });
+    }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    namespaced: true,
+    state: state,
+    mutations: mutations,
+    actions: actions
 });
 
 /***/ }),
