@@ -935,6 +935,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -1096,7 +1100,8 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
       }, {
         label: "Photos",
         selected: false,
-        id: "pictures"
+        id: "pictures",
+        beta: true
       }]
     };
   },
@@ -23168,7 +23173,19 @@ var render = function() {
             }
           }
         },
-        [_vm._v("\n        " + _vm._s(button.label) + "\n    ")]
+        [
+          _vm._v("\n        " + _vm._s(button.label) + "\n        "),
+          button.beta
+            ? _c(
+                "span",
+                {
+                  staticClass:
+                    "bg-orange text-xs text-white font-bold py-1 px-2 -mr-2 rounded-full"
+                },
+                [_vm._v("\n            Beta\n        ")]
+              )
+            : _vm._e()
+        ]
       )
     })
   )

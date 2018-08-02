@@ -7,6 +7,10 @@
             'bg-grey-light': button.selected,
         }" class="hover:bg-grey border border-color-grey text-grey-darkest text-sm font-bold py-2 px-4">
             {{ button.label }}
+            <span v-if="button.beta" class="bg-orange text-xs text-white font-bold py-1 px-2 -mr-2 rounded-full">
+                Beta
+            </span>
+
         </button>
     </div>
 </template>

@@ -32,7 +32,8 @@ export default {
         {
           label: "Photos",
           selected: false,
-          id: "pictures"
+          id: "pictures",
+          beta: true
         }
       ]
     };
