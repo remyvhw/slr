@@ -3640,6 +3640,73 @@ module.exports = Fuse;
 
 /***/ }),
 
+/***/ "./node_modules/haversine/haversine.js":
+/***/ (function(module, exports) {
+
+var haversine = (function () {
+  var RADII = {
+    km:    6371,
+    mile:  3960,
+    meter: 6371000,
+    nmi:   3440
+  }
+
+  // convert to radians
+  var toRad = function (num) {
+    return num * Math.PI / 180
+  }
+
+  // convert coordinates to standard format based on the passed format option
+  var convertCoordinates = function (format, coordinates) {
+    switch (format) {
+    case '[lat,lon]':
+      return { latitude: coordinates[0], longitude: coordinates[1] }
+    case '[lon,lat]':
+      return { latitude: coordinates[1], longitude: coordinates[0] }
+    case '{lon,lat}':
+      return { latitude: coordinates.lat, longitude: coordinates.lon }
+    case 'geojson':
+      return { latitude: coordinates.geometry.coordinates[1], longitude: coordinates.geometry.coordinates[0] }
+    default:
+      return coordinates
+    }
+  }
+
+  return function haversine (startCoordinates, endCoordinates, options) {
+    options   = options || {}
+
+    var R = options.unit in RADII
+      ? RADII[options.unit]
+      : RADII.km
+
+    var start = convertCoordinates(options.format, startCoordinates)
+    var end = convertCoordinates(options.format, endCoordinates)
+
+    var dLat = toRad(end.latitude - start.latitude)
+    var dLon = toRad(end.longitude - start.longitude)
+    var lat1 = toRad(start.latitude)
+    var lat2 = toRad(end.latitude)
+
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2)
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+
+    if (options.threshold) {
+      return options.threshold > (R * c)
+    }
+
+    return R * c
+  }
+
+})()
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = haversine
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/lodash/lodash.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28562,23 +28629,54 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 var EXIF = __webpack_require__("./node_modules/exif-js/exif.js");
 var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
 var endpoint = "/photos";
 
-var AbstractPhoto = function AbstractPhoto() {
-    _classCallCheck(this, AbstractPhoto);
+var AbstractPhoto = function () {
+    function AbstractPhoto() {
+        _classCallCheck(this, AbstractPhoto);
 
-    this.id = null;
-    this.versions = {
-        orig: null
-    };
-    this.type = null;
-    this.lat = null;
-    this.lng = null;
-    this.legend = null;
-    this.created_at = null;
-};
+        this.id = null;
+        this.versions = {
+            orig: null
+        };
+        this.type = null;
+        this.lat = null;
+        this.lng = null;
+        this.legend = null;
+        this.created_at = null;
+    }
+
+    /**
+     * Find the nearest station, if any within 5 km from photo.
+     * @param {array} stations an array of Station objects 
+     */
+
+
+    _createClass(AbstractPhoto, [{
+        key: "nearestStationInStations",
+        value: function nearestStationInStations(stations) {
+            var _this = this;
+
+            if (!this.lat || !this.lng) return null;
+
+            return collect(stations).map(function (station) {
+                return {
+                    distance: station.distanceFromPoint(_this.lat, _this.lng),
+                    station: station
+                };
+            }).reject(function (stationItem) {
+                return stationItem.distance > 5;
+            }).sortBy(function (stationItem) {
+                return stationItem.distance;
+            }).pluck("station").first();
+        }
+    }]);
+
+    return AbstractPhoto;
+}();
 
 var Photo = function (_AbstractPhoto) {
     _inherits(Photo, _AbstractPhoto);
@@ -28586,15 +28684,15 @@ var Photo = function (_AbstractPhoto) {
     function Photo(apiPhoto) {
         _classCallCheck(this, Photo);
 
-        var _this = _possibleConstructorReturn(this, (Photo.__proto__ || Object.getPrototypeOf(Photo)).call(this));
+        var _this2 = _possibleConstructorReturn(this, (Photo.__proto__ || Object.getPrototypeOf(Photo)).call(this));
 
         Object.keys(apiPhoto).forEach(function (key) {
-            _this[key] = apiPhoto[key];
+            _this2[key] = apiPhoto[key];
         });
-        _this.created_at = new Date(_this.created_at);
-        _this.updated_at = new Date(_this.updated_at);
+        _this2.created_at = new Date(_this2.created_at);
+        _this2.updated_at = new Date(_this2.updated_at);
 
-        return _this;
+        return _this2;
     }
 
     return Photo;
@@ -28606,51 +28704,51 @@ var PhotoScaffold = function (_AbstractPhoto2) {
     function PhotoScaffold(file) {
         _classCallCheck(this, PhotoScaffold);
 
-        var _this2 = _possibleConstructorReturn(this, (PhotoScaffold.__proto__ || Object.getPrototypeOf(PhotoScaffold)).call(this));
+        var _this3 = _possibleConstructorReturn(this, (PhotoScaffold.__proto__ || Object.getPrototypeOf(PhotoScaffold)).call(this));
 
-        _this2.created_at = new Date();
-        _this2.exif = null;
-        _this2.temporaryId = window.crypto.getRandomValues(new Uint32Array(10))[0];
-        _this2.processing = true;
-        _this2.file = file;
-        _this2.uploadProgress = false;
-        _this2.resultingPhoto = null;
-        _this2.errors = null;
+        _this3.created_at = new Date();
+        _this3.exif = null;
+        _this3.temporaryId = window.crypto.getRandomValues(new Uint32Array(10))[0];
+        _this3.processing = true;
+        _this3.file = file;
+        _this3.uploadProgress = false;
+        _this3.resultingPhoto = null;
+        _this3.errors = null;
 
-        _this2.readFile();
+        _this3.readFile();
         try {
-            _this2.extractExif();
+            _this3.extractExif();
         } catch (e) {
-            _this2.processing = false;
+            _this3.processing = false;
         }
 
-        return _this2;
+        return _this3;
     }
 
     _createClass(PhotoScaffold, [{
         key: "readFile",
         value: function readFile() {
-            var _this3 = this;
+            var _this4 = this;
 
             var reader = new FileReader();
             reader.onloadend = function () {
-                _this3.versions.orig = reader.result;
-                _this3.type = _this3.file.type;
+                _this4.versions.orig = reader.result;
+                _this4.type = _this4.file.type;
             };
             reader.readAsDataURL(this.file);
         }
     }, {
         key: "extractExif",
         value: function extractExif() {
-            var _this4 = this;
+            var _this5 = this;
 
             var reader = new FileReader();
             reader.onloadend = function () {
                 var exif = EXIF.readFromBinaryFile(reader.result);
-                _this4.exif = exif;
-                _this4.extractLocation(exif);
-                _this4.extractOriginalDate(exif);
-                _this4.processing = false;
+                _this5.exif = exif;
+                _this5.extractLocation(exif);
+                _this5.extractOriginalDate(exif);
+                _this5.processing = false;
             };
             reader.readAsArrayBuffer(this.file);
         }
@@ -28678,39 +28776,39 @@ var PhotoScaffold = function (_AbstractPhoto2) {
     }, {
         key: "getSavePromise",
         value: function getSavePromise() {
-            var _this5 = this;
+            var _this6 = this;
 
             return new Promise(function (resolve, reject) {
 
-                _this5.errors = null;
+                _this6.errors = null;
 
                 var url = new URL(window.apiRoot + endpoint);
                 var data = new FormData();
-                data.append("photo", _this5.file);
-                data.append("photo", _this5.legend);
+                data.append("photo", _this6.file);
+                data.append("photo", _this6.legend);
 
-                if (_this5.lat && _this5.lng) {
-                    data.append("lat", _this5.lat);
-                    data.append("lng", _this5.lng);
+                if (_this6.lat && _this6.lng) {
+                    data.append("lat", _this6.lat);
+                    data.append("lng", _this6.lng);
                 }
 
-                if (_this5.created_at) {
-                    data.append("created_at", new Date(_this5.created_at).toISOString());
+                if (_this6.created_at) {
+                    data.append("created_at", new Date(_this6.created_at).toISOString());
                 }
 
                 window.axios.post(url, data, {
                     onUploadProgress: function onUploadProgress(e) {
-                        _this5.uploadProgress = Math.round(e.loaded * 100 / e.total);
+                        _this6.uploadProgress = Math.round(e.loaded * 100 / e.total);
                     }
                 }).then(function (res) {
                     var apiPhoto = new Photo(res.data.data);
-                    apiPhoto.versions.orig = _this5.versions.orig;
-                    _this5.resultingPhoto = apiPhoto;
-                    _this5.uploadProgress = false;
-                    resolve(_this5);
+                    apiPhoto.versions.orig = _this6.versions.orig;
+                    _this6.resultingPhoto = apiPhoto;
+                    _this6.uploadProgress = false;
+                    resolve(_this6);
                 }).catch(function (err) {
-                    _this5.uploadProgress = false;
-                    _this5.errors = deep(err, "response.data.errors");
+                    _this6.uploadProgress = false;
+                    _this6.errors = deep(err, "response.data.errors");
                 });
             });
         }
@@ -28730,6 +28828,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
+var haversine = __webpack_require__("./node_modules/haversine/haversine.js");
 
 var Station = function () {
     function Station(feature) {
@@ -28756,6 +28855,14 @@ var Station = function () {
                     "coordinates": [this.lng, this.lat]
                 }
             };
+        }
+    }, {
+        key: "distanceFromPoint",
+        value: function distanceFromPoint(latitude, longitude) {
+            return haversine({
+                latitude: this.lat,
+                longitude: this.lng
+            }, { latitude: latitude, longitude: longitude });
         }
     }]);
 
