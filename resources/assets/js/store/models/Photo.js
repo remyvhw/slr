@@ -17,6 +17,10 @@ export class AbstractPhoto {
         this.created_at = null;
     }
 
+    static getEndpoint() {
+        return endpoint;
+    }
+
     /**
      * Find the nearest station, if any within 5 km from photo.
      * @param {array} stations an array of Station objects 

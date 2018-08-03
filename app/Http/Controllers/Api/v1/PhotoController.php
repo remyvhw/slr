@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePhoto;
 use App\Http\Resources\Photo as PhotoResource;
+use App\Http\Resources\PhotoCollection;
 use App\Photo;
 use Carbon;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        //
+        return new PhotoCollection(Photo::latest()->paginate());
     }
 
     /**

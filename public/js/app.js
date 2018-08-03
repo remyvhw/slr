@@ -621,7 +621,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pictures/PictureList.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pictures/PhotoItem.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -640,13 +640,110 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    photo: {
+      type: Object,
+      required: true
+    }
+  },
+  watch: {
+    /*selected: function(newVal, oldVal) {
+      if (newVal && !oldVal && document.body.clientWidth > 992)
+        this.$el.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+    }*/
+  },
+  computed: {
+    /*selected() {
+      return this.photo.isSelectedInStore(this.$store);
+    }*/
+  },
+  components: {},
+  methods: {
+    selectPhoto: function selectPhoto() {
+      this.$store.commit("browser/setSelection", this.selected ? null : this.photo);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pictures/PictureList.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__ = __webpack_require__("./resources/assets/js/store/models/Photo.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+
+var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  computed: {
+    photos: function photos() {
+      if (!this.pages) return null;
+      return collect(this.pages.data).map(function (apiPhoto) {
+        return new __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__["a" /* Photo */](apiPhoto);
+      }).toArray();
+    }
+  },
+  data: function data() {
+    return { pages: null };
+  },
+
+  components: {
+    photoItem: __webpack_require__("./resources/assets/js/components/Pictures/PhotoItem.vue")
+  },
+
+  mounted: function mounted() {
+    this.retrievePhotosAtUrl();
+  },
+
+
+  methods: {
+    retrievePhotosAtUrl: function retrievePhotosAtUrl(url) {
+      var _this = this;
+
+      if (!url) {
+        url = new URL(this.$store.state.apiRoot + __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__["a" /* Photo */].getEndpoint());
+      }
+      this.pages = null;
+      axios.get(url).then(function (response) {
+        _this.pages = response.data;
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -892,7 +989,7 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
       var _this = this;
 
       Array.from(event.target.files).forEach(function (file) {
-        var photo = new __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__["a" /* PhotoScaffold */](file);
+        var photo = new __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__["b" /* PhotoScaffold */](file);
         _this.photos.push(photo);
       });
       event.target.value = "";
@@ -23474,6 +23571,49 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-25f9823c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Pictures/PhotoItem.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("figure", { staticClass: "w-1/2 px-1 mb-2" }, [
+    _c(
+      "div",
+      {
+        staticClass:
+          "border border-grey-light overflow-hidden rounded text-center",
+        class: {
+          "bg-white": !_vm.selected,
+          "bg-orange-lightest": _vm.selected
+        }
+      },
+      [
+        _c("img", {
+          staticClass: "w-full",
+          attrs: { src: "https://tailwindcss.com/img/card-top.jpg" }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "px-2 py-2" }, [
+          _vm._v("\n      Contenu\n    ")
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-25f9823c", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-30f2e1ae\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Obstructions/ObstructionItem.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23947,7 +24087,19 @@ var render = function() {
         )
       ],
       1
-    )
+    ),
+    _vm._v(" "),
+    !_vm.photos ? _c("div", { staticClass: "spinner h-10" }) : _vm._e(),
+    _vm._v(" "),
+    _vm.photos
+      ? _c(
+          "div",
+          { staticClass: "flex flex-wrap justify-between px-1 pt-2" },
+          _vm._l(_vm.photos, function(photo) {
+            return _c("photo-item", { key: photo.id, attrs: { photo: photo } })
+          })
+        )
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -27889,6 +28041,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/Pictures/PhotoItem.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pictures/PhotoItem.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-25f9823c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Pictures/PhotoItem.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Pictures/PhotoItem.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-25f9823c", Component.options)
+  } else {
+    hotAPI.reload("data-v-25f9823c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/Pictures/PictureList.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28619,8 +28819,8 @@ var Obstruction = function () {
 
 "use strict";
 /* unused harmony export AbstractPhoto */
-/* unused harmony export Photo */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PhotoScaffold; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Photo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return PhotoScaffold; });
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -28649,14 +28849,14 @@ var AbstractPhoto = function () {
         this.created_at = null;
     }
 
-    /**
-     * Find the nearest station, if any within 5 km from photo.
-     * @param {array} stations an array of Station objects 
-     */
-
-
     _createClass(AbstractPhoto, [{
         key: "nearestStationInStations",
+
+
+        /**
+         * Find the nearest station, if any within 5 km from photo.
+         * @param {array} stations an array of Station objects 
+         */
         value: function nearestStationInStations(stations) {
             var _this = this;
 
@@ -28672,6 +28872,11 @@ var AbstractPhoto = function () {
             }).sortBy(function (stationItem) {
                 return stationItem.distance;
             }).pluck("station").first();
+        }
+    }], [{
+        key: "getEndpoint",
+        value: function getEndpoint() {
+            return endpoint;
         }
     }]);
 
