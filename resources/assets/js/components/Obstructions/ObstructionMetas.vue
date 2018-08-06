@@ -11,7 +11,7 @@
     <obstruction-meta type='level:major' v-if="obstruction.major"></obstruction-meta>
     <obstruction-meta :type='"active:" + (obstruction.active ? "true" : "false")'></obstruction-meta>
 
-    <router-link :to="{name: 'obstructionDetailsModal', params: { obstructionId: obstruction.id }}" v-if="!obstruction.deleted_at" class="inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm text-blue no-underline mr-2 mb-2">
+    <router-link :to="{name: 'browser.obstructions.details', params: { obstructionId: obstruction.id }}" v-if="!obstruction.deleted_at" class="inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm text-blue no-underline mr-2 mb-2">
 
       <svg class="fill-current text-blue w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 

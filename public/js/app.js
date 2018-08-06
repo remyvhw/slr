@@ -1089,7 +1089,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   props: {
     /**
      *
-     * [{label: "Hello", selected: true}]
+     * [{label: "Hello", route: 'hello'}]
      *
      */
     buttons: {
@@ -1185,6 +1185,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1202,81 +1204,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   components: {
     radioPills: __webpack_require__("./resources/assets/js/components/RadioPills.vue"),
     slrBrowserMap: __webpack_require__("./resources/assets/js/components/SlrBrowserMap.vue"),
-    slrBrowserContent: __webpack_require__("./resources/assets/js/components/SlrBrowserContent.vue"),
     slrBrowserSettings: __webpack_require__("./resources/assets/js/components/SlrBrowserSettings.vue")
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SlrBrowserContent.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      buttons: [{
+  },
+  computed: {
+    buttons: function buttons() {
+      return [{
         label: "Changements",
-        selected: true,
-        id: "changes"
+        route: "browser.changes"
       }, {
         label: "Chantiers",
-        selected: false,
-        id: "obstructions"
+        route: "browser.obstructions"
       }, {
         label: "Photos",
-        selected: false,
-        id: "pictures",
+        route: "browser.photos",
         beta: true
-      }]
-    };
-  },
-
-  components: {
-    radioPills: __webpack_require__("./resources/assets/js/components/RadioPills.vue"),
-    obstructionList: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionList.vue"),
-    changeList: __webpack_require__("./resources/assets/js/components/Changes/ChangeList.vue"),
-    pictureList: __webpack_require__("./resources/assets/js/components/Pictures/PictureList.vue")
-  },
-  mounted: function mounted() {},
-
-  computed: {
-    obstructions: function obstructions() {
-      return this.$store.state.obstructions.content.data ? this.$store.state.obstructions.content.data : {};
-    },
-    selectedButton: function selectedButton() {
-      return collect(this.buttons).first(function (item) {
-        return item.selected;
-      });
-    }
-  },
-  methods: {
-    toggleButtons: function toggleButtons(pressedButton) {
-      this.$store.commit("browser/setPresentationType", pressedButton.id);
-
-      this.buttons = collect(this.buttons).map(function (button) {
-        button.selected = button.id === pressedButton.id;
-        return button;
-      }).toArray();
+      }];
     }
   }
 });
@@ -1376,10 +1318,9 @@ var obstructionIcon = {
      * and a `payload` property.
      */
     basicItems: function basicItems() {
-      var presentationType = this.$store.state.browser.presentationType;
-      if (presentationType === "changes" && this.$store.state.changes.content.data) {
+      if (this.$route.name.startsWith("browser.changes") && this.$store.state.changes.content.data) {
         return this.$store.state.changes.content.data;
-      } else if (presentationType === "obstructions" && this.$store.state.obstructions.content.data) {
+      } else if (this.$route.name.startsWith("browser.obstructions") && this.$store.state.obstructions.content.data) {
         return collect(this.$store.state.obstructions.content.data).map(function (obstruction) {
           return {
             payload: obstruction,
@@ -23144,51 +23085,6 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-0216afa3\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SlrBrowserContent.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "div",
-        { staticClass: "w-full text-center py-2" },
-        [
-          _c("radio-pills", {
-            attrs: { buttons: _vm.buttons },
-            on: { select: _vm.toggleButtons }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _vm.selectedButton.id === "changes" ? _c("change-list") : _vm._e(),
-      _vm._v(" "),
-      _vm.selectedButton.id === "obstructions"
-        ? _c("obstruction-list")
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.selectedButton.id === "pictures" ? _c("picture-list") : _vm._e()
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-0216afa3", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-037474c8\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Settings/SettingItemLink.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23762,7 +23658,7 @@ var render = function() {
                 "inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm text-blue no-underline mr-2 mb-2",
               attrs: {
                 to: {
-                  name: "obstructionDetailsModal",
+                  name: "browser.obstructions.details",
                   params: { obstructionId: _vm.obstruction.id }
                 }
               }
@@ -24025,42 +23921,50 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    !_vm.$store.state.obstructions.content.data
-      ? _c("div", { staticClass: "spinner h-10" })
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.obstructions && _vm.$store.state.obstructions.content.data
-      ? _c(
-          "div",
-          [
-            _vm._l(_vm.obstructions, function(obstruction) {
-              return _c("obstruction-item", {
-                key: obstruction.id,
-                attrs: { obstruction: obstruction }
-              })
-            }),
-            _vm._v(" "),
-            !_vm.$store.state.obstructions.content.data.length
-              ? _c(
-                  "div",
-                  {
-                    staticClass:
-                      "border-t order-t-1 px-4 py-3 m-4  text-center",
-                    attrs: { role: "alert" }
-                  },
-                  [
-                    _c("p", { staticClass: "font-sm italic text-grey-dark" }, [
-                      _vm._v("Rien de neuf")
-                    ])
-                  ]
-                )
-              : _vm._e()
-          ],
-          2
-        )
-      : _vm._e()
-  ])
+  return _c(
+    "div",
+    [
+      _c("router-view"),
+      _vm._v(" "),
+      !_vm.$store.state.obstructions.content.data
+        ? _c("div", { staticClass: "spinner h-10" })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.obstructions && _vm.$store.state.obstructions.content.data
+        ? _c(
+            "div",
+            [
+              _vm._l(_vm.obstructions, function(obstruction) {
+                return _c("obstruction-item", {
+                  key: obstruction.id,
+                  attrs: { obstruction: obstruction }
+                })
+              }),
+              _vm._v(" "),
+              !_vm.$store.state.obstructions.content.data.length
+                ? _c(
+                    "div",
+                    {
+                      staticClass:
+                        "border-t order-t-1 px-4 py-3 m-4  text-center",
+                      attrs: { role: "alert" }
+                    },
+                    [
+                      _c(
+                        "p",
+                        { staticClass: "font-sm italic text-grey-dark" },
+                        [_vm._v("Rien de neuf")]
+                      )
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          )
+        : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -24091,7 +23995,7 @@ var render = function() {
           {
             staticClass:
               "bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center",
-            attrs: { to: { name: "pictureUploadModal" } }
+            attrs: { to: { name: "photos.upload" } }
           },
           [
             _c(
@@ -24442,7 +24346,7 @@ var render = function() {
     { staticClass: "inline-flex" },
     _vm._l(_vm.buttons, function(button, index) {
       return _c(
-        "button",
+        "router-link",
         {
           key: button.label,
           staticClass:
@@ -24450,14 +24354,10 @@ var render = function() {
           class: {
             "rounded-l": index === 0,
             "rounded-r": index === _vm.buttons.length - 1,
-            "bg-grey-lighter": !button.selected,
-            "bg-grey-light": button.selected
+            "bg-grey-lighter": !_vm.$route.name === button.route,
+            "bg-grey-light": _vm.$route.name === button.route
           },
-          on: {
-            click: function($event) {
-              _vm.$emit("select", button)
-            }
-          }
+          attrs: { tag: "button", to: { name: button.route } }
         },
         [
           _vm._v("\n        " + _vm._s(button.label) + "\n        "),
@@ -24776,43 +24676,48 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "section",
-    [
-      _c("div", { staticClass: "flex flex-wrap" }, [
-        _c("div", { staticClass: "w-full fixed lg:relative lg:w-2/3" }, [
-          _c(
-            "div",
-            { staticClass: "h-64 lg:h-screen" },
-            [_c("slr-browser-map")],
-            1
-          )
-        ]),
-        _vm._v(" "),
+  return _c("section", [
+    _c("div", { staticClass: "flex flex-wrap" }, [
+      _c("div", { staticClass: "w-full fixed lg:relative lg:w-2/3" }, [
         _c(
           "div",
-          {
-            staticClass:
-              "w-full min-h-screen lg:h-screen lg:overflow-y-scroll bg-grey-lighter lg:w-1/3 mt-64 lg:mt-0"
-          },
-          [
-            _c("slr-browser-settings"),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "py-4" },
-              [_vm._m(0), _vm._v(" "), _c("slr-browser-content")],
-              1
-            )
-          ],
+          { staticClass: "h-64 lg:h-screen" },
+          [_c("slr-browser-map")],
           1
         )
       ]),
       _vm._v(" "),
-      _c("router-view")
-    ],
-    1
-  )
+      _c(
+        "div",
+        {
+          staticClass:
+            "w-full min-h-screen lg:h-screen lg:overflow-y-scroll bg-grey-lighter lg:w-1/3 mt-64 lg:mt-0"
+        },
+        [
+          _c("slr-browser-settings"),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "py-4" },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "w-full text-center py-2" },
+                [_c("radio-pills", { attrs: { buttons: _vm.buttons } })],
+                1
+              ),
+              _vm._v(" "),
+              _c("router-view")
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -28654,54 +28559,6 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/SlrBrowserContent.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SlrBrowserContent.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-0216afa3\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SlrBrowserContent.vue")
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/SlrBrowserContent.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0216afa3", Component.options)
-  } else {
-    hotAPI.reload("data-v-0216afa3", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ "./resources/assets/js/components/SlrBrowserMap.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28810,21 +28667,34 @@ var routes = [{
     component: __webpack_require__("./resources/assets/js/components/SlrBrowser.vue"),
     name: 'browser',
     children: [{
-        path: '/obstructions/:obstructionId',
-        component: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionDetailsModal.vue"),
-        name: 'obstructionDetailsModal',
-        props: true,
-        meta: {
-            shouldBackOnClose: true
-        }
+        path: 'obstructions',
+        component: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionList.vue"),
+        name: 'browser.obstructions',
+        children: [{
+            path: ':obstructionId',
+            component: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionDetailsModal.vue"),
+            name: 'browser.obstructions.details',
+            props: true,
+            meta: {
+                shouldBackOnClose: true
+            }
+        }]
     }, {
-        path: '/pictures/upload',
-        component: __webpack_require__("./resources/assets/js/components/Pictures/PictureUploadModal.vue"),
-        name: 'pictureUploadModal',
-        meta: {
-            shouldBackOnClose: true
-        }
+        path: 'photos/all/:page?',
+        component: __webpack_require__("./resources/assets/js/components/Pictures/PictureList.vue"),
+        name: 'browser.photos'
+    }, {
+        path: '',
+        component: __webpack_require__("./resources/assets/js/components/Changes/ChangeList.vue"),
+        name: 'browser.changes'
     }]
+}, {
+    path: 'photos/upload',
+    component: __webpack_require__("./resources/assets/js/components/Pictures/PictureUploadModal.vue"),
+    name: 'photos.upload',
+    meta: {
+        shouldBackOnClose: true
+    }
 }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({ routes: routes });
@@ -29217,17 +29087,12 @@ var Station = function () {
 "use strict";
 // initial state
 var state = {
-    selection: null,
-    presentationType: "changes"
+    selection: null
 
     // mutations
 };var mutations = {
     setSelection: function setSelection(state, selectedObject) {
         state.selection = selectedObject;
-    },
-    setPresentationType: function setPresentationType(state, presentationType) {
-        state.presentationType = presentationType;
-        state.selection = null;
     }
 };
 

@@ -7,24 +7,42 @@ const routes = [
         name: 'browser',
         children: [
             {
-                path: '/obstructions/:obstructionId',
-                component: require("./components/Obstructions/ObstructionDetailsModal.vue"),
-                name: 'obstructionDetailsModal',
-                props: true,
-                meta: {
-                    shouldBackOnClose: true
-                }
+                path: 'obstructions',
+                component: require("./components/Obstructions/ObstructionList.vue"),
+                name: 'browser.obstructions',
+                children: [
+                    {
+                        path: ':obstructionId',
+                        component: require("./components/Obstructions/ObstructionDetailsModal.vue"),
+                        name: 'browser.obstructions.details',
+                        props: true,
+                        meta: {
+                            shouldBackOnClose: true
+                        }
+                    },
+                ]
             },
             {
-                path: '/pictures/upload',
-                component: require("./components/Pictures/PictureUploadModal.vue"),
-                name: 'pictureUploadModal',
-                meta: {
-                    shouldBackOnClose: true
-                }
-            }
+                path: 'photos/all/:page?',
+                component: require("./components/Pictures/PictureList.vue"),
+                name: 'browser.photos',
+            },
+            {
+                path: '',
+                component: require("./components/Changes/ChangeList.vue"),
+                name: 'browser.changes',
+            },
+
         ]
     },
+    {
+        path: 'photos/upload',
+        component: require("./components/Pictures/PictureUploadModal.vue"),
+        name: 'photos.upload',
+        meta: {
+            shouldBackOnClose: true
+        }
+    }
 ];
 
 const router = new VueRouter({ routes });

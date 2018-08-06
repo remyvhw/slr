@@ -80,14 +80,13 @@ export default {
      * and a `payload` property.
      */
     basicItems() {
-      const presentationType = this.$store.state.browser.presentationType;
       if (
-        presentationType === "changes" &&
+        this.$route.name.startsWith("browser.changes") &&
         this.$store.state.changes.content.data
       ) {
         return this.$store.state.changes.content.data;
       } else if (
-        presentationType === "obstructions" &&
+        this.$route.name.startsWith("browser.obstructions") &&
         this.$store.state.obstructions.content.data
       ) {
         return collect(this.$store.state.obstructions.content.data)

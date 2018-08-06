@@ -13,14 +13,16 @@
             <div class="self-center"><img src="/logo.svg" class="h-10 w-10"></div>
           </div>
 
-          <slr-browser-content></slr-browser-content>
+          <div class="w-full text-center py-2">
+            <radio-pills :buttons="buttons"></radio-pills>
+          </div>
+
+          <router-view></router-view>
 
         </div>
       </div>
     </div>
-    <router-view>
 
-    </router-view>
   </section>
 </template>
 
@@ -40,8 +42,26 @@ export default {
   components: {
     radioPills: require("./RadioPills.vue"),
     slrBrowserMap: require("./SlrBrowserMap.vue"),
-    slrBrowserContent: require("./SlrBrowserContent.vue"),
     slrBrowserSettings: require("./SlrBrowserSettings.vue")
+  },
+  computed: {
+    buttons() {
+      return [
+        {
+          label: "Changements",
+          route: "browser.changes"
+        },
+        {
+          label: "Chantiers",
+          route: "browser.obstructions"
+        },
+        {
+          label: "Photos",
+          route: "browser.photos",
+          beta: true
+        }
+      ];
+    }
   }
 };
 </script>
