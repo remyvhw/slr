@@ -19,7 +19,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        return new PhotoCollection(Photo::latest()->paginate());
+        return new PhotoCollection(Photo::latest()->paginate(2));
     }
 
     /**
