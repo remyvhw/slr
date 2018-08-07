@@ -23399,7 +23399,7 @@ var render = function() {
   return _c("generic-subpage", { on: { close: _vm.closeSubpage } }, [
     _c(
       "main",
-      { staticClass: "container mx-auto" },
+      { staticClass: "lg:w-1/2 mx-auto" },
       [
         _c(
           "div",
@@ -23451,7 +23451,7 @@ var render = function() {
                     _c("path", {
                       attrs: {
                         d:
-                          "M15 9h-3v2h3v3h2v-3h3V9h-3V6h-2v3zM0 3h10v2H0V3zm0 8h10v2H0v-2zm0-4h10v2H0V7zm0 8h10v2H0v-2z"
+                          "M0 2C0 .9.9 0 2 0h14l4 4v14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5 0v6h10V2H5zm6 1h3v4h-3V3z"
                       }
                     })
                   ]

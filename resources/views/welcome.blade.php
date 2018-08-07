@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
     </head>
 
-    <body class="bg-grey-lighter">
+    <body class="bg-white">
         <div id="app">
             <main>
                 <router-view></router-view>

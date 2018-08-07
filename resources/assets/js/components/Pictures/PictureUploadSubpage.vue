@@ -5,7 +5,7 @@
 <template>
   <generic-subpage @close="closeSubpage">
 
-    <main class="container mx-auto">
+    <main class="lg:w-1/2 mx-auto">
 
       <div class="mb-8">
         <progress-indicator v-if="uploading" :progress="progress"></progress-indicator>
@@ -14,7 +14,7 @@
       </div>
       <button v-if="awaitingUpload > 1 && !uploading" @click="saveAll" class="flex items-center block w-full text-white font-bold py-2 px-4 rounded justify-center h-12 bg-brand hover:bg-brand-dark mb-8">
         <svg class="fill-current inline-block w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-          <path d="M15 9h-3v2h3v3h2v-3h3V9h-3V6h-2v3zM0 3h10v2H0V3zm0 8h10v2H0v-2zm0-4h10v2H0V7zm0 8h10v2H0v-2z" />
+          <path d="M0 2C0 .9.9 0 2 0h14l4 4v14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5 0v6h10V2H5zm6 1h3v4h-3V3z" />
         </svg>
         <span>Enregistrer toutes les photos</span>
       </button>
