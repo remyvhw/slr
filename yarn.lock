@@ -7193,9 +7193,9 @@ tailwindcss-spinner@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/tailwindcss-spinner/-/tailwindcss-spinner-0.1.2.tgz#b907ebf3f2de748e73aeed5a14b5a5ccd0b6f0d1"
 
-tailwindcss@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-0.6.1.tgz#6fa250df581a044b3240a5b40e7beb281d56b41e"
+tailwindcss@^0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-0.6.4.tgz#b0aa8a10c34d3fed7a5f32482ef92d5d416353ee"
   dependencies:
     commander "^2.11.0"
     css.escape "^1.5.1"
@@ -7766,9 +7766,9 @@ vue2-animate@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/vue2-animate/-/vue2-animate-2.0.0.tgz#f4f54ac48f56ba5109ce864b9666630fe794eda2"
 
-vue@^2.5.7:
-  version "2.5.16"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
+vue@^2.5.17:
+  version "2.5.17"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
 
 vuex@^3.0.1:
   version "3.0.1"

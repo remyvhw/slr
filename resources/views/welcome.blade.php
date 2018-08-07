@@ -25,7 +25,7 @@
 
     <body class="bg-grey-lighter">
         <div id="app">
-            <main class="container mx-auto">
+            <main>
                 <router-view></router-view>
             </main>
         </div>

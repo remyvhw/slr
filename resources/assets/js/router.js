@@ -1,6 +1,13 @@
 import VueRouter from 'vue-router'
 
 const routes = [
+
+    {
+        path: '/photos/upload',
+        component: require("./components/Pictures/PictureUploadModal.vue"),
+        name: 'photos.upload',
+
+    },
     {
         path: '/',
         component: require("./components/SlrBrowser.vue"),
@@ -15,10 +22,7 @@ const routes = [
                         path: ':obstructionId',
                         component: require("./components/Obstructions/ObstructionDetailsModal.vue"),
                         name: 'browser.obstructions.details',
-                        props: true,
-                        meta: {
-                            shouldBackOnClose: true
-                        }
+                        props: true
                     },
                 ]
             },
@@ -35,14 +39,6 @@ const routes = [
 
         ]
     },
-    {
-        path: 'photos/upload',
-        component: require("./components/Pictures/PictureUploadModal.vue"),
-        name: 'photos.upload',
-        meta: {
-            shouldBackOnClose: true
-        }
-    }
 ];
 
 const router = new VueRouter({ routes });
@@ -50,6 +46,8 @@ const router = new VueRouter({ routes });
 router.beforeEach((to, from, next) => {
     if (!from.name)
         to.meta.shouldBackOnClose = false;
+    else
+        to.meta.shouldBackOnClose = true;
     next()
 });
 
