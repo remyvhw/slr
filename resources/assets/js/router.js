@@ -4,7 +4,7 @@ const routes = [
 
     {
         path: '/photos/upload',
-        component: require("./components/Pictures/PictureUploadModal.vue"),
+        component: require("./components/Pictures/PictureUploadSubpage.vue"),
         name: 'photos.upload',
 
     },
