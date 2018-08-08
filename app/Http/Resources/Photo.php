@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Storage;
 
 class Photo extends JsonResource
 {
@@ -14,6 +15,15 @@ class Photo extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'lat' => $this->lat,
+            'lng' => $this->lng,
+            'versions' => [
+                'orig' => Storage::disk("public")->url($this->getStoragePathAttribute()),
+            ],
+        ];
     }
 }

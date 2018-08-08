@@ -38,10 +38,10 @@
                     <strong class="font-bold">Oups!</strong>
                     <span class="block sm:inline">SurLesRails ne peut accepter votre photo. Les messages suivants ont été retournés par le serveur:
                         <ul>
-                            <li v-for="(error, key) in photo.errors">
+                            <li v-for="(error, key) in photo.errors" :key="key">
                                 <em>{{ key }}</em>
                                 <ul>
-                                    <li v-for="problem in error">{{ problem }}</li>
+                                    <li v-for="problem in error" :key="problem">{{ problem }}</li>
                                 </ul>
                             </li>
                         </ul>
@@ -56,7 +56,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </template>
 

@@ -4,7 +4,7 @@
       'bg-white': !selected,
       'bg-orange-lightest': selected
     }">
-      <img class="w-full" src="https://tailwindcss.com/img/card-top.jpg">
+      <img class="w-full" :src="photo.versions.orig">
       <div class="px-2 py-2">
         Contenu
       </div>

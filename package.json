@@ -14,7 +14,7 @@
         "cross-env": "^5.1",
         "laravel-mix": "^2.0",
         "tailwindcss": "^0.6.4",
-        "vue": "^2.5.17"
+        "vue": "^2.5.16"
     },
     "dependencies": {
         "@mapbox/mapbox-gl-geocoder": "^2.3.0",

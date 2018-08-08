@@ -938,7 +938,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -23629,7 +23628,7 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("img", {
-                  staticClass: "h-8 w-8 ",
+                  staticClass: "h-8 w-8",
                   attrs: { src: "/logo.svg " }
                 })
               ]
@@ -23675,7 +23674,7 @@ var render = function() {
       [
         _c("img", {
           staticClass: "w-full",
-          attrs: { src: "https://tailwindcss.com/img/card-top.jpg" }
+          attrs: { src: _vm.photo.versions.orig }
         }),
         _vm._v(" "),
         _c("div", { staticClass: "px-2 py-2" }, [
@@ -24690,13 +24689,15 @@ var render = function() {
                         _c(
                           "ul",
                           _vm._l(_vm.photo.errors, function(error, key) {
-                            return _c("li", [
+                            return _c("li", { key: key }, [
                               _c("em", [_vm._v(_vm._s(key))]),
                               _vm._v(" "),
                               _c(
                                 "ul",
                                 _vm._l(error, function(problem) {
-                                  return _c("li", [_vm._v(_vm._s(problem))])
+                                  return _c("li", { key: problem }, [
+                                    _vm._v(_vm._s(problem))
+                                  ])
                                 })
                               )
                             ])
