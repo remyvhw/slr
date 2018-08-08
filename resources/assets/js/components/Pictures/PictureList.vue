@@ -38,7 +38,13 @@ export default {
   },
 
   mounted() {
-    this.retrievePhotos();
+    this.retrievePhotos(this.$route.params.page ? this.$route.params.page : 1);
+  },
+
+  watch: {
+    "$route.params.page": function(newVal, oldVal) {
+      this.retrievePhotos(newVal ? newVal : 1);
+    }
   },
 
   methods: {

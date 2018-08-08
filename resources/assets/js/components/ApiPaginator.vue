@@ -63,21 +63,38 @@ export default {
       return disabledClasses;
     },
     buttonClassNext() {
-      if (this.data.links.prev) return enabledClasses;
+      if (this.data.links.next) return enabledClasses;
       return disabledClasses;
     },
     buttonClassLast() {
-      if (this.data.links.prev) return enabledClasses;
+      if (this.data.links.next) return enabledClasses;
       return disabledClasses;
     }
   },
 
   mounted() {},
   methods: {
-    previous() {},
-    next() {},
-    first() {},
-    last() {}
+    first() {
+      let params = this.$route.params;
+      params.page = 1;
+      this.$router.push({ name: this.$route.name, params });
+    },
+    previous() {
+      let params = this.$route.params;
+      params.page = params.page - 1;
+      this.$router.push({ name: this.$route.name, params });
+    },
+    next() {
+      let params = this.$route.params;
+      params.page = params.page ? params.page + 1 : 2;
+      this.$router.push({ name: this.$route.name, params });
+    },
+
+    last() {
+      let params = this.$route.params;
+      params.page = this.data.meta.last_page;
+      this.$router.push({ name: this.$route.name, params });
+    }
   }
 };
 </script>

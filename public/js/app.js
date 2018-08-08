@@ -67,11 +67,11 @@ var disabledClasses = commonClasses.concat(["text-grey-dark", "cursor-auto"]);
       return disabledClasses;
     },
     buttonClassNext: function buttonClassNext() {
-      if (this.data.links.prev) return enabledClasses;
+      if (this.data.links.next) return enabledClasses;
       return disabledClasses;
     },
     buttonClassLast: function buttonClassLast() {
-      if (this.data.links.prev) return enabledClasses;
+      if (this.data.links.next) return enabledClasses;
       return disabledClasses;
     }
   },
@@ -79,10 +79,26 @@ var disabledClasses = commonClasses.concat(["text-grey-dark", "cursor-auto"]);
   mounted: function mounted() {},
 
   methods: {
-    previous: function previous() {},
-    next: function next() {},
-    first: function first() {},
-    last: function last() {}
+    first: function first() {
+      var params = this.$route.params;
+      params.page = 1;
+      this.$router.push({ name: this.$route.name, params: params });
+    },
+    previous: function previous() {
+      var params = this.$route.params;
+      params.page = params.page - 1;
+      this.$router.push({ name: this.$route.name, params: params });
+    },
+    next: function next() {
+      var params = this.$route.params;
+      params.page = params.page ? params.page + 1 : 2;
+      this.$router.push({ name: this.$route.name, params: params });
+    },
+    last: function last() {
+      var params = this.$route.params;
+      params.page = this.data.meta.last_page;
+      this.$router.push({ name: this.$route.name, params: params });
+    }
   }
 });
 
@@ -865,9 +881,15 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
   },
 
   mounted: function mounted() {
-    this.retrievePhotos();
+    this.retrievePhotos(this.$route.params.page ? this.$route.params.page : 1);
   },
 
+
+  watch: {
+    "$route.params.page": function $routeParamsPage(newVal, oldVal) {
+      this.retrievePhotos(newVal ? newVal : 1);
+    }
+  },
 
   methods: {
     retrievePhotos: function retrievePhotos(page) {
@@ -29964,6 +29986,7 @@ var state = {
 
         context.commit("setData", {});
         var url = new URL(context.rootState.apiRoot + __WEBPACK_IMPORTED_MODULE_0__models_Photo_js__["a" /* Photo */].getEndpoint());
+        url.searchParams.append("page", page);
         collect(context.state.filters).each(function (value, filter) {
             url.searchParams.append(filter, value);
         });

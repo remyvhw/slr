@@ -14,6 +14,7 @@ const actions = {
     get(context, page = 1) {
         context.commit("setData", {});
         const url = new URL(context.rootState.apiRoot + Photo.getEndpoint());
+        url.searchParams.append("page", page);
         collect(context.state.filters).each((value, filter) => {
             url.searchParams.append(filter, value);
         });
