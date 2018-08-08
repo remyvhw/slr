@@ -1086,6 +1086,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 var marked = __webpack_require__("./node_modules/marked/lib/marked.js");
 var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
@@ -1104,6 +1110,9 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
   },
 
   computed: {
+    shouldDisableSaveButton: function shouldDisableSaveButton() {
+      return !this.awaitingUpload || this.uploading;
+    },
     progress: function progress() {
       var items = collect(this.photos).map(function (photo) {
         return photo.uploadProgress === false ? 0 : photo.uploadProgress;
@@ -23464,85 +23473,45 @@ var render = function() {
       "main",
       { staticClass: "lg:w-1/2 mx-auto" },
       [
-        _c(
-          "div",
-          { staticClass: "mb-8" },
-          [
-            _vm.uploading
-              ? _c("progress-indicator", { attrs: { progress: _vm.progress } })
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.hasErrors
-              ? _c(
-                  "div",
-                  {
-                    staticClass:
-                      "bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded relative",
-                    attrs: { role: "alert" }
-                  },
-                  [
-                    _c("strong", { staticClass: "font-bold" }, [
-                      _vm._v("Oups!")
-                    ]),
-                    _vm._v(" Une photo ne peut être enregistrée.")
-                  ]
-                )
-              : _vm._e()
-          ],
-          1
-        ),
+        _c("transition", { attrs: { name: "bounce" } }, [
+          _c(
+            "div",
+            { staticClass: "my-8" },
+            [
+              _vm.uploading
+                ? _c("progress-indicator", {
+                    attrs: { progress: _vm.progress }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.hasErrors
+                ? _c(
+                    "div",
+                    {
+                      staticClass:
+                        "bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded relative",
+                      attrs: { role: "alert" }
+                    },
+                    [
+                      _c("strong", { staticClass: "font-bold" }, [
+                        _vm._v("Oups!")
+                      ]),
+                      _vm._v(" Une photo ne peut être enregistrée.")
+                    ]
+                  )
+                : _vm._e()
+            ],
+            1
+          )
+        ]),
         _vm._v(" "),
-        _vm.awaitingUpload > 1 && !_vm.uploading
-          ? _c(
-              "button",
-              {
-                staticClass:
-                  "flex items-center block w-full text-white font-bold py-2 px-4 rounded justify-center h-12 bg-brand hover:bg-brand-dark mb-8",
-                on: { click: _vm.saveAll }
-              },
-              [
-                _c(
-                  "svg",
-                  {
-                    staticClass: "fill-current inline-block w-4 h-4 mr-2",
-                    attrs: {
-                      xmlns: "http://www.w3.org/2000/svg",
-                      viewBox: "0 0 20 20"
-                    }
-                  },
-                  [
-                    _c("path", {
-                      attrs: {
-                        d:
-                          "M0 2C0 .9.9 0 2 0h14l4 4v14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5 0v6h10V2H5zm6 1h3v4h-3V3z"
-                      }
-                    })
-                  ]
-                ),
-                _vm._v(" "),
-                _c("span", [_vm._v("Enregistrer toutes les photos")])
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm._l(_vm.photos, function(photo) {
-          return _c("picture-upload-item", {
-            key: photo.temporaryId,
-            attrs: { photo: photo }
-          })
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "flex flex-wrap py-4" }, [
-          _c("div", { staticClass: "w-full" }, [
+        _c("nav", { staticClass: "w-full flex flex-wrap mb-8" }, [
+          _c("div", { staticClass: "w-1/2 pr-1" }, [
             _c(
               "button",
               {
                 staticClass:
-                  "flex items-center block w-full text-white font-bold py-2 px-4 rounded justify-center h-12",
-                class: {
-                  "bg-brand hover:bg-brand-dark": !_vm.awaitingUpload,
-                  "bg-grey hover:bg-grey-dark": _vm.awaitingUpload
-                },
+                  "flex  text-grey-darkest items-center block w-full bg-grey-light font-bold py-2 px-4 rounded justify-center h-12 hover:bg-brand-dark",
                 on: { click: _vm.openFileDialog }
               },
               [
@@ -23575,8 +23544,53 @@ var render = function() {
               attrs: { multiple: "", type: "file" },
               on: { change: _vm.processPhotos }
             })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "w-1/2 pl-1" }, [
+            _c(
+              "button",
+              {
+                staticClass:
+                  "flex items-center block h-12 w-full font-bold py-2 px-4 rounded bg-grey-light justify-center",
+                class: {
+                  "hover:bg-grey text-grey-darkest hover:bg-brand-dark": !_vm.shouldDisableSaveButton,
+                  "text-grey-dark cursor-auto": _vm.shouldDisableSaveButton
+                },
+                attrs: { disabled: _vm.shouldDisableSaveButton },
+                on: { click: _vm.saveAll }
+              },
+              [
+                _c(
+                  "svg",
+                  {
+                    staticClass: "fill-current inline-block w-4 h-4 mr-2",
+                    attrs: {
+                      xmlns: "http://www.w3.org/2000/svg",
+                      viewBox: "0 0 20 20"
+                    }
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        d:
+                          "M0 2C0 .9.9 0 2 0h14l4 4v14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5 0v6h10V2H5zm6 1h3v4h-3V3z"
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c("span", [_vm._v("Enregistrer toutes les photos")])
+              ]
+            )
           ])
-        ])
+        ]),
+        _vm._v(" "),
+        _vm._l(_vm.photos, function(photo) {
+          return _c("picture-upload-item", {
+            key: photo.temporaryId,
+            attrs: { photo: photo }
+          })
+        })
       ],
       2
     )

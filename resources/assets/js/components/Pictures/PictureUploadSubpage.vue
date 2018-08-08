@@ -7,26 +7,17 @@
 
     <main class="lg:w-1/2 mx-auto">
 
-      <div class="mb-8">
-        <progress-indicator v-if="uploading" :progress="progress"></progress-indicator>
-        <div role="alert" v-if="hasErrors" class="bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded relative">
-          <strong class="font-bold">Oups!</strong> Une photo ne peut être enregistrée.</div>
-      </div>
-      <button v-if="awaitingUpload > 1 && !uploading" @click="saveAll" class="flex items-center block w-full text-white font-bold py-2 px-4 rounded justify-center h-12 bg-brand hover:bg-brand-dark mb-8">
-        <svg class="fill-current inline-block w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-          <path d="M0 2C0 .9.9 0 2 0h14l4 4v14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5 0v6h10V2H5zm6 1h3v4h-3V3z" />
-        </svg>
-        <span>Enregistrer toutes les photos</span>
-      </button>
+      <transition name="bounce">
+        <div class="my-8">
+          <progress-indicator v-if="uploading" :progress="progress"></progress-indicator>
+          <div role="alert" v-if="hasErrors" class="bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded relative">
+            <strong class="font-bold">Oups!</strong> Une photo ne peut être enregistrée.</div>
+        </div>
+      </transition>
 
-      <picture-upload-item v-for="photo in photos" :photo="photo" :key='photo.temporaryId'></picture-upload-item>
-
-      <div class="flex flex-wrap py-4">
-        <div class="w-full">
-          <button @click="openFileDialog" class="flex items-center block w-full text-white font-bold py-2 px-4 rounded justify-center h-12" :class="{
-          'bg-brand hover:bg-brand-dark': !awaitingUpload,
-          'bg-grey hover:bg-grey-dark': awaitingUpload,
-        }">
+      <nav class="w-full flex flex-wrap mb-8">
+        <div class="w-1/2 pr-1">
+          <button @click="openFileDialog" class="flex  text-grey-darkest items-center block w-full bg-grey-light font-bold py-2 px-4 rounded justify-center h-12 hover:bg-brand-dark">
             <svg class="fill-current inline-block w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
               <path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
             </svg>
@@ -34,7 +25,22 @@
           </button>
           <input ref="fileinput" multiple type="file" @change="processPhotos" class="opacity-0">
         </div>
-      </div>
+
+        <div class="w-1/2 pl-1">
+          <button @click="saveAll" :disabled="shouldDisableSaveButton" class="flex items-center block h-12 w-full font-bold py-2 px-4 rounded bg-grey-light justify-center" :class="{
+            'hover:bg-grey text-grey-darkest hover:bg-brand-dark': !shouldDisableSaveButton,
+            'text-grey-dark cursor-auto': shouldDisableSaveButton
+          }">
+            <svg class="fill-current inline-block w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M0 2C0 .9.9 0 2 0h14l4 4v14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5 0v6h10V2H5zm6 1h3v4h-3V3z" />
+            </svg>
+            <span>Enregistrer toutes les photos</span>
+          </button>
+        </div>
+
+      </nav>
+
+      <picture-upload-item v-for="photo in photos" :photo="photo" :key='photo.temporaryId'></picture-upload-item>
 
     </main>
 
@@ -59,6 +65,9 @@ export default {
     };
   },
   computed: {
+    shouldDisableSaveButton() {
+      return !this.awaitingUpload || this.uploading;
+    },
     progress() {
       const items = collect(this.photos).map(photo => {
         return photo.uploadProgress === false ? 0 : photo.uploadProgress;
