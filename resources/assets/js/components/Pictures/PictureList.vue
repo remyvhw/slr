@@ -15,10 +15,10 @@
       </router-link>
     </div>
 
-    <div v-if="!photos" class="spinner h-10"></div>
-    <div v-if="photos" class="flex flex-wrap justify-between px-1 pt-2">
-      <photo-item v-for="photo in photos" :key="photo.id" :photo="photo"></photo-item>
-      <api-paginator :resource="pages"></api-paginator>
+    <div v-if="!$store.state.photos.content.data" class="spinner h-10"></div>
+    <div v-if="$store.state.photos.content.data" class="flex flex-wrap justify-between px-1 pt-2">
+      <photo-item v-for="photo in $store.state.photos.content.data" :key="photo.id" :photo="photo"></photo-item>
+      <api-paginator resource="photos"></api-paginator>
     </div>
 
   </div>
@@ -29,16 +29,6 @@ import { Photo } from "../../store/models/Photo";
 const collect = require("collect.js");
 
 export default {
-  computed: {
-    photos() {
-      if (!this.pages) return null;
-      return collect(this.pages.data)
-        .map(apiPhoto => {
-          return new Photo(apiPhoto);
-        })
-        .toArray();
-    }
-  },
   data() {
     return { pages: null };
   },
@@ -48,18 +38,12 @@ export default {
   },
 
   mounted() {
-    this.retrievePhotosAtUrl();
+    this.retrievePhotos();
   },
 
   methods: {
-    retrievePhotosAtUrl(url) {
-      if (!url) {
-        url = new URL(this.$store.state.apiRoot + Photo.getEndpoint());
-      }
-      this.pages = null;
-      axios.get(url).then(response => {
-        this.pages = response.data;
-      });
+    retrievePhotos(page) {
+      this.$store.dispatch("photos/get", page);
     }
   }
 };

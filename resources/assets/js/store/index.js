@@ -9,6 +9,7 @@ import changes from './modules/changes'
 import settings from './modules/settings'
 import browser from './modules/browser'
 import features from './modules/features'
+import photos from './modules/photos'
 
 const rawLastVisitDate = document.head.querySelector('meta[name="last-visit"]').content;
 const lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date();
@@ -29,6 +30,7 @@ export default new Vuex.Store({
         changes,
         settings,
         browser,
-        features
+        features,
+        photos
     }
 });

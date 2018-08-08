@@ -17,15 +17,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    resource: { type: Object, required: true }
+    resource: { type: String, required: true }
+  },
+
+  computed: {
+    data: function data() {
+      return this.$store.state[this.resource].content;
+    }
   },
 
   mounted: function mounted() {},
 
-  methods: {}
+  methods: {
+    previous: function previous() {},
+    next: function next() {},
+    first: function first() {},
+    last: function last() {}
+  }
 });
 
 /***/ }),
@@ -797,14 +831,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  computed: {
-    photos: function photos() {
-      if (!this.pages) return null;
-      return collect(this.pages.data).map(function (apiPhoto) {
-        return new __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__["a" /* Photo */](apiPhoto);
-      }).toArray();
-    }
-  },
   data: function data() {
     return { pages: null };
   },
@@ -815,21 +841,13 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
   },
 
   mounted: function mounted() {
-    this.retrievePhotosAtUrl();
+    this.retrievePhotos();
   },
 
 
   methods: {
-    retrievePhotosAtUrl: function retrievePhotosAtUrl(url) {
-      var _this = this;
-
-      if (!url) {
-        url = new URL(this.$store.state.apiRoot + __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__["a" /* Photo */].getEndpoint());
-      }
-      this.pages = null;
-      axios.get(url).then(function (response) {
-        _this.pages = response.data;
-      });
+    retrievePhotos: function retrievePhotos(page) {
+      this.$store.dispatch("photos/get", page);
     }
   }
 });
@@ -24179,21 +24197,23 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    !_vm.photos ? _c("div", { staticClass: "spinner h-10" }) : _vm._e(),
+    !_vm.$store.state.photos.content.data
+      ? _c("div", { staticClass: "spinner h-10" })
+      : _vm._e(),
     _vm._v(" "),
-    _vm.photos
+    _vm.$store.state.photos.content.data
       ? _c(
           "div",
           { staticClass: "flex flex-wrap justify-between px-1 pt-2" },
           [
-            _vm._l(_vm.photos, function(photo) {
+            _vm._l(_vm.$store.state.photos.content.data, function(photo) {
               return _c("photo-item", {
                 key: photo.id,
                 attrs: { photo: photo }
               })
             }),
             _vm._v(" "),
-            _c("api-paginator", { attrs: { resource: _vm.pages } })
+            _c("api-paginator", { attrs: { resource: "photos" } })
           ],
           2
         )
@@ -24761,34 +24781,152 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "inline-flex w-full px-1" }, [
-      _c(
-        "button",
-        {
-          staticClass:
-            "bg-grey-light  border-r border-grey-lighter hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded-l w-1/2"
-        },
-        [_vm._v("\n        Prev\n    ")]
-      ),
+  return _c(
+    "nav",
+    { staticClass: "inline-flex w-full px-1 py-4 text-center text-sm" },
+    [
+      _c("div", { staticClass: "inline-flex w-1/3" }, [
+        _c(
+          "button",
+          {
+            staticClass:
+              "bg-grey-light border-r border-grey-lighter hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded-l w-1/3",
+            attrs: { "aria-label": "Première page" },
+            on: { click: _vm.first }
+          },
+          [
+            _c(
+              "svg",
+              {
+                staticClass: "fill-current w-4 h-4 mr-2",
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  viewBox: "0 20 448 375"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    d:
+                      "M223.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L319.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L393.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34zm-192 34l136 136c9.4 9.4 24.6 9.4 33.9 0l22.6-22.6c9.4-9.4 9.4-24.6 0-33.9L127.9 256l96.4-96.4c9.4-9.4 9.4-24.6 0-33.9L201.7 103c-9.4-9.4-24.6-9.4-33.9 0l-136 136c-9.5 9.4-9.5 24.6-.1 34z"
+                  }
+                })
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass:
+              "bg-grey-light  border-l border-grey-lighter hover:bg-grey text-grey-darkest font-bold py-2 px-4 w-2/3",
+            attrs: { "aria-label": "Page précédente" },
+            on: { click: _vm.previous }
+          },
+          [
+            _c(
+              "svg",
+              {
+                staticClass: "fill-current w-4 h-4 mr-2",
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  viewBox: "-200 20 448 375"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    d:
+                      "M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"
+                  }
+                })
+              ]
+            )
+          ]
+        )
+      ]),
       _vm._v(" "),
       _c(
-        "button",
+        "div",
         {
           staticClass:
-            "bg-grey-light border-l border-grey-lighter hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded-r  w-1/2"
+            "bg-grey-lighter  border-t border-b border-grey-light text-grey-darkest font-bold py-2 px-4 w-1/3"
         },
-        [_vm._v("\n        Next\n    ")]
-      )
-    ])
-  }
-]
+        [
+          _vm._v(
+            _vm._s(_vm.data.meta.current_page) +
+              "/" +
+              _vm._s(_vm.data.meta.last_page)
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "inline-flex w-1/3" }, [
+        _c(
+          "button",
+          {
+            staticClass:
+              "bg-grey-light border-r border-grey-lighter hover:bg-grey text-grey-darkest font-bold py-2 px-4  w-2/3",
+            attrs: { "aria-label": "Page suivante" },
+            on: { click: _vm.next }
+          },
+          [
+            _c(
+              "svg",
+              {
+                staticClass: "fill-current w-4 h-4 mr-2",
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  viewBox: "-200 20 448 375"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    d:
+                      "M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                  }
+                })
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass:
+              "bg-grey-light border-l border-grey-lighter hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded-r  w-1/3",
+            attrs: { "aria-label": "Dernière page" },
+            on: { click: _vm.last }
+          },
+          [
+            _c(
+              "svg",
+              {
+                staticClass: "fill-current w-4 h-4 mr-2",
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  viewBox: "0 20 448 375"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    d:
+                      "M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34zm192-34l-136-136c-9.4-9.4-24.6-9.4-33.9 0l-22.6 22.6c-9.4 9.4-9.4 24.6 0 33.9l96.4 96.4-96.4 96.4c-9.4 9.4-9.4 24.6 0 33.9l22.6 22.6c9.4 9.4 24.6 9.4 33.9 0l136-136c9.4-9.2 9.4-24.4 0-33.8z"
+                  }
+                })
+              ]
+            )
+          ]
+        )
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -29214,11 +29352,13 @@ router.beforeEach(function (to, from, next) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_settings__ = __webpack_require__("./resources/assets/js/store/modules/settings.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_browser__ = __webpack_require__("./resources/assets/js/store/modules/browser.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_features__ = __webpack_require__("./resources/assets/js/store/modules/features.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_photos__ = __webpack_require__("./resources/assets/js/store/modules/photos.js");
 
 
 
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["default"]);
+
 
 
 
@@ -29245,7 +29385,8 @@ var lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date();
         changes: __WEBPACK_IMPORTED_MODULE_3__modules_changes__["a" /* default */],
         settings: __WEBPACK_IMPORTED_MODULE_4__modules_settings__["a" /* default */],
         browser: __WEBPACK_IMPORTED_MODULE_5__modules_browser__["a" /* default */],
-        features: __WEBPACK_IMPORTED_MODULE_6__modules_features__["a" /* default */]
+        features: __WEBPACK_IMPORTED_MODULE_6__modules_features__["a" /* default */],
+        photos: __WEBPACK_IMPORTED_MODULE_7__modules_photos__["a" /* default */]
     }
 }));
 
@@ -29751,6 +29892,65 @@ var mutations = {
         state.content.data = collect(state.content.data).map(function (obstruction) {
             obstruction.selected = selectedObstruction && obstruction.id === selectedObstruction.id;
             return obstruction;
+        }).toArray();
+    }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    namespaced: true,
+    state: state,
+    actions: actions,
+    mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/photos.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_Photo_js__ = __webpack_require__("./resources/assets/js/store/models/Photo.js");
+
+
+var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
+
+// initial state
+var state = {
+    content: {},
+    filters: {}
+
+    // actions
+};var actions = {
+    get: function get(context) {
+        var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+        context.commit("setData", {});
+        var url = new URL(context.rootState.apiRoot + __WEBPACK_IMPORTED_MODULE_0__models_Photo_js__["a" /* Photo */].getEndpoint());
+        collect(context.state.filters).each(function (value, filter) {
+            url.searchParams.append(filter, value);
+        });
+        axios.get(url).then(function (response) {
+            var data = response.data;
+            data.data = collect(data.data).map(function (apiPhoto) {
+                return new __WEBPACK_IMPORTED_MODULE_0__models_Photo_js__["a" /* Photo */](apiPhoto);
+            }).toArray();
+            context.commit('setData', data);
+        });
+    }
+};
+
+// mutations
+var mutations = {
+    setFilters: function setFilters(state, filters) {
+        state.filters = filters;
+    },
+    setData: function setData(state, photos) {
+        state.content = photos;
+    },
+    setSelection: function setSelection(state, selectedPhoto) {
+        state.content.data = collect(state.content.data).map(function (photo) {
+            photo.selected = selectedPhoto && photo.id === selectedPhoto.id;
+            return photo;
         }).toArray();
     }
 };
