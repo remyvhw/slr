@@ -40,6 +40,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+
+var commonClasses = ["border-grey-lighter", "bg-grey-light", "font-bold"];
+var enabledClasses = commonClasses.concat(["hover:bg-grey", "text-grey-darkest"]);
+var disabledClasses = commonClasses.concat(["text-grey-dark", "cursor-auto"]);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -49,6 +57,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     data: function data() {
       return this.$store.state[this.resource].content;
+    },
+    buttonClassFirst: function buttonClassFirst() {
+      if (this.data.links.prev) return enabledClasses;
+      return disabledClasses;
+    },
+    buttonClassPrevious: function buttonClassPrevious() {
+      if (this.data.links.prev) return enabledClasses;
+      return disabledClasses;
+    },
+    buttonClassNext: function buttonClassNext() {
+      if (this.data.links.prev) return enabledClasses;
+      return disabledClasses;
+    },
+    buttonClassLast: function buttonClassLast() {
+      if (this.data.links.prev) return enabledClasses;
+      return disabledClasses;
     }
   },
 
@@ -24789,9 +24813,12 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass:
-              "bg-grey-light border-r border-grey-lighter hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded-l w-1/3",
-            attrs: { "aria-label": "Première page" },
+            staticClass: "border-r py-2 px-4 rounded-l w-1/3",
+            class: _vm.buttonClassFirst,
+            attrs: {
+              "aria-label": "Première page",
+              disabled: !_vm.data.links.prev
+            },
             on: { click: _vm.first }
           },
           [
@@ -24819,9 +24846,12 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass:
-              "bg-grey-light  border-l border-grey-lighter hover:bg-grey text-grey-darkest font-bold py-2 px-4 w-2/3",
-            attrs: { "aria-label": "Page précédente" },
+            staticClass: "border-l py-2 px-4 w-2/3",
+            class: _vm.buttonClassPrevious,
+            attrs: {
+              "aria-label": "Page précédente",
+              disabled: !_vm.data.links.prev
+            },
             on: { click: _vm.previous }
           },
           [
@@ -24855,9 +24885,11 @@ var render = function() {
         },
         [
           _vm._v(
-            _vm._s(_vm.data.meta.current_page) +
+            "\n        " +
+              _vm._s(_vm.data.meta.current_page) +
               "/" +
-              _vm._s(_vm.data.meta.last_page)
+              _vm._s(_vm.data.meta.last_page) +
+              "\n    "
           )
         ]
       ),
@@ -24866,9 +24898,12 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass:
-              "bg-grey-light border-r border-grey-lighter hover:bg-grey text-grey-darkest font-bold py-2 px-4  w-2/3",
-            attrs: { "aria-label": "Page suivante" },
+            staticClass: "border-r py-2 px-4  w-2/3",
+            class: _vm.buttonClassNext,
+            attrs: {
+              "aria-label": "Page suivante",
+              disabled: !_vm.data.links.next
+            },
             on: { click: _vm.next }
           },
           [
@@ -24896,9 +24931,12 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass:
-              "bg-grey-light border-l border-grey-lighter hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded-r  w-1/3",
-            attrs: { "aria-label": "Dernière page" },
+            staticClass: "border-l py-2 px-4 rounded-r w-1/3",
+            class: _vm.buttonClassLast,
+            attrs: {
+              "aria-label": "Dernière page",
+              disabled: !_vm.data.links.next
+            },
             on: { click: _vm.last }
           },
           [
