@@ -9,6 +9,11 @@ const routes = [
 
     },
     {
+        path: "/photos/:id(\\d+)",
+        component: require("./components/Pictures/PhotoViewer.vue"),
+        name: 'photos.view'
+    },
+    {
         path: '/',
         component: require("./components/SlrBrowser.vue"),
         name: 'browser',
