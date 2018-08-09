@@ -107,7 +107,7 @@ export default {
       if (this.$route.meta.shouldBackOnClose) {
         this.$router.go(-1);
       } else {
-        this.$router.push({ name: "browser.changes" });
+        this.$router.push({ name: "browser.photos" });
       }
     },
 

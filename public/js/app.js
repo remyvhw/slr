@@ -1215,7 +1215,7 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
       if (this.$route.meta.shouldBackOnClose) {
         this.$router.go(-1);
       } else {
-        this.$router.push({ name: "browser.changes" });
+        this.$router.push({ name: "browser.photos" });
       }
     },
     openFileDialog: function openFileDialog() {
