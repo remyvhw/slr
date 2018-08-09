@@ -1014,6 +1014,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -1033,6 +1043,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     saveImage: function saveImage() {
       this.photo.getSavePromise().then(function (photo) {}, function (err) {});
+    },
+    deleteImage: function deleteImage() {
+      this.$emit("delete", this.photo);
     },
     toggleLocalization: function toggleLocalization() {
       if (this.photo.lat && this.photo.lng) {
@@ -1178,6 +1191,9 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
       }).map(function (photo) {
         return photo.getSavePromise();
       }).toArray());
+    },
+    deleteImage: function deleteImage(photo) {
+      this.$delete(this.photos, this.photos.indexOf(photo));
     }
   }
 });
@@ -23620,7 +23636,8 @@ var render = function() {
         _vm._l(_vm.photos, function(photo) {
           return _c("picture-upload-item", {
             key: photo.temporaryId,
-            attrs: { photo: photo }
+            attrs: { photo: photo },
+            on: { delete: _vm.deleteImage }
           })
         })
       ],
@@ -24698,10 +24715,43 @@ var render = function() {
       _vm._v(" "),
       !_vm.photo.processing && !_vm.photo.resultingPhoto
         ? _c("div", [
-            _c("img", {
-              staticClass: "w-full",
-              attrs: { src: _vm.photo.versions.orig }
-            }),
+            _c("div", { staticClass: "relative bg-grey-dark" }, [
+              _c("img", {
+                staticClass: "w-full",
+                attrs: { src: _vm.photo.versions.orig }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "absolute pin-t pin-r pr-4 pt-4" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "bg-smoke  h-8 w-8 rounded-full",
+                    on: { click: _vm.deleteImage }
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass:
+                          "fill-current text-white inline-block h-3 w-3",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          viewBox: "0 0 20 20"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z"
+                          }
+                        })
+                      ]
+                    )
+                  ]
+                )
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "px-6 " }, [
               _c("div", { staticClass: "flex flex-wrap py-4" }, [

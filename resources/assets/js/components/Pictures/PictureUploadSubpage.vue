@@ -40,7 +40,7 @@
 
       </nav>
 
-      <picture-upload-item v-for="photo in photos" :photo="photo" :key='photo.temporaryId'></picture-upload-item>
+      <picture-upload-item v-for="photo in photos" :photo="photo" :key='photo.temporaryId' @delete="deleteImage"></picture-upload-item>
 
     </main>
 
@@ -134,6 +134,9 @@ export default {
           })
           .toArray()
       );
+    },
+    deleteImage(photo) {
+      this.$delete(this.photos, this.photos.indexOf(photo));
     }
   }
 };

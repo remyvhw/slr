@@ -7,7 +7,17 @@
         <div class="spinner h-10" v-if="photo.processing"></div>
         <picture-upload-completed v-if="!photo.processing && photo.resultingPhoto" :photo="photo.resultingPhoto"></picture-upload-completed>
         <div v-if="!photo.processing && !photo.resultingPhoto">
-            <img class="w-full" :src="photo.versions.orig">
+
+            <div class="relative bg-grey-dark">
+                <img class="w-full" :src="photo.versions.orig">
+                <div class="absolute pin-t pin-r pr-4 pt-4">
+                    <button @click="deleteImage" class="bg-smoke  h-8 w-8 rounded-full">
+                        <svg class="fill-current text-white inline-block h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
 
             <div class="px-6 ">
                 <div class="flex flex-wrap py-4">
@@ -78,6 +88,9 @@ export default {
     },
     saveImage() {
       this.photo.getSavePromise().then(photo => {}, err => {});
+    },
+    deleteImage() {
+      this.$emit("delete", this.photo);
     },
     toggleLocalization() {
       if (this.photo.lat && this.photo.lng) {
