@@ -23808,10 +23808,11 @@ var render = function() {
           }
         },
         [
-          _c("div", {
-            staticClass: "w-full  bg-cover overflow-hidden",
+          _c("a", {
+            staticClass: "w-full block bg-cover overflow-hidden",
             class: { "h-32": !_vm.fullWidth, "h-48": _vm.fullWidth },
-            style: _vm.imageStyle
+            style: _vm.imageStyle,
+            attrs: { "aria-label": "Afficher la photo" }
           }),
           _vm._v(" "),
           _c("div", { staticClass: " px-2 py-2 " }, [

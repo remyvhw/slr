@@ -5,7 +5,7 @@
       'bg-orange-lightest': selected
     }">
 
-      <div class="w-full  bg-cover overflow-hidden" :class="{'h-32': !fullWidth, 'h-48': fullWidth}" :style="imageStyle"></div>
+      <a class="w-full block bg-cover overflow-hidden" aria-label="Afficher la photo" :class="{'h-32': !fullWidth, 'h-48': fullWidth}" :style="imageStyle"></a>
       <div class=" px-2 py-2 ">
         <p class="text-sm text-grey-dark flex items-center">
           <svg class="fill-current text-grey w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
