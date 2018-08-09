@@ -325,7 +325,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    title: String
+    title: String,
+    dark: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     closeSubpage: function closeSubpage() {
@@ -849,7 +853,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pictures/PhotoViewer.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pictures/PhotoViewSubpage.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -23758,8 +23762,8 @@ var render = function() {
     _c(
       "nav",
       {
-        staticClass:
-          " flex items-center justify-between flex-wrap bg-grey-light p-6 "
+        staticClass: "flex items-center justify-between flex-wrap p-6",
+        class: { "bg-grey-darkest": _vm.dark, "bg-grey-light": !_vm.dark }
       },
       [
         _c(
@@ -23770,14 +23774,18 @@ var render = function() {
               "button",
               {
                 staticClass: "back ",
-                attrs: { "aria-label": "Retour " },
+                attrs: { "aria-label": "Retour" },
                 on: { click: _vm.closeSubpage }
               },
               [
                 _c(
                   "svg",
                   {
-                    staticClass: "fill-current text-grey h-8 w-8 ",
+                    staticClass: "fill-current h-8 w-8",
+                    class: {
+                      "text-grey-light": _vm.dark,
+                      "text-grey-dark": !_vm.dark
+                    },
                     attrs: {
                       width: "54 ",
                       height: "54 ",
@@ -23904,16 +23912,18 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-30798ca1\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Pictures/PhotoViewer.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-26d4796b\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Pictures/PhotoViewSubpage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("generic-subpage", { on: { close: _vm.closeSubpage } }, [
-    _vm._v("\n    hello, world\n\n")
-  ])
+  return _c(
+    "generic-subpage",
+    { attrs: { dark: true }, on: { close: _vm.closeSubpage } },
+    [_vm._v("\n    hello, world\n\n")]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -23921,7 +23931,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-30798ca1", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-26d4796b", module.exports)
   }
 }
 
@@ -29024,15 +29034,15 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/Pictures/PhotoViewer.vue":
+/***/ "./resources/assets/js/components/Pictures/PhotoViewSubpage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pictures/PhotoViewer.vue")
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pictures/PhotoViewSubpage.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-30798ca1\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Pictures/PhotoViewer.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-26d4796b\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Pictures/PhotoViewSubpage.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -29049,7 +29059,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Pictures/PhotoViewer.vue"
+Component.options.__file = "resources/assets/js/components/Pictures/PhotoViewSubpage.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -29058,9 +29068,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-30798ca1", Component.options)
+    hotAPI.createRecord("data-v-26d4796b", Component.options)
   } else {
-    hotAPI.reload("data-v-30798ca1", Component.options)
+    hotAPI.reload("data-v-26d4796b", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -29614,7 +29624,7 @@ var routes = [{
 
 }, {
     path: "/photos/:id(\\d+)",
-    component: __webpack_require__("./resources/assets/js/components/Pictures/PhotoViewer.vue"),
+    component: __webpack_require__("./resources/assets/js/components/Pictures/PhotoViewSubpage.vue"),
     name: 'photos.view'
 }, {
     path: '/',

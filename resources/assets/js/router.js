@@ -10,7 +10,7 @@ const routes = [
     },
     {
         path: "/photos/:id(\\d+)",
-        component: require("./components/Pictures/PhotoViewer.vue"),
+        component: require("./components/Pictures/PhotoViewSubpage.vue"),
         name: 'photos.view'
     },
     {

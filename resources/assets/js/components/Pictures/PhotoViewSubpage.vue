@@ -3,7 +3,7 @@
  * License CC
 -->
 <template>
-    <generic-subpage @close="closeSubpage">
+    <generic-subpage @close="closeSubpage" :dark="true">
         hello, world
 
     </generic-subpage>
