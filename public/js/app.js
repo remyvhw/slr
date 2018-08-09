@@ -104,6 +104,31 @@ var disabledClasses = commonClasses.concat(["text-grey-dark", "cursor-auto"]);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/BackButton.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    closeSubpage: function closeSubpage() {
+      this.$emit("click");
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Changes/ChangeList.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -312,18 +337,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    backButton: __webpack_require__("./resources/assets/js/components/BackButton.vue")
+  },
   props: {
     title: String,
     dark: {
@@ -870,10 +888,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    genericSubpage: __webpack_require__("./resources/assets/js/components/GenericSubpage.vue"),
+    backButton: __webpack_require__("./resources/assets/js/components/BackButton.vue"),
     progressIndicator: __webpack_require__("./resources/assets/js/components/ProgressIndicator.vue")
   },
 
@@ -23770,46 +23790,12 @@ var render = function() {
           "div",
           { staticClass: "flex items-center flex-no-shrink text-white mr-6 " },
           [
-            _c(
-              "button",
-              {
-                staticClass: "back ",
-                attrs: { "aria-label": "Retour" },
-                on: { click: _vm.closeSubpage }
-              },
-              [
-                _c(
-                  "svg",
-                  {
-                    staticClass: "fill-current h-8 w-8",
-                    class: {
-                      "text-grey-light": _vm.dark,
-                      "text-grey-dark": !_vm.dark
-                    },
-                    attrs: {
-                      width: "54 ",
-                      height: "54 ",
-                      viewBox: "0 0 256 512 ",
-                      xmlns: "http://www.w3.org/2000/svg "
-                    }
-                  },
-                  [
-                    _c("path", {
-                      attrs: {
-                        d:
-                          "M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z "
-                      }
-                    })
-                  ]
-                ),
-                _vm._v(" "),
-                _c("img", {
-                  staticClass: "h-8 w-8",
-                  attrs: { src: "/logo.svg " }
-                })
-              ]
-            )
-          ]
+            _c("back-button", {
+              attrs: { dark: _vm.dark },
+              on: { click: _vm.closeSubpage }
+            })
+          ],
+          1
         )
       ]
     ),
@@ -23919,11 +23905,22 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "generic-subpage",
-    { attrs: { dark: true }, on: { close: _vm.closeSubpage } },
-    [_vm._v("\n    hello, world\n\n")]
-  )
+  return _c("div", { staticClass: "relative h-screen bg-red" }, [
+    _c(
+      "div",
+      {
+        staticClass:
+          "absolute pin-t pin-l ml-4 mt-4 bg-smoke-dark rounded-full px-4 py-2"
+      },
+      [
+        _c("back-button", {
+          attrs: { dark: true },
+          on: { click: _vm.closeSubpage }
+        })
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -25203,6 +25200,59 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-65117564", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7334b7f0\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/BackButton.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    {
+      staticClass: "back ",
+      attrs: { "aria-label": "Retour" },
+      on: { click: _vm.closeSubpage }
+    },
+    [
+      _c(
+        "svg",
+        {
+          staticClass: "fill-current h-8 w-8",
+          class: { "text-grey-light": _vm.dark, "text-grey-dark": !_vm.dark },
+          attrs: {
+            width: "54 ",
+            height: "54 ",
+            viewBox: "0 0 256 512 ",
+            xmlns: "http://www.w3.org/2000/svg "
+          }
+        },
+        [
+          _c("path", {
+            attrs: {
+              d:
+                "M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z "
+            }
+          })
+        ]
+      ),
+      _vm._v(" "),
+      _c("img", { staticClass: "h-8 w-8", attrs: { src: "/logo.svg " } })
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7334b7f0", module.exports)
   }
 }
 
@@ -28395,6 +28445,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-65117564", Component.options)
   } else {
     hotAPI.reload("data-v-65117564", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/BackButton.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/BackButton.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7334b7f0\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/BackButton.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/BackButton.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7334b7f0", Component.options)
+  } else {
+    hotAPI.reload("data-v-7334b7f0", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

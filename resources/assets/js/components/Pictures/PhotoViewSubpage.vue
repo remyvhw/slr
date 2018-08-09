@@ -3,17 +3,19 @@
  * License CC
 -->
 <template>
-    <generic-subpage @close="closeSubpage" :dark="true">
-        hello, world
+  <div class="relative h-screen bg-red">
 
-    </generic-subpage>
+    <div class="absolute pin-t pin-l ml-4 mt-4 bg-smoke-dark rounded-full px-4 py-2">
+      <back-button @click="closeSubpage" :dark="true"></back-button>
+    </div>
+  </div>
 
 </template>
 
 <script type="text/babel">
 export default {
   components: {
-    genericSubpage: require("../GenericSubpage.vue"),
+    backButton: require("../BackButton.vue"),
     progressIndicator: require("../ProgressIndicator.vue")
   },
 
