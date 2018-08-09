@@ -24,6 +24,7 @@ class Photo extends JsonResource
             'versions' => [
                 'orig' => Storage::disk("public")->url($this->getStoragePathAttribute()),
             ],
+            'user' => new User($this->user),
         ];
     }
 }

@@ -10,4 +10,9 @@ class Photo extends Model
     {
         return $this->id ? "photos/orig/$this->id" : null;
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

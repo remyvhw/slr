@@ -17,7 +17,7 @@
 
       <nav class="w-full flex flex-wrap mb-8">
         <div class="w-1/2 pr-1">
-          <button @click="openFileDialog" class="flex  text-grey-darkest items-center block w-full bg-grey-light font-bold py-2 px-4 rounded justify-center h-12 hover:bg-brand-dark">
+          <button @click="openFileDialog" class="flex  text-grey-darkest items-center block w-full bg-grey-light font-bold py-2 px-4 rounded justify-center h-12 hover:bg-grey">
             <svg class="fill-current inline-block w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
               <path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
             </svg>
@@ -28,7 +28,7 @@
 
         <div class="w-1/2 pl-1">
           <button @click="saveAll" :disabled="shouldDisableSaveButton" class="flex items-center block h-12 w-full font-bold py-2 px-4 rounded bg-grey-light justify-center" :class="{
-            'hover:bg-grey text-grey-darkest hover:bg-brand-dark': !shouldDisableSaveButton,
+            'hover:bg-grey text-grey-darkest': !shouldDisableSaveButton,
             'text-grey-dark cursor-auto': shouldDisableSaveButton
           }">
             <svg class="fill-current inline-block w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

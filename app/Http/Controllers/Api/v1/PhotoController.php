@@ -7,6 +7,7 @@ use App\Http\Requests\StorePhoto;
 use App\Http\Resources\Photo as PhotoResource;
 use App\Http\Resources\PhotoCollection;
 use App\Photo;
+use Auth;
 use Carbon;
 use Illuminate\Http\Request;
 
@@ -40,6 +41,7 @@ class PhotoController extends Controller
         $photo->lat = $request->input("lat");
         $photo->lng = $request->input("lng");
         $photo->legend = $request->input("legend");
+        $photo->user_id = Auth::id();
         $photo->save();
 
         $request->photo->storeAs('', $photo->getStoragePathAttribute(), config("filesystems.cloud"));

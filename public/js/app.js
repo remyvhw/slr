@@ -802,6 +802,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -820,9 +826,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }*/
   },
   computed: {
+    imageStyle: function imageStyle() {
+      return {
+        "background-image": "url(" + this.photo.versions.orig + ")"
+      };
+    }
     /*selected() {
       return this.photo.isSelectedInStore(this.$store);
     }*/
+
   },
   components: {},
   methods: {
@@ -23511,7 +23523,7 @@ var render = function() {
               "button",
               {
                 staticClass:
-                  "flex  text-grey-darkest items-center block w-full bg-grey-light font-bold py-2 px-4 rounded justify-center h-12 hover:bg-brand-dark",
+                  "flex  text-grey-darkest items-center block w-full bg-grey-light font-bold py-2 px-4 rounded justify-center h-12 hover:bg-grey",
                 on: { click: _vm.openFileDialog }
               },
               [
@@ -23553,7 +23565,7 @@ var render = function() {
                 staticClass:
                   "flex items-center block h-12 w-full font-bold py-2 px-4 rounded bg-grey-light justify-center",
                 class: {
-                  "hover:bg-grey text-grey-darkest hover:bg-brand-dark": !_vm.shouldDisableSaveButton,
+                  "hover:bg-grey text-grey-darkest": !_vm.shouldDisableSaveButton,
                   "text-grey-dark cursor-auto": _vm.shouldDisableSaveButton
                 },
                 attrs: { disabled: _vm.shouldDisableSaveButton },
@@ -23750,13 +23762,33 @@ var render = function() {
         }
       },
       [
-        _c("img", {
-          staticClass: "w-full",
-          attrs: { src: _vm.photo.versions.orig }
+        _c("div", {
+          staticClass: "w-full  bg-cover overflow-hidden h-32",
+          style: _vm.imageStyle
         }),
         _vm._v(" "),
-        _c("div", { staticClass: "px-2 py-2" }, [
-          _vm._v("\n      Contenu\n    ")
+        _c("div", { staticClass: " px-2 py-2 " }, [
+          _c("p", { staticClass: "text-sm text-grey-dark flex items-center" }, [
+            _c(
+              "svg",
+              {
+                staticClass: "fill-current text-grey w-3 h-3 mr-2",
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  viewBox: "0 0 20 20"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    d:
+                      "M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z"
+                  }
+                })
+              ]
+            ),
+            _vm._v("\n        " + _vm._s(_vm.photo.user.name) + "\n      ")
+          ])
         ])
       ]
     )
