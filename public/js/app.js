@@ -814,27 +814,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     photo: {
       type: Object,
       required: true
+    },
+    fullWidth: {
+      type: Boolean,
+      default: false
     }
   },
   watch: {
-    /*selected: function(newVal, oldVal) {
-      if (newVal && !oldVal && document.body.clientWidth > 992)
-        this.$el.scrollIntoView({
-          behavior: "smooth",
-          block: "center"
-        });
-    }*/
+    selected: function selected(newVal, oldVal) {
+      if (newVal && !oldVal && document.body.clientWidth > 992) this.$el.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+    }
   },
   computed: {
     imageStyle: function imageStyle() {
       return {
         "background-image": "url(" + this.photo.versions.orig + ")"
       };
-    }
-    /*selected() {
+    },
+    selected: function selected() {
       return this.photo.isSelectedInStore(this.$store);
-    }*/
-
+    }
   },
   components: {},
   methods: {
@@ -23787,49 +23789,61 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("figure", { staticClass: "w-1/2 px-1 mb-2" }, [
-    _c(
-      "div",
-      {
-        staticClass:
-          "border border-grey-light overflow-hidden rounded text-center",
-        class: {
-          "bg-white": !_vm.selected,
-          "bg-orange-lightest": _vm.selected
-        }
-      },
-      [
-        _c("div", {
-          staticClass: "w-full  bg-cover overflow-hidden h-32",
-          style: _vm.imageStyle
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: " px-2 py-2 " }, [
-          _c("p", { staticClass: "text-sm text-grey-dark flex items-center" }, [
+  return _c(
+    "figure",
+    {
+      staticClass: "px-1 mb-2",
+      class: { "w-1/2": !_vm.fullWidth, "w-full": _vm.fullWidth }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass:
+            "border border-grey-light overflow-hidden rounded text-center",
+          class: {
+            "bg-white": !_vm.selected,
+            "bg-orange-lightest": _vm.selected
+          }
+        },
+        [
+          _c("div", {
+            staticClass: "w-full  bg-cover overflow-hidden",
+            class: { "h-32": !_vm.fullWidth, "h-48": _vm.fullWidth },
+            style: _vm.imageStyle
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: " px-2 py-2 " }, [
             _c(
-              "svg",
-              {
-                staticClass: "fill-current text-grey w-3 h-3 mr-2",
-                attrs: {
-                  xmlns: "http://www.w3.org/2000/svg",
-                  viewBox: "0 0 20 20"
-                }
-              },
+              "p",
+              { staticClass: "text-sm text-grey-dark flex items-center" },
               [
-                _c("path", {
-                  attrs: {
-                    d:
-                      "M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM7 6v2a3 3 0 1 0 6 0V6a3 3 0 1 0-6 0zm-3.65 8.44a8 8 0 0 0 13.3 0 15.94 15.94 0 0 0-13.3 0z"
-                  }
-                })
+                _c(
+                  "svg",
+                  {
+                    staticClass: "fill-current text-grey w-3 h-3 mr-2",
+                    attrs: {
+                      xmlns: "http://www.w3.org/2000/svg",
+                      viewBox: "0 0 20 20"
+                    }
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        d:
+                          "M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM7 6v2a3 3 0 1 0 6 0V6a3 3 0 1 0-6 0zm-3.65 8.44a8 8 0 0 0 13.3 0 15.94 15.94 0 0 0-13.3 0z"
+                      }
+                    })
+                  ]
+                ),
+                _vm._v("\n        " + _vm._s(_vm.photo.user.name) + "\n      ")
               ]
-            ),
-            _vm._v("\n        " + _vm._s(_vm.photo.user.name) + "\n      ")
+            )
           ])
-        ])
-      ]
-    )
-  ])
+        ]
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
