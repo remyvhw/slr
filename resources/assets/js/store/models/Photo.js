@@ -51,6 +51,12 @@ export class Photo extends AbstractPhoto {
         this.updated_at = new Date(this.updated_at);
 
     }
+    isSelectedInStore(store) {
+        return store.state.browser.selection &&
+            store.state.browser.selection.constructor.name ===
+            this.constructor.name &&
+            store.state.browser.selection.id === this.id;
+    }
 }
 
 

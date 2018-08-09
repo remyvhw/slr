@@ -21,6 +21,17 @@ const obstructionIcon = {
   selectedColor: colors["orange-dark"]
 };
 
+const photoIcon = {
+  path: `M960 864q119 0 203.5 -84.5t84.5 -203.5t-84.5 -203.5t-203.5 -84.5t-203.5 84.5t-84.5 203.5t84.5 203.5t203.5 84.5zM1664 1280q106 0 181 -75t75 -181v-896q0 -106 -75 -181t-181 -75h-1408q-106 0 -181 75t-75 181v896q0 106 75 181t181 75h224l51 136 q19 49 69.5 84.5t103.5 35.5h512q53 0 103.5 -35.5t69.5 -84.5l51 -136h224zM960 128q185 0 316.5 131.5t131.5 316.5t-131.5 316.5t-316.5 131.5t-316.5 -131.5t-131.5 -316.5t131.5 -316.5t316.5 -131.5z`,
+  defaultColor: colors.green,
+  selectedColor: colors["green-dark"]
+};
+
+const typeIconAssociation = {
+  obstruction: obstructionIcon,
+  photo: photoIcon
+};
+
 export default {
   props: {},
   data() {
@@ -97,6 +108,21 @@ export default {
             };
           })
           .toArray();
+      } else if (
+        this.$route.name.startsWith("browser.photos") &&
+        this.$store.state.photos.content.data
+      ) {
+        return collect(this.$store.state.photos.content.data)
+          .filter(photo => {
+            return photo.lat && photo.lng;
+          })
+          .map(photo => {
+            return {
+              payload: photo,
+              type: "photo"
+            };
+          })
+          .toArray();
       }
       return [];
     },
@@ -132,7 +158,7 @@ export default {
           gElement.innerHTML = mapMarkerSvgPath;
           svgElement.appendChild(gElement);
 
-          const secondaryIcon = obstructionIcon;
+          const secondaryIcon = typeIconAssociation[item.type];
 
           let markerPathElement = document.createElement("path");
           markerPathElement.setAttribute("d", mapMarkerSvgPath);
