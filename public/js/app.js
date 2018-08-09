@@ -841,7 +841,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   components: {},
   methods: {
     selectPhoto: function selectPhoto() {
-      this.$store.commit("browser/setSelection", this.selected ? null : this.photo);
+      var shouldSelect = this.selected || !this.photo.lat || !this.photo.lng;
+      this.$store.commit("browser/setSelection", shouldSelect ? null : this.photo);
     }
   }
 });
@@ -23836,7 +23837,10 @@ var render = function() {
                     })
                   ]
                 ),
-                _vm._v("\n        " + _vm._s(_vm.photo.user.name) + "\n      ")
+                _vm._v(" "),
+                _c("span", { on: { click: _vm.selectPhoto } }, [
+                  _vm._v(_vm._s(_vm.photo.user.name))
+                ])
               ]
             )
           ])

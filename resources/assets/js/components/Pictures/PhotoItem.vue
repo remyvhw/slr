@@ -11,7 +11,7 @@
           <svg class="fill-current text-grey w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM7 6v2a3 3 0 1 0 6 0V6a3 3 0 1 0-6 0zm-3.65 8.44a8 8 0 0 0 13.3 0 15.94 15.94 0 0 0-13.3 0z" />
           </svg>
-          {{ photo.user.name }}
+          <span @click="selectPhoto">{{ photo.user.name }}</span>
         </p>
       </div>
     </div>
@@ -52,9 +52,10 @@ export default {
   components: {},
   methods: {
     selectPhoto() {
+      const shouldSelect = this.selected || !this.photo.lat || !this.photo.lng;
       this.$store.commit(
         "browser/setSelection",
-        this.selected ? null : this.photo
+        shouldSelect ? null : this.photo
       );
     }
   }
