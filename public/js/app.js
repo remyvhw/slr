@@ -30399,6 +30399,7 @@ var state = {
     get: function get(context) {
         var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
+        if (context.state.content.meta && context.state.content.meta.current_page == page) return;
         context.commit("setData", {});
         var url = new URL(context.rootState.apiRoot + __WEBPACK_IMPORTED_MODULE_0__models_Photo_js__["a" /* Photo */].getEndpoint());
         url.searchParams.append("page", page);

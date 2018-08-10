@@ -12,6 +12,7 @@ const state = {
 // actions
 const actions = {
     get(context, page = 1) {
+        if (context.state.content.meta && context.state.content.meta.current_page == page) return;
         context.commit("setData", {});
         const url = new URL(context.rootState.apiRoot + Photo.getEndpoint());
         url.searchParams.append("page", page);
