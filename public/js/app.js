@@ -1538,8 +1538,8 @@ var photoIcon = {
 };
 
 var typeIconAssociation = {
-  obstruction: obstructionIcon,
-  photo: photoIcon
+  Obstruction: obstructionIcon,
+  Photo: photoIcon
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1611,7 +1611,7 @@ var typeIconAssociation = {
         return collect(this.$store.state.obstructions.content.data).map(function (obstruction) {
           return {
             payload: obstruction,
-            type: "obstruction"
+            type: "Obstruction"
           };
         }).toArray();
       } else if (this.$route.name.startsWith("browser.photos") && this.$store.state.photos.content.data) {
@@ -1620,7 +1620,7 @@ var typeIconAssociation = {
         }).map(function (photo) {
           return {
             payload: photo,
-            type: "photo"
+            type: "Photo"
           };
         }).toArray();
       }

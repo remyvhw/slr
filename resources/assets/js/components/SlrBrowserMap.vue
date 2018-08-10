@@ -28,8 +28,8 @@ const photoIcon = {
 };
 
 const typeIconAssociation = {
-  obstruction: obstructionIcon,
-  photo: photoIcon
+  Obstruction: obstructionIcon,
+  Photo: photoIcon
 };
 
 export default {
@@ -104,7 +104,7 @@ export default {
           .map(obstruction => {
             return {
               payload: obstruction,
-              type: "obstruction"
+              type: "Obstruction"
             };
           })
           .toArray();
@@ -119,7 +119,7 @@ export default {
           .map(photo => {
             return {
               payload: photo,
-              type: "photo"
+              type: "Photo"
             };
           })
           .toArray();
