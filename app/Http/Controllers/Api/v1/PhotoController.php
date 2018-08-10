@@ -40,6 +40,7 @@ class PhotoController extends Controller
         $photo->legend = $request->input("legend");
         $photo->lat = $request->input("lat");
         $photo->lng = $request->input("lng");
+        $photo->direction = $request->input("direction");
         $photo->legend = $request->input("legend");
         $photo->user_id = Auth::id();
         $photo->save();

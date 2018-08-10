@@ -1153,6 +1153,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     updateLatLng: function updateLatLng(point) {
       this.photo.lat = point.lat;
       this.photo.lng = point.lng;
+      this.photo.direction = null;
     },
     saveImage: function saveImage() {
       this.photo.getSavePromise().then(function (photo) {}, function (err) {});
@@ -29975,6 +29976,7 @@ var AbstractPhoto = function () {
         this.lng = null;
         this.legend = null;
         this.created_at = null;
+        this.direction = null;
     }
 
     _createClass(AbstractPhoto, [{
@@ -30107,6 +30109,10 @@ var PhotoScaffold = function (_AbstractPhoto2) {
             this.lat = this.convertDmsToDecimalDegrees(exif.GPSLatitude[0].numerator / exif.GPSLatitude[0].denominator, exif.GPSLatitude[1].numerator / exif.GPSLatitude[1].denominator, exif.GPSLatitude[2].numerator / exif.GPSLatitude[2].denominator, exif.GPSLatitudeRef);
 
             this.lng = this.convertDmsToDecimalDegrees(exif.GPSLongitude[0].numerator / exif.GPSLongitude[0].denominator, exif.GPSLongitude[1].numerator / exif.GPSLongitude[1].denominator, exif.GPSLongitude[2].numerator / exif.GPSLongitude[2].denominator, exif.GPSLongitudeRef);
+
+            if (deep(exif, "GPSImgDirection.numerator") && exif.GPSImgDirectionRef) {
+                this.direction = String(deep(exif, "GPSImgDirection.numerator") / deep(exif, "GPSImgDirection.denominator")) + exif.GPSImgDirectionRef;
+            }
         }
     }, {
         key: "extractOriginalDate",
@@ -30130,6 +30136,10 @@ var PhotoScaffold = function (_AbstractPhoto2) {
                 if (_this6.lat && _this6.lng) {
                     data.append("lat", _this6.lat);
                     data.append("lng", _this6.lng);
+                }
+
+                if (_this6.direction && RegExp(/^\d+\.?\d*[TM]$/).test(_this6.direction)) {
+                    data.append("direction", _this6.direction);
                 }
 
                 if (_this6.created_at) {

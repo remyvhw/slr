@@ -15,6 +15,7 @@ export class AbstractPhoto {
         this.lng = null;
         this.legend = null;
         this.created_at = null;
+        this.direction = null;
     }
 
     static getEndpoint() {
@@ -127,6 +128,9 @@ export class PhotoScaffold extends AbstractPhoto {
             exif.GPSLongitudeRef
         );
 
+        if (deep(exif, "GPSImgDirection.numerator") && exif.GPSImgDirectionRef) {
+            this.direction = String(deep(exif, "GPSImgDirection.numerator") / deep(exif, "GPSImgDirection.denominator")) + exif.GPSImgDirectionRef;
+        }
     }
 
     extractOriginalDate(exif) {
@@ -146,6 +150,10 @@ export class PhotoScaffold extends AbstractPhoto {
             if (this.lat && this.lng) {
                 data.append("lat", this.lat);
                 data.append("lng", this.lng);
+            }
+
+            if (this.direction && (RegExp(/^\d+\.?\d*[TM]$/)).test(this.direction)) {
+                data.append("direction", this.direction);
             }
 
             if (this.created_at) {

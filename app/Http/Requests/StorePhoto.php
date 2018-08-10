@@ -32,6 +32,7 @@ class StorePhoto extends FormRequest
             'created_at' => 'nullable|date',
             'lat' => ['nullable', new Latitude],
             'lng' => ['nullable', new Longitude],
+            'direction' => ['nullable', 'max:255', 'regex:/^\d+\.?\d*[TM]$/'],
         ];
     }
 }

@@ -85,6 +85,7 @@ export default {
     updateLatLng(point) {
       this.photo.lat = point.lat;
       this.photo.lng = point.lng;
+      this.photo.direction = null;
     },
     saveImage() {
       this.photo.getSavePromise().then(photo => {}, err => {});
