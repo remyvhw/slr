@@ -164,10 +164,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    obstructionItem: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionItem.vue")
+    obstructionItem: __webpack_require__("./resources/assets/js/components/Obstructions/ObstructionItem.vue"),
+    photoItem: __webpack_require__("./resources/assets/js/components/Pictures/PhotoItem.vue")
   },
   mounted: function mounted() {
     if (!this.$store.state.changes.content.data) this.retrieveChanges();
@@ -23496,10 +23500,24 @@ var render = function() {
           "div",
           [
             _vm._l(_vm.changes, function(change) {
-              return _c("obstruction-item", {
-                key: change.id,
-                attrs: { obstruction: change.payload }
-              })
+              return _c(
+                "div",
+                { key: change.id },
+                [
+                  change.type === "Obstruction"
+                    ? _c("obstruction-item", {
+                        attrs: { obstruction: change.payload }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  change.type === "Photo"
+                    ? _c("photo-item", {
+                        attrs: { photo: change.payload, "full-width": true }
+                      })
+                    : _vm._e()
+                ],
+                1
+              )
             }),
             _vm._v(" "),
             !_vm.$store.state.changes.content.data.length

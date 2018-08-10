@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class Change extends JsonResource
 {
+
     /**
      * Transform the resource into an array.
      *
@@ -14,10 +15,14 @@ class Change extends JsonResource
      */
     public function toArray($request)
     {
+
         $classname = class_basename(get_class($this->resource));
+        $resourceName = "\App\Http\Resources\\" . $classname;
+        $resource = new $resourceName($this->resource);
+
         return [
             "type" => $classname,
-            "payload" => $this->resource,
+            "payload" => $resource,
             /*
              * We create a dummy id so we can render a list in Vue and specify a unique :key
              */
