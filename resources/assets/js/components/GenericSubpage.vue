@@ -1,12 +1,3 @@
-<style scoped>
-.back {
-  transition: all 0.2s ease-in-out;
-}
-.back:hover {
-  transform: scale(1.1);
-}
-</style>
-
 <template>
 
   <section>
