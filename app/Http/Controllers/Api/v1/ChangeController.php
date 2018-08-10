@@ -21,23 +21,11 @@ class ChangeController extends Controller
         $since = new Carbon($request->input("since"));
         $changes = Obstruction::withTrashed()->when($request->has("since"), function ($query) use ($request, $since) {
             return $query->where("updated_at", ">=", $since);
-        })->get(); /*->map(function ($obstruction) {
-        return collect([
-        "payload" => new ObstructionResource($obstruction),
-        "type" => "Obstruction",
-        "id" => "obstruction_" . $obstruction->id,
-        ]);
-        });*/
+        })->get();
 
         $changes = $changes->concat(Photo::when($request->has("since"), function ($query) use ($request, $since) {
             return $query->where("updated_at", ">=", $since);
-        })->get()); /*->map(function ($photo) {
-        return collect([
-        "payload" => new PhotoResource($photo),
-        "type" => "Photo",
-        "id" => "photo_" . $photo->id,
-        ]);
-        }));*/
+        })->get());
 
         return new ChangeCollection($changes->sortByDesc('updated_at'));
 
