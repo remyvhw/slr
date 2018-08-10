@@ -25277,7 +25277,7 @@ var render = function() {
             width: "54 ",
             height: "54 ",
             viewBox: "0 0 256 512 ",
-            xmlns: "http://www.w3.org/2000/svg "
+            xmlns: "http://www.w3.org/2000/svg"
           }
         },
         [
@@ -29865,7 +29865,9 @@ var lastVisitDate = rawLastVisitDate ? new Date(rawLastVisitDate) : new Date();
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Obstruction__ = __webpack_require__("./resources/assets/js/store/models/Obstruction.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Photo__ = __webpack_require__("./resources/assets/js/store/models/Photo.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 
 
 
@@ -29876,6 +29878,8 @@ var Change = function Change(apiChange) {
     this.type = apiChange.type;
     if (apiChange.type === 'Obstruction') {
         this.payload = new __WEBPACK_IMPORTED_MODULE_0__Obstruction__["a" /* default */](apiChange.payload);
+    } else if (apiChange.type === 'Photo') {
+        this.payload = new __WEBPACK_IMPORTED_MODULE_1__Photo__["a" /* Photo */](apiChange.payload);
     }
 };
 
