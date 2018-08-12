@@ -914,6 +914,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
@@ -922,7 +969,8 @@ var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      photo: null
+      photo: null,
+      presentationMode: "cover"
     };
   },
 
@@ -933,9 +981,15 @@ var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
   computed: {
     imageStyle: function imageStyle() {
       if (!this.photo) return null;
-      return {
+      var style = {
         "background-image": "url(" + this.photo.versions.orig + ")"
       };
+
+      return style;
+    },
+    createdAt: function createdAt() {
+      var date = new Date(this.photo.created_at.date + " " + this.photo.created_at.timezone);
+      return date.toLocaleString();
     }
   },
   mounted: function mounted() {
@@ -967,6 +1021,9 @@ var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
 
         _this2.photo = data.data;
       });
+    },
+    togglePresentation: function togglePresentation() {
+      if (this.presentationMode == "cover") this.presentationMode = "contain";else this.presentationMode = "cover";
     }
   }
 });
@@ -24034,7 +24091,11 @@ var render = function() {
     "div",
     {
       staticClass:
-        "relative h-screen flex justify-center bg-brand-darkest bg-cover bg-no-repeat bg-center",
+        "relative h-screen flex justify-center bg-brand-darkest bg-no-repeat bg-center",
+      class: {
+        "bg-cover": _vm.presentationMode === "cover",
+        "bg-contain": _vm.presentationMode === "contain"
+      },
       style: _vm.imageStyle
     },
     [
@@ -24056,50 +24117,146 @@ var render = function() {
       !_vm.photo
         ? _c("div", { staticClass: "spinner self-center h-10" })
         : [
-            _c("div", { staticClass: "absolute pin-b pin-l flex flex-wrap" }, [
-              _c(
-                "div",
-                {
-                  directives: [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "absolute pin-b pin-l w-full flex flex-wrap justify-end"
+              },
+              [
+                _vm.photo.legend
+                  ? _c("aside", { staticClass: "w-full lg:w-1/3" }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "h-24 m-4 overflow-scroll bg-smoke-dark rounded text-grey text-sm px-4 py-2 tracking-tight"
+                        },
+                        [
+                          _vm._v(
+                            "\n          " +
+                              _vm._s(_vm.photo.legend) +
+                              "\n        "
+                          )
+                        ]
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("aside", { staticClass: "w-full lg:w-1/3" }, [
+                  _c(
+                    "div",
                     {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.photo.legend,
-                      expression: "photo.legend"
-                    }
-                  ],
-                  staticClass:
-                    "w-full lg:w-1/3 h-24 overflow-scroll m-4 bg-smoke-dark rounded text-grey text-sm px-4 py-2 tracking-tight"
-                },
-                [_vm._v("\n        " + _vm._s(_vm.photo.legend) + "\n      ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  directives: [
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.photo.lat && _vm.photo.lng,
+                          expression: "photo.lat && photo.lng"
+                        }
+                      ],
+                      staticClass: "h-24 m-4 bg-smoke-dark rounded text-white"
+                    },
+                    [
+                      _c("place-map", {
+                        attrs: {
+                          lat: _vm.photo.lat,
+                          lng: _vm.photo.lng,
+                          direction: _vm.photo.direction
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("aside", { staticClass: "w-full lg:w-1/3" }, [
+                  _c("div", { staticClass: "flex justify-end" }, [
+                    _c("nav", { staticClass: " w-1/2 " }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "h-6 mt-4 mx-4 overflow-scroll bg-smoke-dark border border-grey-darker rounded  cursor-pointer  text-sm text-bold px-4 py-1 tracking-tight "
+                        },
+                        [
+                          _c(
+                            "a",
+                            {
+                              staticClass:
+                                "flex items-center text-grey no-underline",
+                              attrs: {
+                                href: _vm.photo.versions.orig,
+                                target: "_blank"
+                              }
+                            },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  staticClass:
+                                    "h-3 w-3 fill-current inline-block ",
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg ",
+                                    viewBox: "0 0 20 20 "
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z "
+                                    }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "ml-2" }, [
+                                _vm._v("Original")
+                              ])
+                            ]
+                          )
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
                     {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.photo.lat && _vm.photo.lng,
-                      expression: "photo.lat && photo.lng"
-                    }
-                  ],
-                  staticClass:
-                    "w-full lg:w-1/3 h-24 m-4 bg-smoke-dark rounded text-white"
-                },
-                [
-                  _c("place-map", {
-                    attrs: {
-                      lat: _vm.photo.lat,
-                      lng: _vm.photo.lng,
-                      direction: _vm.photo.direction
-                    }
-                  })
-                ],
-                1
-              )
-            ])
+                      staticClass:
+                        "flex items-center h-16 m-4 mt-2 bg-smoke-dark rounded text-grey text-sm px-4 py-2 tracking-tight "
+                    },
+                    [
+                      _c(
+                        "svg",
+                        {
+                          staticClass: "h-8 w-8 fill-current inline-block ",
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg ",
+                            viewBox: "0 0 20 20 "
+                          }
+                        },
+                        [
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM7 6v2a3 3 0 1 0 6 0V6a3 3 0 1 0-6 0zm-3.65 8.44a8 8 0 0 0 13.3 0 15.94 15.94 0 0 0-13.3 0z "
+                            }
+                          })
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "ml-2 " }, [
+                        _vm._v(_vm._s(_vm.photo.user.name) + "\n            "),
+                        _c("br"),
+                        _vm._v(_vm._s(_vm.createdAt) + "\n          ")
+                      ])
+                    ]
+                  )
+                ])
+              ]
+            )
           ]
     ],
     2
