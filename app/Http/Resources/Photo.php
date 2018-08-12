@@ -21,6 +21,8 @@ class Photo extends JsonResource
             'updated_at' => $this->updated_at,
             'lat' => $this->lat,
             'lng' => $this->lng,
+            'direction' => $this->direction,
+            'legend' => $this->legend,
             'versions' => [
                 'orig' => Storage::disk("public")->url($this->getStoragePathAttribute()),
             ],
