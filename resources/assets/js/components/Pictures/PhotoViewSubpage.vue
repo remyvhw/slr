@@ -99,10 +99,7 @@ export default {
       return style;
     },
     createdAt() {
-      const date = new Date(
-        this.photo.created_at.date + " " + this.photo.created_at.timezone
-      );
-      return date.toLocaleString();
+      return this.photo.created_at.toLocaleString();
     }
   },
   mounted() {
@@ -136,7 +133,7 @@ export default {
             this.$route.params.id
         )
         .then(({ data }) => {
-          this.photo = data.data;
+          this.photo = new Photo(data.data);
         });
     },
     togglePresentation() {

@@ -988,8 +988,7 @@ var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
       return style;
     },
     createdAt: function createdAt() {
-      var date = new Date(this.photo.created_at.date + " " + this.photo.created_at.timezone);
-      return date.toLocaleString();
+      return this.photo.created_at.toLocaleString();
     }
   },
   mounted: function mounted() {
@@ -1019,7 +1018,7 @@ var deep = __webpack_require__("./node_modules/deep-get-set/index.js");
       axios.get(this.$store.state.apiRoot + __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__["a" /* Photo */].getEndpoint() + "/" + this.$route.params.id).then(function (_ref) {
         var data = _ref.data;
 
-        _this2.photo = data.data;
+        _this2.photo = new __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__["a" /* Photo */](data.data);
       });
     },
     togglePresentation: function togglePresentation() {
@@ -30364,8 +30363,8 @@ var Photo = function (_AbstractPhoto) {
         Object.keys(apiPhoto).forEach(function (key) {
             _this2[key] = apiPhoto[key];
         });
-        _this2.created_at = new Date(_this2.created_at);
-        _this2.updated_at = new Date(_this2.updated_at);
+        _this2.created_at = new Date(apiPhoto.created_at.date + " " + apiPhoto.created_at.timezone);
+        _this2.updated_at = new Date(apiPhoto.updated_at.date + " " + apiPhoto.updated_at.timezone);
 
         return _this2;
     }

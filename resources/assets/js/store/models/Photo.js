@@ -48,8 +48,8 @@ export class Photo extends AbstractPhoto {
         Object.keys(apiPhoto).forEach((key) => {
             this[key] = apiPhoto[key];
         });
-        this.created_at = new Date(this.created_at);
-        this.updated_at = new Date(this.updated_at);
+        this.created_at = new Date(apiPhoto.created_at.date + " " + apiPhoto.created_at.timezone);
+        this.updated_at = new Date(apiPhoto.updated_at.date + " " + apiPhoto.updated_at.timezone);
 
     }
     isSelectedInStore(store) {
