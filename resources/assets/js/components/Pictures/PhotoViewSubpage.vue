@@ -99,7 +99,7 @@ export default {
       return style;
     },
     createdAt() {
-      return this.photo.created_at.toLocaleString();
+      return this.photo ? this.photo.created_at.toLocaleString() : null;
     }
   },
   mounted() {
