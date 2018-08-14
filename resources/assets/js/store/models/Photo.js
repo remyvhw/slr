@@ -21,25 +21,6 @@ export class AbstractPhoto {
     static getEndpoint() {
         return endpoint;
     }
-
-    /**
-     * Find the nearest station, if any within 5 km from photo.
-     * @param {array} stations an array of Station objects 
-     */
-    nearestStationInStations(stations) {
-        if (!this.lat || !this.lng) return null;
-
-        return collect(stations).map(station => {
-            return {
-                distance: station.distanceFromPoint(this.lat, this.lng),
-                station: station,
-            };
-        }).reject(stationItem => {
-            return stationItem.distance > 5;
-        }).sortBy(stationItem => {
-            return stationItem.distance;
-        }).pluck("station").first();
-    }
 }
 
 export class Photo extends AbstractPhoto {

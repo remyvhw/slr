@@ -1,5 +1,4 @@
 const deep = require("deep-get-set");
-const haversine = require('haversine')
 
 export default class Station {
     constructor(feature) {
@@ -24,10 +23,5 @@ export default class Station {
         };
     }
 
-    distanceFromPoint(latitude, longitude) {
-        return haversine({
-            latitude: this.lat,
-            longitude: this.lng
-        }, { latitude, longitude })
-    }
+
 }

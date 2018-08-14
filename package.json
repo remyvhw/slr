@@ -14,7 +14,7 @@
         "cross-env": "^5.1",
         "laravel-mix": "^2.0",
         "tailwindcss": "^0.6.4",
-        "vue": "^2.5.16"
+        "vue": "2.5.16"
     },
     "dependencies": {
         "@mapbox/mapbox-gl-geocoder": "^2.3.0",
@@ -22,7 +22,6 @@
         "deep-get-set": "^1.1.0",
         "exif-js": "^2.3.0",
         "fuse.js": "^3.2.1",
-        "haversine": "^1.1.0",
         "mapbox-gl": "^0.46.0",
         "marked": "^0.4.0",
         "tailwindcss-spinner": "^0.1.2",
