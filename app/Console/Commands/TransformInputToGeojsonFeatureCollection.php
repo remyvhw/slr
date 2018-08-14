@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\GeojsonFeature;
+use App\Station;
 use Cache;
 use Illuminate\Console\Command;
 
@@ -85,6 +86,15 @@ class TransformInputToGeojsonFeatureCollection extends Command
         });
     }
 
+    public function extractStations()
+    {
+        GeojsonFeature::get()->filter(function ($feature) {
+            return data_get($feature, "payload.geometry.type") === "Point";
+        })->each(function ($feature) {
+            Station::create(["name" => data_get($feature, "payload.properties.name", "-"), "lat" => data_get($feature, "payload.geometry.coordinates.1"), "lng" => data_get($feature, "payload.geometry.coordinates.0")]);
+        });
+    }
+
     /**
      * Execute the console command.
      *
@@ -102,6 +112,9 @@ class TransformInputToGeojsonFeatureCollection extends Command
 
         $this->extractLines(array_get($data, "rem_lines"));
         $this->extractPoints(array_get($data, "rem_stations"));
+        if (!Station::count()) {
+            $this->extractStations();
+        }
 
         Cache::tags("geojsonfeature")->flush();
     }
