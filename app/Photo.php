@@ -26,4 +26,9 @@ class Photo extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function stations()
+    {
+        return $this->belongsToMany(Station::class);
+    }
 }

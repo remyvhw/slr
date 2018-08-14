@@ -19,4 +19,9 @@ class Station extends Model
      * @var array
      */
     protected $guarded = [];
+
+    public function photos()
+    {
+        return $this->belongsToMany(Photo::class);
+    }
 }
