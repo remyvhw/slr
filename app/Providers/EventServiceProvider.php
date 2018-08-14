@@ -13,7 +13,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\PhotoSaved' => [
+        'App\Events\PhotoCreated' => [
             'App\Listeners\MatchPhotoWithStation',
         ],
     ];
