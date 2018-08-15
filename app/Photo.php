@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Photo extends Model
 {
-
+    protected $with = ["stations", "user"];
     /**
      * The event map for the model.
      *
