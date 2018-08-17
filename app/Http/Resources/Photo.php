@@ -24,7 +24,7 @@ class Photo extends JsonResource
             'direction' => $this->direction,
             'legend' => $this->legend,
             'versions' => [
-                'orig' => Storage::disk("cloud")->url($this->getStoragePathAttribute()),
+                'orig' => Storage::cloud()->url($this->getStoragePathAttribute()),
             ],
             'user' => new User($this->user),
             'stations' => new StationCollection($this->stations),
