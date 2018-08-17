@@ -25646,7 +25646,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "bg-blue-lightest border-t border-b border-blue text-blue-dark px-4 py-3",
+        "bg-blue-lightest border-t border-b border-blue text-blue-dark px-2 py-4",
       attrs: { role: "alert" }
     },
     [

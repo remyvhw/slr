@@ -10,6 +10,7 @@ use App\Photo;
 use Auth;
 use Carbon;
 use Illuminate\Http\Request;
+use Storage;
 
 class PhotoController extends Controller
 {
@@ -46,6 +47,7 @@ class PhotoController extends Controller
         $photo->save();
 
         $request->photo->storeAs('', $photo->getStoragePathAttribute(), config("filesystems.cloud"));
+        Storage::setVisibility($photo->getStoragePathAttribute(), 'public');
 
         return new PhotoResource($photo);
 
