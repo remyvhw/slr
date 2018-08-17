@@ -1251,6 +1251,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__ = __webpack_require__("./resources/assets/js/store/models/Photo.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__GeolocationManager__ = __webpack_require__("./resources/assets/js/GeolocationManager.js");
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1306,16 +1313,25 @@ var marked = __webpack_require__("./node_modules/marked/lib/marked.js");
 var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     genericSubpage: __webpack_require__("./resources/assets/js/components/GenericSubpage.vue"),
     pictureUploadItem: __webpack_require__("./resources/assets/js/components/Pictures/PictureUploadItem.vue"),
-    progressIndicator: __webpack_require__("./resources/assets/js/components/ProgressIndicator.vue")
+    progressIndicator: __webpack_require__("./resources/assets/js/components/ProgressIndicator.vue"),
+    collapsableWarning: __webpack_require__("./resources/assets/js/components/CollapsableWarning.vue")
   },
   data: function data() {
     return {
-      photos: []
+      photos: [],
+      shouldUseDeviceLocation: /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream,
+      geolocationManager: null
     };
+  },
+  mounted: function mounted() {
+    if (this.shouldUseDeviceLocation && "geolocation" in navigator) {
+      this.geolocationManager = new __WEBPACK_IMPORTED_MODULE_1__GeolocationManager__["a" /* default */]();
+    }
   },
 
   computed: {
@@ -1365,6 +1381,10 @@ var collect = __webpack_require__("./node_modules/collect.js/dist/index.js");
 
       Array.from(event.target.files).forEach(function (file) {
         var photo = new __WEBPACK_IMPORTED_MODULE_0__store_models_Photo__["b" /* PhotoScaffold */](file);
+        if ((!photo.lat || !photo.lng) && _this.shouldUseDeviceLocation) {
+          photo.lat = _this.geolocationManager.lat;
+          photo.lng = _this.geolocationManager.lng;
+        }
         _this.photos.push(photo);
       });
       event.target.value = "";
@@ -23763,13 +23783,13 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("nav", { staticClass: "w-full flex flex-wrap mb-8" }, [
+        _c("nav", { staticClass: "w-full flex flex-wrap mb-8 px-2 lg:px-0" }, [
           _c("div", { staticClass: "w-1/2 pr-1" }, [
             _c(
               "button",
               {
                 staticClass:
-                  "flex  text-grey-darkest items-center block w-full bg-grey-light font-bold py-2 px-4 rounded justify-center h-12 hover:bg-grey",
+                  "flex text-grey-darkest items-center block w-full bg-grey-light font-bold py-2 px-4 rounded justify-center h-16 lg:h-12 hover:bg-grey",
                 on: { click: _vm.openFileDialog }
               },
               [
@@ -23792,14 +23812,20 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _c("span", [_vm._v("Ajouter des photos")])
+                _c("span", { staticClass: "text-sm lg:text-base" }, [
+                  _vm._v("Ajouter des photos")
+                ])
               ]
             ),
             _vm._v(" "),
             _c("input", {
               ref: "fileinput",
               staticClass: "opacity-0",
-              attrs: { multiple: "", type: "file" },
+              attrs: {
+                multiple: "",
+                type: "file",
+                accept: "image/jpeg,image/png"
+              },
               on: { change: _vm.processPhotos }
             })
           ]),
@@ -23809,7 +23835,7 @@ var render = function() {
               "button",
               {
                 staticClass:
-                  "flex items-center block h-12 w-full font-bold py-2 px-4 rounded bg-grey-light justify-center",
+                  "flex items-center block h-16 lg:h-12 w-full font-bold py-2 px-4 rounded bg-grey-light justify-center",
                 class: {
                   "hover:bg-grey text-grey-darkest": !_vm.shouldDisableSaveButton,
                   "text-grey-dark cursor-auto": _vm.shouldDisableSaveButton
@@ -23837,11 +23863,37 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _c("span", [_vm._v("Enregistrer toutes les photos")])
+                _c("span", { staticClass: "text-sm lg:text-base" }, [
+                  _vm._v("Enregistrer toutes les photos")
+                ])
               ]
             )
           ])
         ]),
+        _vm._v(" "),
+        _vm.shouldUseDeviceLocation && !_vm.awaitingUpload
+          ? _c(
+              "collapsable-warning",
+              [
+                _c("title", [_vm._v("Génération de la localisation sur iOS")]),
+                _vm._v(" "),
+                _vm._t("default", [
+                  _vm._v(
+                    "Il semble que vous utilisez un iPhone ou un iPad pour ajouter des photos. Prenez note que ces appareils éliminent les données de localisation des photos (EXIF) lorsqu'elles sont téléversées depuis un navigateur. Pour cette raison,\n        "
+                  ),
+                  _c("b", [
+                    _vm._v(
+                      "la localisation de vos photo sera automatiquement celle de votre appareil au moment de l'ajout des photos sur cette page"
+                    )
+                  ]),
+                  _vm._v(
+                    ". Si possible, ajoutez les photos au fur et à mesure de leur prise, ou attendez d'être devant un ordinateur à la fin de la journée pour tout uploader en masse (la bonne vieille méthode)."
+                  )
+                ])
+              ],
+              2
+            )
+          : _vm._e(),
         _vm._v(" "),
         _vm._l(_vm.photos, function(photo) {
           return _c("picture-upload-item", {
@@ -25578,6 +25630,43 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-912e2ea4", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d7f548be\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/CollapsableWarning.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass:
+        "bg-blue-lightest border-t border-b border-blue text-blue-dark px-4 py-3",
+      attrs: { role: "alert" }
+    },
+    [
+      _c("p", {
+        staticClass: "font-bold",
+        attrs: { slot: "title" },
+        slot: "title"
+      }),
+      _vm._v(" "),
+      _c("p", { staticClass: "text-sm" }, [_vm._t("default")], 2)
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-d7f548be", module.exports)
   }
 }
 
@@ -28657,6 +28746,49 @@ if(false) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/GeolocationManager.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var GeolocationManager = function () {
+    function GeolocationManager() {
+        var _this = this;
+
+        _classCallCheck(this, GeolocationManager);
+
+        this.id = navigator.geolocation.watchPosition(function (position) {
+            _this.lat = position.coords.latitude;
+            _this.lng = position.coords.longitude;
+        }, function (error) {
+            _this.error = error;
+        }, {
+            enableHighAccuracy: true,
+            maximumAge: 30000,
+            timeout: 27000
+        });
+        this.lat = null;
+        this.lng = null;
+        this.error = null;
+    }
+
+    _createClass(GeolocationManager, [{
+        key: "stop",
+        value: function stop() {
+            navigator.geolocation.clearWatch(this.id);
+        }
+    }]);
+
+    return GeolocationManager;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (GeolocationManager);
+
+/***/ }),
+
 /***/ "./resources/assets/js/app.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -28867,6 +28999,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-17efa4d1", Component.options)
   } else {
     hotAPI.reload("data-v-17efa4d1", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/CollapsableWarning.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = null
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d7f548be\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/CollapsableWarning.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/CollapsableWarning.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d7f548be", Component.options)
+  } else {
+    hotAPI.reload("data-v-d7f548be", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
