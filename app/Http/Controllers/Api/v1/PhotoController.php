@@ -47,7 +47,7 @@ class PhotoController extends Controller
         $photo->save();
 
         $request->photo->storeAs('', $photo->getStoragePathAttribute(), config("filesystems.cloud"));
-        Storage::setVisibility($photo->getStoragePathAttribute(), 'public');
+        Storage::disk("cloud")->setVisibility($photo->getStoragePathAttribute(), 'public');
 
         return new PhotoResource($photo);
 
