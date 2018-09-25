@@ -65,6 +65,9 @@ class UpdateObstructions extends Command
         }
 
         $obstruction->fill(array_only((array) $hotObstruction, ["name", "type", "category", "major", "active", "night", "description", "lat", "lng", "url", "date"]))->save();
+        if (!$obstruction->description) {
+            $obstruction->description = "— Pas de description —";
+        }
 
         RefreshObstructionPayload::dispatch($obstruction);
 
