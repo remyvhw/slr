@@ -54,12 +54,12 @@ export default {
         {
           label: "Chantiers",
           route: "browser.obstructions"
-        },
-        {
+        }
+        /*{
           label: "Photos",
           route: "browser.photos",
           beta: true
-        }
+        }*/
       ];
     }
   }
