@@ -1,16 +1,22 @@
 <template>
   <span>
-    <span v-if="isNew || wasUpdated || wasDeleted" class="bg-transparent border text-xs py-1 rounded-full float-right" :class="{
-    'border-orange': wasUpdated,
-    'text-orange': wasUpdated,
-    'border-green': isNew,
-    'text-green': isNew,
-    'border-red': wasDeleted,
-    'text-red': wasDeleted
-  }">
-      <span class="px-2" v-if="isNew">Nouveau</span>
-      <span class="px-2" v-if="wasUpdated">Modifié</span>
-      <span class="px-2" v-if="wasDeleted">Supprimé</span>
+    <span
+      v-if="isNew || wasUpdated || wasDeleted"
+      class="bg-transparent border text-xs py-1 rounded-full float-right"
+      :class="labelClasses"
+    >
+      <span
+        class="px-2"
+        v-if="isNew && !wasDeleted"
+      >Nouveau</span>
+      <span
+        class="px-2"
+        v-if="wasUpdated && !wasDeleted"
+      >Modifié</span>
+      <span
+        class="px-2"
+        v-if="wasDeleted"
+      >Supprimé</span>
     </span>
   </span>
 </template>
@@ -42,6 +48,14 @@ export default {
     wasDeleted() {
       if (!this.deleteDate) return false;
       return this.$store.state.lastVisitDate <= this.deleteDate;
+    },
+    labelClasses() {
+      if (this.wasDeleted) {
+        return ["border-red", "text-red"];
+      } else if (this.wasUpdated) {
+        return ["border-orange", "text-orange"];
+      }
+      return ["border-green", "text-green"];
     }
   }
 };
