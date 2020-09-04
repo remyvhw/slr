@@ -23,7 +23,7 @@
         "exif-js": "^2.3.0",
         "fuse.js": "^3.2.1",
         "mapbox-gl": "^0.46.0",
-        "marked": "^0.4.0",
+        "marked": "^0.7.0",
         "tailwindcss-spinner": "^0.1.2",
         "vue-router": "^3.0.1",
         "vue2-animate": "^2.0.0",
