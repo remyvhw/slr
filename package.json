@@ -10,11 +10,10 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "axios": "^0.18",
+        "axios": "^0.21.1",
         "cross-env": "^5.1",
         "laravel-mix": "^2.0",
-        "tailwindcss": "^0.6.4",
-        "vue": "2.5.16"
+        "tailwindcss": "^0.6.4"
     },
     "dependencies": {
         "@mapbox/mapbox-gl-geocoder": "^2.3.0",
@@ -27,6 +26,7 @@
         "tailwindcss-spinner": "^0.1.2",
         "vue-router": "^3.0.1",
         "vue2-animate": "^2.0.0",
-        "vuex": "^3.0.1"
+        "vuex": "^3.0.1",
+        "vue": "^2.6.11"
     }
 }
